@@ -1,0 +1,23 @@
+{
+  "name": "emoji-data-story",
+  "version": "1.0.0",
+  "description": "An interactive data visualization story about emojis",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "data-visualization",
+    "d3js",
+    "scrollytelling",
+    "emoji"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
+
+
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emoji Trends Explorer</title>
+    <!-- Google Fonts: Fredoka for headings, Nunito for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Select2 for better dropdowns -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <h1 class="title">
+          Emoji Trends <span class="bounce">🚀</span> Explorer
+        </h1>
+        <p class="subtitle">Discover how the world speaks in icons</p>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="controls-container">
+        <div class="control-group">
+          <label for="emoji-selector">Choose your emojis to compare:</label>
+          <select id="emoji-selector" multiple="multiple" style="width: 100%">
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+        <div class="control-group" style="flex: 0 0 auto">
+          <label>Time Granularity:</label>
+          <div class="granularity-controls">
+            <button class="btn-pill active" data-granularity="day">
+              Daily
+            </button>
+            <button class="btn-pill" data-granularity="month">Monthly</button>
+            <button class="btn-pill" data-granularity="year">Yearly</button>
+          </div>
+        </div>
+        <div class="button-group">
+          <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        </div>
+      </div>
+
+      <div id="chart-container" class="chart-container">
+        <div class="chart-header">
+          <h2 id="chart-title">Select emojis to start! ✨</h2>
+          <div id="selected-emojis-display" class="selected-emojis"></div>
+        </div>
+        <div id="visualization"></div>
+        <div id="placeholder" class="placeholder-text">
+          <span class="placeholder-emoji">👆</span>
+          <p>
+            Pick some emojis from the menu above<br />to see their popularity
+            over time!
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Made with 💖 using Data Visualization</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/visualizations.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
