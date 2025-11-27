@@ -175,6 +175,7 @@ const App = {
     Visualizations.createTimeSeriesChart(this.chartContainer, data, {
       width: chartDiv.clientWidth,
       height: 500,
+      granularity: this.currentGranularity,
     });
   },
 };

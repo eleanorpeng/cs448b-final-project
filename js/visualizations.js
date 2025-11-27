@@ -11,7 +11,7 @@ const Visualizations = {
         const {
             width = 800,
             height = 500,
-            margin = { top: 20, right: 100, bottom: 50, left: 60 },
+            margin = { top: 20, right: 150, bottom: 50, left: 60 },
             colors = d3.schemeCategory10,
             granularity = 'day' // Add granularity to config
         } = config;
@@ -52,11 +52,11 @@ const Visualizations = {
         // Format axis based on granularity
         let xFormat = "%Y";
         if (granularity === 'month') xFormat = "%b %Y";
-        if (granularity === 'day') xFormat = "%b %d";
+        if (granularity === 'day') xFormat = "%b %d, %Y";
 
         // Axes
         const xAxis = d3.axisBottom(x)
-            .ticks(5)
+            .ticks(width > 600 ? 8 : 5) // Adapt ticks count to width
             .tickFormat(d3.timeFormat(xFormat));
             
         const yAxis = d3.axisLeft(y);
