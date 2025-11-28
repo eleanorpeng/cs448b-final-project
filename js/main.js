@@ -7,7 +7,10 @@ const App = {
   selectedEmojis: new Set(),
   loadedData: new Map(), // Cache loaded data: emojiName -> data array
   chartContainer: "#visualization",
-  currentGranularity: "day",
+  currentGranularity: "month", // Default to month
+  filters: {
+    year: "all",
+  },
 
   /**
    * Initialize the application
@@ -27,6 +30,13 @@ const App = {
       templateSelection: this.formatEmojiSelection,
     });
 
+    // Initialize Year Filter Select2
+    $("#year-filter").select2({
+      minimumResultsForSearch: Infinity, // Hide search box for years unless many
+      width: "150px", // Fixed width or 'style'
+      dropdownAutoWidth: true,
+    });
+
     // Event Listeners
     $("#emoji-selector").on("change", (e) =>
       this.handleSelectionChange($(e.target).val())
@@ -44,10 +54,100 @@ const App = {
       $(".granularity-controls .btn-pill").removeClass("active");
       btn.addClass("active");
 
-      // Update state and chart
+      // Update state
       this.currentGranularity = granularity;
-      this.handleSelectionChange($("#emoji-selector").val());
+      this.updateFilterVisibility();
+      this.updateVisualizationContext();
     });
+
+    // Filter Listeners (Select2 uses change event)
+    $("#year-filter").on("change", (e) => {
+      this.filters.year = e.target.value;
+      this.updateVisualizationContext();
+    });
+  },
+
+  /**
+   * Update visibility of filter dropdowns based on granularity
+   */
+  updateFilterVisibility() {
+    const yearFilter = $("#year-filter");
+    const yearFilterContainer = yearFilter.next(".select2-container"); // Select2 container
+
+    // Reset filters on granularity change for smoother UX
+    this.filters.year = "all";
+    yearFilter.val("all").trigger("change.select2"); // Trigger Select2 update
+
+    if (this.currentGranularity === "year") {
+      // Hide Year filter in Yearly view
+      yearFilterContainer.hide();
+    } else {
+      // Monthly: Show Year filter
+      yearFilterContainer.show();
+    }
+  },
+
+  /**
+   * Populate the year filter dropdown based on selected emojis
+   */
+  populateYearFilter() {
+    console.log("populateYearFilter called");
+    // Collect all years from loaded data
+    const years = new Set();
+
+    // Use all loaded data if selection logic fails, or specific selection
+    const sources =
+      this.selectedEmojis.size > 0
+        ? Array.from(this.selectedEmojis)
+        : Array.from(this.loadedData.keys());
+
+    console.log(`Populating years from ${sources.length} sources...`);
+
+    sources.forEach((emoji) => {
+      const data = this.loadedData.get(emoji);
+      if (data && Array.isArray(data)) {
+        data.forEach((d) => {
+          // Robust date check
+          if (d.date && d.date instanceof Date && !isNaN(d.date)) {
+            years.add(d.date.getFullYear());
+          }
+        });
+      }
+    });
+
+    console.log(`Found ${years.size} unique years.`);
+
+    const sortedYears = Array.from(years).sort((a, b) => b - a); // Descending
+    const select = document.getElementById("year-filter");
+
+    if (!select) {
+      console.error("Year filter dropdown not found!");
+      return;
+    }
+
+    // Preserve current selection if possible
+    const currentVal = $(select).val(); // Use jQuery val() for consistency
+
+    // Clear options (keep first "All Years")
+    while (select.options.length > 1) {
+      select.remove(1);
+    }
+
+    sortedYears.forEach((year) => {
+      const option = document.createElement("option");
+      option.value = year;
+      option.text = year;
+      select.appendChild(option);
+    });
+
+    // Restore value if valid, else default to 'all'
+    if (currentVal !== "all" && sortedYears.includes(Number(currentVal))) {
+      $(select).val(currentVal).trigger("change.select2"); // Update Select2
+      this.filters.year = currentVal;
+    } else {
+      $(select).val("all").trigger("change.select2"); // Update Select2
+      this.filters.year = "all";
+    }
   },
 
   /**
@@ -92,7 +192,9 @@ const App = {
    * Handle changes in emoji selection
    */
   async handleSelectionChange(selectedValues) {
+    console.log("handleSelectionChange triggered with:", selectedValues);
     const currentSelection = selectedValues || [];
+    this.selectedEmojis = new Set(currentSelection);
 
     // Update header display
     this.updateHeaderDisplay(currentSelection);
@@ -104,17 +206,44 @@ const App = {
 
     // Load new data if any
     if (toLoad.length > 0) {
+      console.log(`Loading data for ${toLoad.length} new emojis...`);
       for (const emoji of toLoad) {
         const data = await DataLoader.loadEmojiTimeSeries(emoji);
         this.loadedData.set(emoji, data);
       }
     }
 
+    // Always update available years based on current selection
+    try {
+      this.populateYearFilter();
+    } catch (err) {
+      console.error("Error populating year filter:", err);
+    }
+
+    this.updateVisualizationContext();
+  },
+
+  /**
+   * Filter and Aggregate data, then update chart
+   */
+  updateVisualizationContext() {
+    const currentSelection = Array.from(this.selectedEmojis);
+
     // Filter data for visualization and apply aggregation
     const displayData = currentSelection.map((emoji) => {
       const rawData = this.loadedData.get(emoji);
+
+      // 1. Filter raw data
+      let filteredData = rawData;
+      if (this.filters.year !== "all") {
+        filteredData = filteredData.filter(
+          (d) => d.date.getFullYear() === parseInt(this.filters.year)
+        );
+      }
+
+      // 2. Aggregate data
       const aggregatedData = DataLoader.aggregateData(
-        rawData,
+        filteredData,
         this.currentGranularity
       );
 
@@ -170,12 +299,27 @@ const App = {
       return;
     }
 
+    if (data.every((d) => d.values.length === 0)) {
+      // If filters result in no data
+      chartDiv.innerHTML =
+        "<div style='text-align:center; padding-top: 100px; color: #666;'>No data available for this time range</div>";
+      placeholder.style.display = "none";
+      return;
+    }
+
     placeholder.style.display = "none";
+
+    // Prepare context object for axis labels
+    const context = {
+      granularity: this.currentGranularity,
+      year: this.filters.year,
+    };
 
     Visualizations.createTimeSeriesChart(this.chartContainer, data, {
       width: chartDiv.clientWidth,
       height: 500,
       granularity: this.currentGranularity,
+      context: context, // Pass context for dynamic labels
     });
   },
 };

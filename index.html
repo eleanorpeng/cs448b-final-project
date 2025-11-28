@@ -40,11 +40,13 @@
         <div class="control-group" style="flex: 0 0 auto">
           <label>Time Granularity:</label>
           <div class="granularity-controls">
-            <button class="btn-pill active" data-granularity="day">
-              Daily
-            </button>
-            <button class="btn-pill" data-granularity="month">Monthly</button>
+            <button class="btn-pill active" data-granularity="month">Monthly</button>
             <button class="btn-pill" data-granularity="year">Yearly</button>
+          </div>
+          <div id="time-filters" class="time-filters" style="margin-top: 1rem; display: flex; gap: 10px;">
+            <select id="year-filter" class="custom-select">
+              <option value="all">All Years</option>
+            </select>
           </div>
         </div>
         <div class="button-group">
