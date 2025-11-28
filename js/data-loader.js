@@ -223,12 +223,10 @@ const DataLoader = {
         return {
           id: meta.short_name, // Use short_name as ID
           localId: localSlug, // Keep track if it maps to our local CSVs
-          name:
-            meta.name ||
-            meta.short_name
-              .split("_")
-              .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-              .join(" "),
+          name: (() => {
+            const raw = meta.name || meta.short_name.replace(/_/g, " ");
+            return raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
+          })(),
           char: char,
           unified: meta.unified,
           score: score,
@@ -308,14 +306,8 @@ const DataLoader = {
           text: `Total Usage: ${emoji.score.toLocaleString()}`,
         },
       ];
-    } else {
-      recentTweets = [
-        {
-          screen_name: "Info",
-          text: "No local usage data available for this emoji.",
-        },
-      ];
     }
+    // Else: leave empty, handled in UI
 
     return {
       char: emoji.char,
@@ -327,6 +319,9 @@ const DataLoader = {
       variations: variations,
       platforms: platforms, // New field for platform images
       recent_tweets: recentTweets,
+      // Add technical details
+      unicode: "U+" + emoji.unified,
+      short_name: ":" + emoji.id + ":",
     };
   },
 
