@@ -274,4 +274,138 @@ const Visualizations = {
 
     return svg;
   },
+
+  /**
+   * Render Emoji Grid
+   */
+  renderEmojiGrid(containerId, emojis, onCardClick) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      if (!emojis || emojis.length === 0) {
+          container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No emojis found.</p>';
+          return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      emojis.forEach(emoji => {
+          const card = document.createElement('div');
+          card.className = 'emoji-card';
+          card.onclick = () => onCardClick(emoji);
+
+          // Prefetch images on hover for instant loading
+          card.onmouseenter = () => {
+              if (card.dataset.prefetched) return;
+              card.dataset.prefetched = "true";
+              
+              const platforms = ['apple', 'google', 'twitter', 'facebook'];
+              platforms.forEach(p => {
+                  if (emoji[`has_img_${p}`]) { // Only fetch if available
+                      const img = new Image();
+                      img.src = DataLoader.getPlatformImageUrl(emoji.unified, p);
+                  }
+              });
+          };
+
+          const char = document.createElement('span');
+          char.className = 'emoji-card-char';
+          char.textContent = emoji.char;
+
+          const score = document.createElement('div');
+          score.className = 'emoji-card-score';
+          score.textContent = emoji.score > 0 ? `Score: ${emoji.score.toLocaleString()}` : "No Data";
+          
+          if (emoji.score === 0) {
+              score.style.color = '#ccc';
+              score.style.fontWeight = '400';
+          }
+
+          const name = document.createElement('div');
+          name.style.fontSize = '0.8rem';
+          name.style.color = '#999';
+          name.style.marginTop = '5px';
+          name.textContent = emoji.name || 'Unknown';
+
+          card.appendChild(char);
+          card.appendChild(score);
+          card.appendChild(name);
+          fragment.appendChild(card);
+      });
+
+      container.appendChild(fragment);
+  },
+
+  /**
+   * Render Modal Content
+   */
+  renderModalContent(containerId, data) {
+      const container = document.getElementById(containerId);
+      if (!data) {
+          container.innerHTML = '<p>Error loading details.</p>';
+          return;
+      }
+
+      // 1. Platform Images (New)
+      let platformImagesHtml = '';
+      if (data.platforms && data.platforms.length > 0) {
+          platformImagesHtml = `
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <h4 style="margin-bottom: 0.8rem; color: #555;">Platform Variations</h4>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    ${data.platforms.map(p => `
+                        <div class="platform-item" style="text-align: center;">
+                            <img src="${p.url}" 
+                                 alt="${p.name}" 
+                                 class="platform-img-loading"
+                                 style="width: 48px; height: 48px; object-fit: contain; transition: opacity 0.3s;" 
+                                 onload="this.classList.remove('platform-img-loading')"
+                                 onerror="this.style.display='none'; this.nextElementSibling.textContent='(N/A)';"/>
+                            <div style="font-size: 0.8rem; color: #888; margin-top: 4px;">${p.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+          `;
+      }
+
+      // 2. Skin Variations
+      let variationsHtml = '';
+      if (data.variations && data.variations.length > 0) {
+          variationsHtml = `
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <h4 style="margin-bottom: 0.5rem; color: #555;">Skin Variations</h4>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; font-size: 2rem;">
+                    ${data.variations.map(v => `<span title="${v.name}" style="cursor: help;">${v.char}</span>`).join('')}
+                </div>
+            </div>
+          `;
+      }
+
+      // Render Stats
+      let statsHtml = '';
+      if (data.recent_tweets && data.recent_tweets.length > 0) {
+          statsHtml = '<div style="margin-top: 1.5rem;">' + data.recent_tweets.map(stat => `
+              <div class="tweet-card" style="border-left-color: ${data.score > 0 ? '#f1c40f' : '#ccc'};">
+                  <div class="tweet-user">${stat.screen_name}</div>
+                  <div class="tweet-text">${stat.text}</div>
+              </div>
+          `).join('') + '</div>';
+      }
+
+      container.innerHTML = `
+          <div class="modal-header">
+              <span class="modal-emoji-large">${data.char}</span>
+              <h2 class="modal-title">${data.description}</h2>
+              <div class="modal-score" style="color: ${data.score > 0 ? 'var(--primary-dark)' : '#aaa'}">Usage Score: ${data.score > 0 ? data.score.toLocaleString() : 'N/A'}</div>
+              <div style="color: #888; font-size: 0.9rem; margin-top: 5px;">Category: ${data.category}</div>
+              <div style="position: absolute; top: 10px; left: 15px; color: #ccc; font-size: 0.8rem;">Total in API: ~1875</div>
+          </div>
+          <div class="modal-body-content">
+              ${platformImagesHtml}
+              ${variationsHtml}
+              ${statsHtml}
+          </div>
+      `;
+  }
 };

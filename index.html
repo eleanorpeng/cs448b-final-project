@@ -4,14 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Emoji Trends Explorer</title>
-    <!-- Google Fonts: Fredoka for headings, Nunito for body -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&family=Nunito:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-
     <!-- Select2 for better dropdowns -->
     <link
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
@@ -29,7 +28,16 @@
       </div>
     </header>
 
-    <main class="section">
+    <!-- Navigation Tabs -->
+    <nav class="nav-container">
+      <button class="nav-tab active" data-view="trends">
+        📈 Trends Explorer
+      </button>
+      <button class="nav-tab" data-view="ranking">🏆 Emoji Ranking</button>
+    </nav>
+
+    <!-- Trends View -->
+    <main id="view-trends" class="section active-view">
       <div class="controls-container">
         <div class="control-group">
           <label for="emoji-selector">Choose your emojis to compare:</label>
@@ -40,10 +48,16 @@
         <div class="control-group" style="flex: 0 0 auto">
           <label>Time Granularity:</label>
           <div class="granularity-controls">
-            <button class="btn-pill active" data-granularity="month">Monthly</button>
+            <button class="btn-pill active" data-granularity="month">
+              Monthly
+            </button>
             <button class="btn-pill" data-granularity="year">Yearly</button>
           </div>
-          <div id="time-filters" class="time-filters" style="margin-top: 1rem; display: flex; gap: 10px;">
+          <div
+            id="time-filters"
+            class="time-filters"
+            style="margin-top: 1rem; display: flex; gap: 10px"
+          >
             <select id="year-filter" class="custom-select">
               <option value="all">All Years</option>
             </select>
@@ -69,6 +83,38 @@
         </div>
       </div>
     </main>
+
+    <!-- Ranking View -->
+    <main id="view-ranking" class="section" style="display: none">
+      <div class="ranking-header">
+        <h2>Emoji Library & Rankings</h2>
+        <p>
+          Explore the full emoji dataset. Data sourced from iamcal/emoji-data.
+        </p>
+        
+        <!-- Category Filter -->
+        <div class="ranking-controls" style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem;">
+            <select id="category-filter" style="width: 250px;">
+                <option value="all">All Categories</option>
+                <!-- Populated by JS -->
+            </select>
+        </div>
+      </div>
+      <div id="emoji-grid" class="emoji-grid">
+        <!-- Populated by JS -->
+        <div class="loading-spinner">Loading rankings...</div>
+      </div>
+    </main>
+
+    <!-- Details Modal -->
+    <div id="emoji-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modal-body">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
 
     <footer class="footer">
       <p>Made with 💖 using Data Visualization</p>

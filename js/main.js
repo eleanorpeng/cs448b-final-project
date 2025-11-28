@@ -6,11 +6,15 @@
 const App = {
   selectedEmojis: new Set(),
   loadedData: new Map(), // Cache loaded data: emojiName -> data array
+  rankingsData: null, // Cache for ALL emojis
   chartContainer: "#visualization",
+  gridContainer: "emoji-grid",
   currentGranularity: "month", // Default to month
   filters: {
     year: "all",
   },
+  currentCategoryFilter: "all",
+  itemsToShow: 300, // Pagination state
 
   /**
    * Initialize the application
@@ -37,12 +41,25 @@ const App = {
       dropdownAutoWidth: true,
     });
 
+    // Initialize Category Filter Select2
+    $("#category-filter").select2({
+      placeholder: "Filter by Category",
+      width: "250px",
+      minimumResultsForSearch: 5,
+    });
+
     // Event Listeners
     $("#emoji-selector").on("change", (e) =>
       this.handleSelectionChange($(e.target).val())
     );
     $("#clear-btn").on("click", () => {
       $("#emoji-selector").val(null).trigger("change");
+    });
+
+    // Navigation Tabs
+    $(".nav-tab").on("click", (e) => {
+      const targetView = $(e.target).data("view");
+      this.switchView(targetView);
     });
 
     // Granularity buttons
@@ -65,6 +82,173 @@ const App = {
       this.filters.year = e.target.value;
       this.updateVisualizationContext();
     });
+
+    // Category Filter Listener
+    $("#category-filter").on("change", (e) => {
+      this.currentCategoryFilter = e.target.value;
+      this.itemsToShow = 300; // Reset pagination on filter change
+      this.renderFilteredGrid();
+    });
+
+    // Modal Close
+    $(".close-modal").on("click", () => {
+      $("#emoji-modal").fadeOut();
+    });
+
+    $(window).on("click", (e) => {
+      if ($(e.target).is("#emoji-modal")) {
+        $("#emoji-modal").fadeOut();
+      }
+    });
+  },
+
+  /**
+   * Switch between Trends and Ranking views
+   */
+  async switchView(viewName) {
+    // Update Tabs
+    $(".nav-tab").removeClass("active");
+    $(`.nav-tab[data-view="${viewName}"]`).addClass("active");
+
+    // Toggle Sections
+    if (viewName === "trends") {
+      $("#view-trends").show();
+      $("#view-ranking").hide();
+    } else {
+      $("#view-trends").hide();
+      $("#view-ranking").fadeIn();
+
+      // Load rankings if not already loaded
+      if (!this.rankingsData) {
+        await this.loadRankings();
+      }
+    }
+  },
+
+  /**
+   * Load Rankings Data
+   */
+  async loadRankings() {
+    const grid = document.getElementById(this.gridContainer);
+    grid.innerHTML =
+      '<div class="loading-spinner">Loading emoji library...</div>';
+
+    // Fetch FULL list now
+    this.rankingsData = await DataLoader.fetchFullEmojiList();
+
+    if (this.rankingsData && this.rankingsData.length > 0) {
+      // Populate Category Filter
+      this.populateCategoryFilter(this.rankingsData);
+
+      // Render Initial Grid
+      this.renderFilteredGrid();
+    } else {
+      grid.innerHTML =
+        '<div class="loading-spinner">Failed to load rankings. Please try again later.</div>';
+    }
+  },
+
+  /**
+   * Populate Category Filter Dropdown
+   */
+  populateCategoryFilter(data) {
+    const categories = new Set(data.map((e) => e.category).filter(Boolean));
+    const sortedCategories = Array.from(categories).sort();
+
+    const select = document.getElementById("category-filter");
+    // Keep "All Categories"
+    while (select.options.length > 1) {
+      select.remove(1);
+    }
+
+    sortedCategories.forEach((cat) => {
+      const option = document.createElement("option");
+      option.value = cat;
+      option.text = cat;
+      select.appendChild(option);
+    });
+  },
+
+  /**
+   * Render Grid based on current filters
+   */
+  renderFilteredGrid() {
+    if (!this.rankingsData) return;
+
+    const grid = document.getElementById(this.gridContainer);
+    grid.innerHTML = ""; // Clear
+
+    let filtered = this.rankingsData;
+
+    // Apply Category Filter
+    if (this.currentCategoryFilter !== "all") {
+      filtered = filtered.filter(
+        (e) => e.category === this.currentCategoryFilter
+      );
+    }
+
+    // Pagination Limit
+    const displayData = filtered.slice(0, this.itemsToShow);
+
+    if (displayData.length === 0) {
+      grid.innerHTML =
+        '<p style="text-align:center; grid-column: 1/-1;">No emojis found for this category.</p>';
+      return;
+    }
+
+    Visualizations.renderEmojiGrid(this.gridContainer, displayData, (emoji) =>
+      this.openEmojiDetails(emoji)
+    );
+
+    // Add "Load More" button if truncated
+    if (filtered.length > this.itemsToShow) {
+      const buttonContainer = document.createElement("div");
+      buttonContainer.style.gridColumn = "1 / -1";
+      buttonContainer.style.textAlign = "center";
+      buttonContainer.style.padding = "20px";
+
+      const loadMoreBtn = document.createElement("button");
+      loadMoreBtn.textContent = "Load More Emojis";
+      loadMoreBtn.className = "btn btn-secondary"; // Reusing existing button style
+      loadMoreBtn.style.minWidth = "200px";
+
+      loadMoreBtn.onclick = () => {
+        this.itemsToShow += 300;
+        // Capture scroll position
+        const scrollPos = window.scrollY;
+        this.renderFilteredGrid();
+        // Restore scroll (renderFilteredGrid clears innerHTML which might jump)
+        // Actually, simply appending would be better, but re-rendering is simpler for now.
+        // The browser might handle scroll restoration if height increases.
+      };
+
+      buttonContainer.appendChild(loadMoreBtn);
+
+      const countInfo = document.createElement("div");
+      countInfo.style.marginTop = "10px";
+      countInfo.style.color = "#999";
+      countInfo.textContent = `Showing ${displayData.length} of ${filtered.length}`;
+      buttonContainer.appendChild(countInfo);
+
+      grid.appendChild(buttonContainer);
+    }
+  },
+
+  /**
+   * Open Emoji Details Modal
+   */
+  async openEmojiDetails(emoji) {
+    const modal = $("#emoji-modal");
+    const modalBody = "modal-body";
+
+    // Show modal immediately (content will update)
+    modal.fadeIn();
+
+    // Fetch details
+    const details = await DataLoader.fetchEmojiDetails(emoji.id);
+
+    // Render details
+    Visualizations.renderModalContent(modalBody, details || emoji);
   },
 
   /**
@@ -91,7 +275,6 @@ const App = {
    * Populate the year filter dropdown based on selected emojis
    */
   populateYearFilter() {
-    console.log("populateYearFilter called");
     // Collect all years from loaded data
     const years = new Set();
 
@@ -100,8 +283,6 @@ const App = {
       this.selectedEmojis.size > 0
         ? Array.from(this.selectedEmojis)
         : Array.from(this.loadedData.keys());
-
-    console.log(`Populating years from ${sources.length} sources...`);
 
     sources.forEach((emoji) => {
       const data = this.loadedData.get(emoji);
@@ -115,15 +296,10 @@ const App = {
       }
     });
 
-    console.log(`Found ${years.size} unique years.`);
-
     const sortedYears = Array.from(years).sort((a, b) => b - a); // Descending
     const select = document.getElementById("year-filter");
 
-    if (!select) {
-      console.error("Year filter dropdown not found!");
-      return;
-    }
+    if (!select) return;
 
     // Preserve current selection if possible
     const currentVal = $(select).val(); // Use jQuery val() for consistency
@@ -206,7 +382,6 @@ const App = {
 
     // Load new data if any
     if (toLoad.length > 0) {
-      console.log(`Loading data for ${toLoad.length} new emojis...`);
       for (const emoji of toLoad) {
         const data = await DataLoader.loadEmojiTimeSeries(emoji);
         this.loadedData.set(emoji, data);
