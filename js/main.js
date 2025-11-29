@@ -56,12 +56,6 @@ const App = {
       $("#emoji-selector").val(null).trigger("change");
     });
 
-    // Navigation Tabs
-    $(".nav-tab").on("click", (e) => {
-      const targetView = $(e.target).data("view");
-      this.switchView(targetView);
-    });
-
     // Granularity buttons
     $(".granularity-controls .btn-pill").on("click", (e) => {
       const btn = $(e.target);
@@ -103,6 +97,9 @@ const App = {
 
     // Initialize Intro Animation
     this.initIntroAnimation();
+
+    // Load rankings immediately since it's now visible
+    this.loadRankings();
   },
 
   /**
@@ -173,29 +170,6 @@ const App = {
     window.addEventListener("scroll", handleScroll);
     // Initial call
     handleScroll();
-  },
-
-  /**
-   * Switch between Trends and Ranking views
-   */
-  async switchView(viewName) {
-    // Update Tabs
-    $(".nav-tab").removeClass("active");
-    $(`.nav-tab[data-view="${viewName}"]`).addClass("active");
-
-    // Toggle Sections
-    if (viewName === "trends") {
-      $("#view-trends").show();
-      $("#view-ranking").hide();
-    } else {
-      $("#view-trends").hide();
-      $("#view-ranking").fadeIn();
-
-      // Load rankings if not already loaded
-      if (!this.rankingsData) {
-        await this.loadRankings();
-      }
-    }
   },
 
   /**

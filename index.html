@@ -65,16 +65,8 @@
       </div>
     </section>
 
-    <!-- Navigation Tabs -->
-    <nav class="nav-container">
-      <button class="nav-tab active" data-view="trends">
-        📈 Trends Explorer
-      </button>
-      <button class="nav-tab" data-view="ranking">🔍 Explore Emojis</button>
-    </nav>
-
     <!-- Trends View -->
-    <main id="view-trends" class="section active-view">
+    <section id="view-trends" class="section">
       <div class="controls-container">
         <div class="control-group">
           <label for="emoji-selector">Choose your emojis to compare:</label>
@@ -119,10 +111,10 @@
           </p>
         </div>
       </div>
-    </main>
+    </section>
 
     <!-- Ranking View -->
-    <main id="view-ranking" class="section" style="display: none">
+    <section id="view-ranking" class="section">
       <div class="ranking-header">
         <h2>Emoji Library & Rankings</h2>
         <p>
@@ -149,7 +141,7 @@
         <!-- Populated by JS -->
         <div class="loading-spinner">Loading rankings...</div>
       </div>
-    </main>
+    </section>
 
     <!-- Details Modal -->
     <div id="emoji-modal" class="modal">
