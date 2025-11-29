@@ -100,6 +100,79 @@ const App = {
         $("#emoji-modal").fadeOut();
       }
     });
+
+    // Initialize Intro Animation
+    this.initIntroAnimation();
+  },
+
+  /**
+   * Handle Intro Animation (iMessage Scroll)
+   */
+  initIntroAnimation() {
+    const section = document.querySelector(".intro-section");
+    const typingInput = document.getElementById("typing-input");
+    const sendBtn = document.getElementById("send-btn");
+    const sentMessage = document.getElementById("sent-message");
+    const textToType = "omg 👀🤩";
+
+    if (!section || !typingInput || !sendBtn || !sentMessage) return;
+
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Calculate how far we've scrolled through the section
+      // rect.top starts at >0 (if header is above) and goes negative.
+      // When rect.top is 0, we are at the start.
+      // When rect.bottom is viewportHeight, we are at the end.
+
+      const totalScrollDistance = section.offsetHeight - viewportHeight;
+      // Scrolled amount = -rect.top (assuming section starts at top of viewport or we subtract initial offset)
+      // Since section is after header, let's look at window.scrollY relative to section.offsetTop
+
+      const sectionTop = section.offsetTop;
+      const scrollY = window.scrollY;
+
+      // Adjust start point so animation begins when section hits top or slightly before?
+      // Since it's sticky, we want it to start animating as we scroll DOWN through the sticky area.
+
+      let progress = (scrollY - sectionTop + 100) / totalScrollDistance; // +100 offset to start slightly earlier
+      progress = Math.max(0, Math.min(1, progress));
+
+      // Animation Stages
+      // 0.0 - 0.6: Typing
+      // 0.6 - 0.7: Pause / Button Active
+      // 0.7 - 0.8: Send (Bubble appears, Input clears)
+      // 0.8 - 1.0: Message stays sent
+
+      if (progress < 0.6) {
+        const typeProgress = progress / 0.6;
+        // Use Array.from to correctly handle emoji characters (surrogate pairs)
+        const chars = Array.from(textToType);
+        const charCount = Math.floor(typeProgress * chars.length);
+        typingInput.textContent = chars.slice(0, charCount).join("");
+
+        sendBtn.classList.remove("active");
+        sentMessage.style.opacity = "0";
+        sentMessage.style.transform = "translateY(20px)";
+      } else if (progress < 0.75) {
+        // Text fully typed, button active
+        typingInput.textContent = textToType;
+        sendBtn.classList.add("active");
+        sentMessage.style.opacity = "0";
+        sentMessage.style.transform = "translateY(20px)";
+      } else {
+        // Sent
+        typingInput.textContent = "";
+        sendBtn.classList.remove("active"); // Button goes back to inactive state or disappears
+        sentMessage.style.opacity = "1";
+        sentMessage.style.transform = "translateY(0)";
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    // Initial call
+    handleScroll();
   },
 
   /**
