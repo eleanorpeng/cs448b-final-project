@@ -333,7 +333,7 @@ const App = {
 
     // Reset filters on granularity change for smoother UX
     this.filters.year = "all";
-    yearFilter.val("all").trigger("change.select2"); // Trigger Select2 update
+    yearFilter.val("all").trigger("change.select2");
 
     if (this.currentGranularity === "year") {
       // Hide Year filter in Yearly view
@@ -490,9 +490,23 @@ const App = {
       }
 
       // 2. Aggregate data
+      // If the user wants to see specific dates in tooltip, we should NOT aggregate to month
+      // effectively using 'day' granularity for data, but 'month' for axis ticks?
+      // OR we just switch to 'day' granularity when a Year is selected?
+
+      // Let's interpret the request: "Remove daily control... click on month [implied: select year?]... see specific dates"
+      // This implies: Default view = Monthly aggregation.
+      // Filtered by Year view = Daily aggregation (so you can see specific dates).
+
+      let effectiveGranularity = this.currentGranularity;
+
+      if (this.currentGranularity === "month" && this.filters.year !== "all") {
+        effectiveGranularity = "day";
+      }
+
       const aggregatedData = DataLoader.aggregateData(
         filteredData,
-        this.currentGranularity
+        effectiveGranularity
       );
 
       return {
@@ -502,10 +516,20 @@ const App = {
           .join(" "),
         emojiChar: DataLoader.getEmojiChar(emoji),
         values: aggregatedData,
+        // Pass the actual granularity used for this dataset
+        granularity: effectiveGranularity,
       };
     });
 
-    this.updateVisualization(displayData);
+    // We need to pass the effective granularity to the chart config too,
+    // but it might vary per dataset if we did it per-emoji (we don't).
+    // So let's determine global effective granularity.
+    let globalEffectiveGranularity = this.currentGranularity;
+    if (this.currentGranularity === "month" && this.filters.year !== "all") {
+      globalEffectiveGranularity = "day";
+    }
+
+    this.updateVisualization(displayData, globalEffectiveGranularity);
   },
 
   /**
@@ -537,9 +561,12 @@ const App = {
   /**
    * Update the chart with current data
    */
-  updateVisualization(data) {
+  updateVisualization(data, effectiveGranularity) {
     const placeholder = document.getElementById("placeholder");
     const chartDiv = document.querySelector(this.chartContainer);
+
+    // Use effective granularity if provided, else default to current
+    const granularity = effectiveGranularity || this.currentGranularity;
 
     if (data.length === 0) {
       placeholder.style.display = "block";
@@ -559,14 +586,14 @@ const App = {
 
     // Prepare context object for axis labels
     const context = {
-      granularity: this.currentGranularity,
+      granularity: granularity,
       year: this.filters.year,
     };
 
     Visualizations.createTimeSeriesChart(this.chartContainer, data, {
       width: chartDiv.clientWidth,
       height: 500,
-      granularity: this.currentGranularity,
+      granularity: granularity,
       context: context, // Pass context for dynamic labels
     });
   },

@@ -61,18 +61,38 @@ const Visualizations = {
     let xLabel = "Date";
 
     if (granularity === "day") {
-      if (context.year !== "all" && context.month !== "all") {
-        // Specific Month: Show days
-        xFormat = "%d"; // 01, 02
-        const monthName = d3.timeFormat("%B")(new Date(2000, context.month, 1));
-        xLabel = `Date (${monthName} ${context.year})`;
-      } else if (context.year !== "all") {
-        // Specific Year: Show Month + Day
-        xFormat = "%b %d";
-        xLabel = `Date (${context.year})`;
-      } else {
-        // All time: Year
-        xFormat = "%Y";
+      xFormat = "%b %d"; // Default: Jan 01
+      if (context.year !== "all") {
+        if (context.month !== "all") {
+          // In Monthly drill-down (showing daily data for ONE month), user wants just "Month"
+          // BUT wait, if we are looking at ONE month of data (e.g. Jan 1 - Jan 31),
+          // showing just "January" on the axis means we don't know what day is what.
+          // The user asked: "when user click on month, can we only show month in the x-axis instead of month 01"
+
+          // Re-reading query: "when user click on month" -> They likely mean "When I select a month from the dropdown".
+          // "can we only show month in the x-axis instead of month 01" -> They probably mean the TITLE of the axis?
+          // OR they mean the ticks?
+
+          // If I select "January", the x-axis spans Jan 1 to Jan 31.
+          // Ticks usually show days like "Jan 05", "Jan 10".
+          // Maybe they want just the day number? "01", "05", "10"?
+          // "instead of month 01" might refer to "Jan 01".
+
+          // Let's assume they want just the day number (since Month is known from context/title).
+          // OR maybe they mean the Axis Label?
+          // Let's change ticks to "%d" (Day of month) and Title to "Date (January 2023)".
+
+          xFormat = "%d"; // Just day number
+          const monthName = d3.timeFormat("%B")(
+            new Date(2000, context.month, 1)
+          );
+          xLabel = `Date (${monthName} ${context.year})`;
+        } else {
+          // Viewing a whole year of daily data
+          // Ticks should probably be Months ("Jan", "Feb") to be readable
+          xFormat = "%b";
+          xLabel = `Date (${context.year})`;
+        }
       }
     } else if (granularity === "month") {
       if (context.year !== "all") {
@@ -215,8 +235,15 @@ const Visualizations = {
 
         // Dynamic tooltip date format
         let tooltipDateFormat = "%b %d, %Y";
+
+        // If effective granularity is day (even if 'Month' tab is active but filtered by year), show full date
+        if (granularity === "day") tooltipDateFormat = "%b %d, %Y";
+
+        // If strictly monthly aggregation
         if (granularity === "month") tooltipDateFormat = "%B %Y";
+
         if (granularity === "year") tooltipDateFormat = "%Y";
+
         // Refine tooltip format based on context if needed
         if (context.year !== "all" && context.month !== "all")
           tooltipDateFormat = "%A, %B %d"; // Show Day of week if zoomed in

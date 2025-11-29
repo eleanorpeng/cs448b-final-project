@@ -43,10 +43,12 @@
             </div>
             <div class="message-area">
               <div class="timestamp">Today 12:00 PM</div>
-              <div class="message received">
-                Have you seen the new emoji?
-              </div>
-              <div class="message sent" id="sent-message" style="opacity: 0; transform: translateY(20px);">
+              <div class="message received">Have you seen the new emoji?</div>
+              <div
+                class="message sent"
+                id="sent-message"
+                style="opacity: 0; transform: translateY(20px)"
+              >
                 omg 👀🤩
               </div>
             </div>
@@ -68,7 +70,7 @@
       <button class="nav-tab active" data-view="trends">
         📈 Trends Explorer
       </button>
-      <button class="nav-tab" data-view="ranking">🏆 Emoji Ranking</button>
+      <button class="nav-tab" data-view="ranking">🔍 Explore Emojis</button>
     </nav>
 
     <!-- Trends View -->
@@ -126,13 +128,21 @@
         <p>
           Explore the full emoji dataset. Data sourced from iamcal/emoji-data.
         </p>
-        
+
         <!-- Category Filter -->
-        <div class="ranking-controls" style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem;">
-            <select id="category-filter" style="width: 250px;">
-                <option value="all">All Categories</option>
-                <!-- Populated by JS -->
-            </select>
+        <div
+          class="ranking-controls"
+          style="
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+          "
+        >
+          <select id="category-filter" style="width: 250px">
+            <option value="all">All Categories</option>
+            <!-- Populated by JS -->
+          </select>
         </div>
       </div>
       <div id="emoji-grid" class="emoji-grid">
