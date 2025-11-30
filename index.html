@@ -65,6 +65,77 @@
       </div>
     </section>
 
+    <!-- Sentiment View -->
+    <section id="view-sentiment" class="section">
+      <div class="ranking-header">
+        <h2>Global Emoji Sentiment Explorer</h2>
+        <p>Analyzing Digital Emotion Through Emoji Usage Patterns</p>
+      </div>
+
+      <div class="controls-container">
+        <div class="control-group">
+          <label for="sentiment-filter">Sentiment Filter:</label>
+          <select id="sentiment-filter" class="custom-select">
+            <option value="all">All Emojis</option>
+            <option value="positive">Positive Only</option>
+            <option value="neutral">Neutral Only</option>
+            <option value="negative">Negative Only</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="sentiment-min-occurrences">
+            Min Occurrences:
+            <span
+              id="sentiment-occurrence-value"
+              style="font-weight: bold; color: var(--primary-dark)"
+              >0</span
+            >
+          </label>
+          <input
+            type="range"
+            id="sentiment-min-occurrences"
+            min="0"
+            max="5000"
+            step="100"
+            value="0"
+            style="width: 200px; cursor: pointer"
+          />
+        </div>
+
+        <div class="control-group">
+          <label for="sentiment-sort-by">Size By:</label>
+          <select id="sentiment-sort-by" class="custom-select">
+            <option value="occurrences">Occurrences</option>
+            <option value="sentiment">Sentiment Score</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <div id="sentiment-visualization"></div>
+      </div>
+
+      <div class="sentiment-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-total-emojis">0</div>
+          <div class="stat-label">Total Emojis Shown</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-avg-score">0</div>
+          <div class="stat-label">Avg Sentiment Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-most-used">-</div>
+          <div class="stat-label">Most Used Emoji</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-most-positive">-</div>
+          <div class="stat-label">Most Positive</div>
+        </div>
+      </div>
+    </section>
+
     <!-- Trends View -->
     <section id="view-trends" class="section">
       <div class="controls-container">
@@ -163,6 +234,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="js/data-loader.js"></script>
     <script src="js/visualizations.js"></script>
+    <script src="js/sentiment.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
