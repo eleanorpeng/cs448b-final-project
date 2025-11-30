@@ -139,6 +139,27 @@ const DataLoader = {
   },
 
   /**
+   * Load country-specific emoji usage data
+   */
+  async loadCountryData(countryCode) {
+    try {
+      const data = await d3.csv(
+        `data/Emoji by country csvs/emojitracker_${countryCode}.csv`
+      );
+      // Parse "value" column which contains commas: "5,411,438"
+      return data
+        .map((d) => ({
+          emoji: d.code, // The CSV has "code" header for emoji char
+          occurrences: +d.value.replace(/,/g, ""), // Remove commas and convert to number
+        }))
+        .sort((a, b) => b.occurrences - a.occurrences);
+    } catch (error) {
+      console.error(`Error loading data for ${countryCode}:`, error);
+      return [];
+    }
+  },
+
+  /**
    * Helper to convert unified hex to emoji char
    */
   unifiedToChar(unified) {

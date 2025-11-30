@@ -455,4 +455,114 @@ const Visualizations = {
           </div>
       `;
   },
+
+  /**
+   * Render Country Comparison Chart (Vertical Bar Chart)
+   */
+  renderCountryChart(containerId, data, countryCode) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Clear previous
+    container.innerHTML = "";
+
+    const topN = 20;
+    const displayData = data.slice(0, topN);
+
+    // Dimensions
+    const margin = { top: 20, right: 20, bottom: 60, left: 60 };
+    const width = container.clientWidth - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom; // Fixed height
+
+    const svg = d3
+      .select(container)
+      .append("svg")
+      .attr("width", "100%")
+      .attr("height", 400)
+      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${400}`)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const x = d3
+      .scaleBand()
+      .domain(displayData.map((d) => d.emoji))
+      .range([0, width])
+      .padding(0.2);
+
+    const y = d3
+      .scaleLinear()
+      .domain([0, d3.max(displayData, (d) => d.occurrences)])
+      .nice()
+      .range([height, 0]);
+
+    // Axes
+    // X Axis (Emojis)
+    svg
+      .append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .style("font-size", "20px")
+      .attr("dy", "0.8em");
+
+    // Y Axis
+    svg
+      .append("g")
+      .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(".2s")))
+      .attr("class", "axis")
+      .selectAll("text")
+      .style("font-size", "12px");
+
+    // Y Label
+    svg
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -45)
+      .attr("x", -height / 2)
+      .style("text-anchor", "middle")
+      .style("font-size", "12px")
+      .style("fill", "var(--text-light)")
+      .text("Total Uses");
+
+    // Bars
+    svg
+      .selectAll(".bar")
+      .data(displayData)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("x", (d) => x(d.emoji))
+      .attr("y", (d) => y(d.occurrences))
+      .attr("width", x.bandwidth())
+      .attr("height", (d) => height - y(d.occurrences))
+      .attr("fill", "#f1c40f") // Primary Yellow
+      .on("mouseenter", function (event, d) {
+        d3.select(this).attr("fill", "#f39c12"); // Darker Orange on hover
+
+        // Tooltip
+        const tooltip = d3
+          .select("body")
+          .append("div")
+          .attr("class", "tooltip")
+          .style("opacity", 0);
+
+        tooltip.transition().duration(200).style("opacity", 1);
+        tooltip
+          .html(
+            `
+            <div style="text-align: center;">
+                <div style="font-size: 2em;">${d.emoji}</div>
+                <div><strong>${d.occurrences.toLocaleString()}</strong> uses</div>
+            </div>
+        `
+          )
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 28 + "px");
+      })
+      .on("mouseleave", function () {
+        d3.select(this).attr("fill", "#f1c40f");
+        d3.selectAll(".tooltip").remove();
+      });
+  },
 };

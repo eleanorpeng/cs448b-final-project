@@ -136,6 +136,68 @@
       </div>
     </section>
 
+    <!-- Country Usage View -->
+    <section id="view-country" class="section">
+      <div class="ranking-header">
+        <h2>Emoji Usage by Country</h2>
+        <p>Compare top emojis between two countries</p>
+      </div>
+
+      <div class="country-comparison-layout">
+        <!-- Controls Top Row -->
+        <div class="country-controls-top">
+          <div class="control-group-inline">
+            <label for="country-selector-a">Country A</label>
+            <select
+              id="country-selector-a"
+              class="custom-select"
+              style="width: 200px"
+            >
+              <option value="US">United States 🇺🇸</option>
+              <option value="AU">Australia 🇦🇺</option>
+              <option value="BR">Brazil 🇧🇷</option>
+              <option value="DE">Germany 🇩🇪</option>
+              <option value="FR">France 🇫🇷</option>
+              <option value="GB">Great Britain 🇬🇧</option>
+              <option value="IN">India 🇮🇳</option>
+              <option value="JP">Japan 🇯🇵</option>
+              <option value="PH">Philippines 🇵🇭</option>
+            </select>
+          </div>
+          <div class="control-group-inline">
+            <label for="country-selector-b">Country B</label>
+            <select
+              id="country-selector-b"
+              class="custom-select"
+              style="width: 200px"
+            >
+              <option value="JP" selected>Japan 🇯🇵</option>
+              <option value="US">United States 🇺🇸</option>
+              <option value="AU">Australia 🇦🇺</option>
+              <option value="BR">Brazil 🇧🇷</option>
+              <option value="DE">Germany 🇩🇪</option>
+              <option value="FR">France 🇫🇷</option>
+              <option value="GB">Great Britain 🇬🇧</option>
+              <option value="IN">India 🇮🇳</option>
+              <option value="PH">Philippines 🇵🇭</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Charts Area -->
+        <div class="country-charts-area">
+          <div class="chart-wrapper">
+            <h3 id="title-country-a" class="chart-title-small"></h3>
+            <div id="country-chart-a" class="country-chart"></div>
+          </div>
+          <div class="chart-wrapper">
+            <h3 id="title-country-b" class="chart-title-small"></h3>
+            <div id="country-chart-b" class="country-chart"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Trends View -->
     <section id="view-trends" class="section">
       <div class="controls-container">

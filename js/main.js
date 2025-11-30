@@ -48,6 +48,16 @@ const App = {
       minimumResultsForSearch: 5,
     });
 
+    // Initialize Country Selectors
+    $("#country-selector-a").select2({
+      width: "200px",
+      minimumResultsForSearch: Infinity,
+    });
+    $("#country-selector-b").select2({
+      width: "200px",
+      minimumResultsForSearch: Infinity,
+    });
+
     // Event Listeners
     $("#emoji-selector").on("change", (e) =>
       this.handleSelectionChange($(e.target).val())
@@ -100,6 +110,65 @@ const App = {
 
     // Load rankings immediately since it's now visible
     this.loadRankings();
+
+    // Initialize Country View
+    this.initCountryView();
+  },
+
+  /**
+   * Initialize Country View
+   */
+  async initCountryView() {
+    const selectorA = $("#country-selector-a");
+    const selectorB = $("#country-selector-b");
+
+    // Initial Load
+    await Promise.all([
+      this.loadAndRenderCountry(selectorA.val(), "country-chart-a", "title-country-a"),
+      this.loadAndRenderCountry(selectorB.val(), "country-chart-b", "title-country-b"),
+    ]);
+
+    // Listeners
+    selectorA.on("change", async (e) => {
+      await this.loadAndRenderCountry(e.target.value, "country-chart-a", "title-country-a");
+    });
+
+    selectorB.on("change", async (e) => {
+      await this.loadAndRenderCountry(e.target.value, "country-chart-b", "title-country-b");
+    });
+  },
+
+  async loadAndRenderCountry(countryCode, containerId, titleId) {
+    const container = document.getElementById(containerId);
+    const title = document.getElementById(titleId);
+    if (!container) return;
+
+    container.innerHTML = '<div class="loading-spinner">Loading...</div>';
+    
+    // Flag mapping
+    const flags = {
+      US: "🇺🇸", AU: "🇦🇺", BR: "🇧🇷", DE: "🇩🇪", FR: "🇫🇷", 
+      GB: "🇬🇧", IN: "🇮🇳", JP: "🇯🇵", PH: "🇵🇭"
+    };
+    
+    // Full name mapping
+    const names = {
+      US: "United States", AU: "Australia", BR: "Brazil", DE: "Germany", FR: "France",
+      GB: "Great Britain", IN: "India", JP: "Japan", PH: "Philippines"
+    };
+
+    if(title) {
+      title.innerHTML = `Top 20 emojis in ${names[countryCode]} ${flags[countryCode]} (${countryCode})`;
+    }
+
+    const data = await DataLoader.loadCountryData(countryCode);
+
+    if (data && data.length > 0) {
+      Visualizations.renderCountryChart(containerId, data, countryCode);
+    } else {
+      container.innerHTML =
+        '<div style="text-align:center; padding: 20px; color: red;">Failed to load data.</div>';
+    }
   },
 
   /**
