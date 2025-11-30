@@ -61,36 +61,23 @@ const Visualizations = {
     let xLabel = "Date";
 
     if (granularity === "day") {
-      xFormat = "%b %d"; // Default: Jan 01
+      // Default fallback
+      xFormat = "%b %d";
+
       if (context.year !== "all") {
-        if (context.month !== "all") {
-          // In Monthly drill-down (showing daily data for ONE month), user wants just "Month"
-          // BUT wait, if we are looking at ONE month of data (e.g. Jan 1 - Jan 31),
-          // showing just "January" on the axis means we don't know what day is what.
-          // The user asked: "when user click on month, can we only show month in the x-axis instead of month 01"
+        // Check if specific month is selected (currently disabled in UI, but logic kept for robustness)
+        const hasMonthFilter = context.month && context.month !== "all";
 
-          // Re-reading query: "when user click on month" -> They likely mean "When I select a month from the dropdown".
-          // "can we only show month in the x-axis instead of month 01" -> They probably mean the TITLE of the axis?
-          // OR they mean the ticks?
-
-          // If I select "January", the x-axis spans Jan 1 to Jan 31.
-          // Ticks usually show days like "Jan 05", "Jan 10".
-          // Maybe they want just the day number? "01", "05", "10"?
-          // "instead of month 01" might refer to "Jan 01".
-
-          // Let's assume they want just the day number (since Month is known from context/title).
-          // OR maybe they mean the Axis Label?
-          // Let's change ticks to "%d" (Day of month) and Title to "Date (January 2023)".
-
-          xFormat = "%d"; // Just day number
+        if (hasMonthFilter) {
+          // Specific Month View: Show days (01, 02, ...)
+          xFormat = "%d";
           const monthName = d3.timeFormat("%B")(
             new Date(2000, context.month, 1)
           );
           xLabel = `Date (${monthName} ${context.year})`;
         } else {
-          // Viewing a whole year of daily data
-          // Ticks should probably be Months ("Jan", "Feb") to be readable
-          xFormat = "%b";
+          // Specific Year View: Show Months (January, February, ...)
+          xFormat = "%B";
           xLabel = `Date (${context.year})`;
         }
       }
