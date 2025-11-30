@@ -143,9 +143,16 @@ const DataLoader = {
    */
   async loadCountryData(countryCode) {
     try {
-      const data = await d3.csv(
-        `data/Emoji by country csvs/emojitracker_${countryCode}.csv`
-      );
+      // Path to the CSV files
+      // Ensure the directory structure matches exactly: data/Emoji by country csvs/
+      const path = `data/Emoji by country csvs/emojitracker_${countryCode}.csv`;
+      
+      // d3.csv handles spaces in paths, but explicit encoding is safer if issues arise.
+      // However, d3 v7 usually works fine with simple paths.
+      // Let's try fetching raw text first if d3.csv fails, or just stick to d3.csv and catch error.
+      
+      const data = await d3.csv(path);
+      
       // Parse "value" column which contains commas: "5,411,438"
       return data
         .map((d) => ({
@@ -154,8 +161,21 @@ const DataLoader = {
         }))
         .sort((a, b) => b.occurrences - a.occurrences);
     } catch (error) {
-      console.error(`Error loading data for ${countryCode}:`, error);
-      return [];
+      console.error(`Error loading data for ${countryCode} from path: data/Emoji by country csvs/emojitracker_${countryCode}.csv`, error);
+      // Fallback: try to fetch with encoded path just in case
+      try {
+         const encodedPath = `data/Emoji%20by%20country%20csvs/emojitracker_${countryCode}.csv`;
+         const data = await d3.csv(encodedPath);
+         return data
+          .map((d) => ({
+            emoji: d.code,
+            occurrences: +d.value.replace(/,/g, ""),
+          }))
+          .sort((a, b) => b.occurrences - a.occurrences);
+      } catch (fallbackError) {
+         console.error("Fallback loading also failed:", fallbackError);
+         return [];
+      }
     }
   },
 
