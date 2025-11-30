@@ -889,3 +889,142 @@ h3,
   opacity: 0.8;
   margin-top: 2rem;
 }
+
+/* =========================================
+   Sentiment Visualization Styles
+   ========================================= */
+
+#sentiment-visualization {
+  padding: 20px;
+  position: relative;
+  width: 100%;
+  overflow: visible; /* Allow tooltips/overflow */
+  min-height: 600px;
+}
+
+/* Stats Grid Container */
+.sentiment-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Stat Card Component - Global Style */
+.stat-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top Accent Line */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  opacity: 0.8;
+}
+
+.stat-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(241, 196, 15, 0.2);
+  border-color: var(--primary-color);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 10px 0 5px 0;
+  font-family: "Fredoka", sans-serif;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+}
+
+/* Country Comparison Layout */
+.country-comparison-layout {
+  display: flex;
+  flex-direction: column; /* Vertical layout: Controls top, Charts bottom */
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.country-controls-top {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.control-group-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.control-group-inline label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.country-charts-area {
+  display: flex;
+  gap: 20px;
+  /* Allow wrapping on smaller screens */
+  flex-wrap: wrap;
+}
+
+.chart-wrapper {
+  flex: 1;
+  min-width: 300px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.chart-title-small {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.country-chart {
+  width: 100%;
+  height: 400px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .country-controls-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .country-charts-area {
+    flex-direction: column;
+  }
+}
