@@ -9,6 +9,18 @@ const SentimentApp = {
 
   init() {
     console.log("Initializing Sentiment Visualization...");
+
+    // Initialize Select2 for sentiment controls
+    $("#sentiment-filter").select2({
+      minimumResultsForSearch: Infinity,
+      width: "200px",
+    });
+
+    $("#sentiment-sort-by").select2({
+      minimumResultsForSearch: Infinity,
+      width: "200px",
+    });
+
     this.loadData();
     this.attachEventListeners();
   },
@@ -308,12 +320,10 @@ const SentimentApp = {
   },
 
   attachEventListeners() {
-    document
-      .getElementById("sentiment-filter")
-      .addEventListener("change", () => this.updateVisualization());
-    document
-      .getElementById("sentiment-sort-by")
-      .addEventListener("change", () => this.updateVisualization());
+    // Use jQuery events to support Select2
+    $("#sentiment-filter").on("change", () => this.updateVisualization());
+    $("#sentiment-sort-by").on("change", () => this.updateVisualization());
+
     document
       .getElementById("sentiment-min-occurrences")
       .addEventListener("input", (e) => {
