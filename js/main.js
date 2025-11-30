@@ -113,6 +113,60 @@ const App = {
 
     // Initialize Country View
     this.initCountryView();
+
+    // Initialize Spotlight Charts
+    this.initSpotlightCharts();
+  },
+
+  /**
+   * Initialize Spotlight Charts
+   */
+  async initSpotlightCharts() {
+    const spotlights = [
+      { id: "santa", container: "#spotlight-chart-santa", title: "Santa" },
+      {
+        id: "rainbow",
+        container: "#spotlight-chart-rainbow",
+        title: "Rainbow",
+      },
+      { id: "snake", container: "#spotlight-chart-snake", title: "Snake" },
+      {
+        id: "graduation_cap",
+        container: "#spotlight-chart-graduation-cap",
+        title: "Graduation Cap",
+      },
+    ];
+
+    for (const item of spotlights) {
+      const container = document.querySelector(item.container);
+      if (!container) continue;
+
+      const rawData = await DataLoader.loadEmojiTimeSeries(item.id);
+      if (!rawData || rawData.length === 0) {
+        container.innerHTML =
+          '<p style="text-align:center; padding: 20px;">Data not available</p>';
+        continue;
+      }
+
+      // Aggregate by month for better trend visibility in spotlight
+      const aggregatedData = DataLoader.aggregateData(rawData, "month");
+
+      const chartData = [
+        {
+          name: item.title,
+          emojiChar: DataLoader.getEmojiChar(item.id),
+          values: aggregatedData,
+        },
+      ];
+
+      Visualizations.createTimeSeriesChart(item.container, chartData, {
+        width: container.clientWidth,
+        height: 400,
+        granularity: "month",
+        context: { year: "all" },
+        colors: ["#ff6b6b"], // Use primary color
+      });
+    }
   },
 
   /**

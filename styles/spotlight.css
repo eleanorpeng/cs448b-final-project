@@ -1,0 +1,52 @@
+/* ... existing styles ... */
+
+/* Spotlight Analysis Section */
+.spotlight-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 2px dashed #eee;
+}
+
+.spotlight-block {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.spotlight-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+}
+
+.spotlight-block h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-dark);
+  border-bottom: 2px solid var(--accent-yellow);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.spotlight-chart {
+  width: 100%;
+  height: 400px; /* Reduced height for inline charts */
+  margin-bottom: 1.5rem;
+}
+
+.spotlight-content {
+  font-family: "Nunito", sans-serif;
+  line-height: 1.6;
+  color: #444;
+  font-size: 1.1rem;
+}
+
+/* Updated Placeholder Style - No longer italic/dashed */
+.placeholder-content {
+  /* Removed background and border for cleaner look */
+  padding: 1rem 0;
+  color: #333; /* Darker text */
+  font-style: normal; /* No italics */
+}
