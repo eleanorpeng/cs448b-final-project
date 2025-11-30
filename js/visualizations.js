@@ -11,7 +11,7 @@ const Visualizations = {
     const {
       width = 800,
       height = 500,
-      margin = { top: 20, right: 150, bottom: 50, left: 60 },
+      margin = { top: 20, right: 150, bottom: 50, left: 80 },
       colors = d3.schemeCategory10,
       granularity = "day",
       context = { year: "all", month: "all" },
@@ -124,7 +124,7 @@ const Visualizations = {
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
       .attr("x", -innerHeight / 2)
-      .attr("y", -45)
+      .attr("y", -60)
       .style("text-anchor", "middle")
       .text("Usage Count");
 
