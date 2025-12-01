@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emoji Trends Explorer</title>
+    <title>Emoji Explorer</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😃</text></svg>"
+    />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,14 +21,16 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/spotlight.css" />
   </head>
   <body>
     <header class="header">
       <div class="header-content">
-        <h1 class="title">
-          Emoji Trends <span class="bounce">🚀</span> Explorer
-        </h1>
-        <p class="subtitle">Discover how the world speaks in icons</p>
+        <h1 class="title">Emoji <span class="bounce">😃</span> Explorer</h1>
+        <p class="subtitle">
+          Explore how emojis express emotion across sentiment, geography, and
+          time
+        </p>
       </div>
     </header>
 
@@ -65,11 +71,37 @@
       </div>
     </section>
 
+    <!-- Intro Text Section -->
+    <section class="section text-section">
+      <div class="text-content">
+        <h2>Introduction</h2>
+        <p>
+          Since the invention of emojis in the 1990s, they have become the
+          universal language of the internet, a form of emotion that transcends
+          text, culture, and sometimes even meaning. From 😂 to 🥺 to 💀, these
+          symbols carry complex signals about how we feel, what we value, and
+          how our shared digital culture evolves. This project explores how
+          emojis express emotion across three dimensions: sentiment, geography,
+          and time. Using open-source emoji datasets, we visualize how emotion
+          manifests globally and how our collective “emoji language” shifts over
+          time with cultural context and world events.
+        </p>
+      </div>
+    </section>
+
     <!-- Sentiment View -->
     <section id="view-sentiment" class="section">
       <div class="ranking-header">
         <h2>Global Emoji Sentiment Explorer</h2>
         <p>Analyzing Digital Emotion Through Emoji Usage Patterns</p>
+      </div>
+
+      <div class="text-content">
+        <p>
+          To understand how emojis behave across cultures and years, we first
+          need to understand their emotional DNA. What feelings does each emoji
+          tend to convey, and how strongly?
+        </p>
       </div>
 
       <div class="controls-container">
@@ -134,6 +166,21 @@
           <div class="stat-label">Most Positive</div>
         </div>
       </div>
+
+      <div class="text-content">
+        <p>
+          This chart maps the emotional polarity of emojis, from negative,
+          neutral, to positive, against how frequently they appeared in 70,000
+          tweets. Usage is dominated by universally positive emojis such as 😂,
+          ❤️, 😍, reinforcing that online communication tends to skew toward
+          positive or humorous expressions. However, a cluster of high-frequency
+          but negative emojis like 😩, 😒 reveals the growing normalization of
+          sadness or irony in online culture. An emerging group of emojis
+          includes the presence of ambiguous emojis (😭, 😳, 😱), suggesting how
+          many symbols now carry layered or context-dependent meaning. This
+          reflects how users repurpose emojis for irony, empathy, or in-jokes.
+        </p>
+      </div>
     </section>
 
     <!-- Country Usage View -->
@@ -141,6 +188,20 @@
       <div class="ranking-header">
         <h2>Emoji Usage by Country</h2>
         <p>Compare top emojis between two countries</p>
+      </div>
+
+      <div class="text-content">
+        <p>
+          The sentiment analysis highlights the emotional polarity of emojis,
+          but it leaves an important question unanswered: are these patterns
+          universal? To explore this, we compare emoji usage across nine
+          countries to uncover distinct digital usage across the globe.
+          <br />This interactive comparison bar chart how the “same” digital
+          language looks very different across the world. To interact with these
+          visualizations, users can select 2 of 9 countries for a side-by-side
+          comparison of top 20 emojis, revealing distinct cultural fingerprints
+          in emoji expression.
+        </p>
       </div>
 
       <div class="country-comparison-layout">
@@ -195,11 +256,72 @@
             <div id="country-chart-b" class="country-chart"></div>
           </div>
         </div>
+
+        <div class="text-content">
+          <p>Here are a few broad themes that consistently emerge:</p>
+
+          <h3>Some emojis are globally dominant, but not equally</h3>
+          <p>
+            The 😂 appears in almost every country’s top-20 list, but its
+            magnitude varies. In the U.S., 😂 and ❤️ tower above other emojis,
+            reflecting humor/affection-driven emoji culture. Meanwhile, in
+            Japan, while 😂 is still present in the top 20, it is far less
+            dominant. There is more of an emphasis on softer, cute emojis like
+            🥰 🥺 ✨.
+          </p>
+
+          <h3>Some countries show unusually high emotional expressiveness</h3>
+          <p>
+            The Philippines stands out with high usage of 😭 ❤️ 🥰 🥺, speaking
+            to a very warm, affectionate, and emotionally intense digital
+            communication – aligning with the high-engagement and vibrant
+            Filipino social media culture. This draws a comparison to the U.S.,
+            where high usage of 😂 😭 💀 leans more towards sarcasm and irony.
+          </p>
+
+          <h3>Cultural signatures in emoji expression</h3>
+          <ul>
+            <li>
+              East Asian countries use more “cute” or stylized emotional symbols
+            </li>
+            <li>
+              South Asian and Latin American regions lean toward warmth and
+              sincerity
+            </li>
+            <li>
+              Western countries emphasize humor, irony, and sometimes
+              exaggeration.
+            </li>
+          </ul>
+          <p>
+            Geographic differences reveal how cultures express emotion
+            differently, but geography alone can’t capture how these expressions
+            change. Emojis evolve quickly, shaped by shifting norms, memes, and
+            global events. To understand this evolution, we turn to time and
+            trace how individual emojis rise, peak, and fade.
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- Trends View -->
     <section id="view-trends" class="section">
+      <div class="ranking-header">
+        <h2>Emoji Trends on Twitter Over Time</h2>
+        <p>Trace how individual emojis rise, peak, and fade over the years.</p>
+      </div>
+
+      <div class="text-content">
+        <p>
+          We were curious about the usage of emoji on Twitter, specifically how
+          time influences people’s usage of certain emotions. Due to Twitter’s
+          current restriction, we were only able to find old data from this
+          dataset for 50 emojis. However, we do see interesting trends for
+          different emojis based on various events. <br /><br />Before diving
+          into the analysis, feel free to explore some trends on your own!
+        </p>
+      </div>
+
       <div class="controls-container">
         <div class="control-group">
           <label for="emoji-selector">Choose your emojis to compare:</label>
@@ -244,6 +366,108 @@
           </p>
         </div>
       </div>
+
+      <!-- Spotlight Analysis Section -->
+      <div id="spotlight-analysis" class="spotlight-section">
+        <div class="ranking-header">
+          <h2>Spotlight Analysis</h2>
+          <p>Deep dive into specific emoji trends</p>
+        </div>
+
+        <!-- Santa -->
+        <div class="spotlight-block">
+          <h3>Santa 🎅</h3>
+          <div id="spotlight-chart-santa" class="spotlight-chart"></div>
+          <div class="spotlight-content placeholder-content">
+            <p>
+              For the santa emoji, we see that there’s a peak every year in
+              December, while the usage remains low during the rest of the year.
+              This trend reflects the time period of the holiday accurately, as
+              Christmas occurs on December 25th, which is the month when the
+              usage peaks.
+            </p>
+          </div>
+        </div>
+
+        <!-- Rainbow -->
+        <div class="spotlight-block">
+          <h3>Rainbow 🌈</h3>
+          <div id="spotlight-chart-rainbow" class="spotlight-chart"></div>
+          <div class="spotlight-content placeholder-content">
+            <p>
+              We see that there are several peaks of rainbow usage across the
+              years, with the highest peaks in June 2015 and 2019. It’s
+              interesting to note that there are several lower peaks in June
+              every year due to pride month. However, the usage peaks in June
+              2015 due to the legalization of same-sex marriage nationwide in
+              the United States by the U.S. Supreme Court. This indicates that
+              people might be tweeting to celebrate using the rainbow emoji. The
+              other peak in June 2019 might be due the 50th anniversary of the
+              Stonewall Uprising, a historical vent that sparked the modern
+              LGBTQ+ rights movement.
+            </p>
+          </div>
+        </div>
+
+        <!-- Snake -->
+        <div class="spotlight-block">
+          <h3>Snake 🐍</h3>
+          <div id="spotlight-chart-snake" class="spotlight-chart"></div>
+          <div class="spotlight-content placeholder-content">
+            <p>
+              Looking at the usage of snake emoji, we see that there’s a peak in
+              2016. To investigate further, we narrowed down the timeline to the
+              months in 2016, observing another peak on April 14, 2016 where the
+              snake emoji was used 59862 times on Twitter. It was because Kobe
+              Bryant’s last game was on April 13, 2016, where he scored 60
+              points in the Lakers against the Utah Jazz. In response to such
+              incredible performance in his final game, the fans posted
+              🐍 #MambaDay on Twitter to commemorate this game and Kobe Bryant
+              (whose nickname is Black Mamba). Interestingly, if we include
+              basketball emoji in this visualization, we see that the peak of
+              the basketball and snake emoji almost aligned.
+            </p>
+          </div>
+        </div>
+
+        <!-- Graduation Cap -->
+        <div class="spotlight-block">
+          <h3>Graduation Cap 🎓</h3>
+          <div
+            id="spotlight-chart-graduation-cap"
+            class="spotlight-chart"
+          ></div>
+          <div class="spotlight-content placeholder-content">
+            <p>
+              There are several peaks across the years for the usage of
+              graduation cap emoji, where the peak always occurs around June
+              during graduation season. However, we noticed that the usage
+              became lower starting 2017. While we can’t say for certain, there
+              are several hypotheses of the cause. First, due to the rise of
+              other social media platforms, students might be posting more on
+              other social media such as Instagram instead of Twitter. Second,
+              the man and woman student emoji (👨🏻‍🎓 and 👩🏻‍🎓) were introduced in
+              November 2016 as part of Emoji 4.0. While we don’t have data for
+              these usage, we hypothesized that students might be using these
+              emojis in conjunction with the graduation cap emoji.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusion / More Info Section -->
+    <section class="section text-section">
+      <div class="text-content">
+        <h2>Conclusion</h2>
+        <p>
+          Emojis form a universal yet ever-changing emotional code. They unify
+          global expression through symbols like 😂 and ❤️ but also highlight
+          cultural uniqueness in usage and interpretation. Over time, their
+          meanings shift as world events, internet culture, and generational
+          reinvention reshape how these symbols are understood.
+        </p>
+      </div>
     </section>
 
     <!-- Ranking View -->
@@ -276,6 +500,40 @@
       </div>
     </section>
 
+    <!-- Sources Section -->
+    <section class="section text-section">
+      <div class="text-content">
+        <h2>Sources</h2>
+        <p>We used the following datasets for this project:</p>
+        <ul>
+          <li>
+            <a href="https://www.kaggle.com/datasets" target="_blank"
+              >Kaggle Emoji Usage Datasets</a
+            >
+            - Various emoji usage statistics for sentiment analysis
+          </li>
+          <li>
+            <a href="https://www.emojitracker.com/" target="_blank"
+              >Emoji Tracker</a
+            >
+            - Emoji usage data for different countries
+          </li>
+          <li>
+            <a href="https://github.com/iamcal/emoji-data" target="_blank"
+              >iamcal/emoji-data</a
+            >
+            - Comprehensive emoji dataset for emoji library
+          </li>
+          <li>
+            <a href="https://github.com/enric1994/emoji_trends" target="_blank"
+              >enric1994/emoji_trends</a
+            >
+            - 50 emoji usage data for trends analysis
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <!-- Details Modal -->
     <div id="emoji-modal" class="modal">
       <div class="modal-content">
@@ -287,7 +545,7 @@
     </div>
 
     <footer class="footer">
-      <p>Made with 💖 using Data Visualization</p>
+      <p>Made by Eleanor Peng, Karina Chen, and Emma Su</p>
     </footer>
 
     <!-- Scripts -->

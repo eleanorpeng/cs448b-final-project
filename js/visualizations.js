@@ -11,7 +11,7 @@ const Visualizations = {
     const {
       width = 800,
       height = 500,
-      margin = { top: 20, right: 150, bottom: 50, left: 60 },
+      margin = { top: 20, right: 150, bottom: 50, left: 80 },
       colors = d3.schemeCategory10,
       granularity = "day",
       context = { year: "all", month: "all" },
@@ -124,7 +124,7 @@ const Visualizations = {
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
       .attr("x", -innerHeight / 2)
-      .attr("y", -45)
+      .attr("y", -60)
       .style("text-anchor", "middle")
       .text("Usage Count");
 
@@ -178,13 +178,15 @@ const Visualizations = {
       .attr("alignment-baseline", "middle");
 
     // Tooltip interaction
-    d3.selectAll(".tooltip").remove();
-
-    const tooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
+    // Use a shared tooltip or create if missing
+    let tooltip = d3.select("body").select(".tooltip");
+    if (tooltip.empty()) {
+      tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+    }
 
     const overlay = g
       .append("rect")
@@ -541,11 +543,14 @@ const Visualizations = {
         d3.select(this).attr("fill", "#f39c12"); // Darker Orange on hover
 
         // Tooltip
-        const tooltip = d3
-          .select("body")
-          .append("div")
-          .attr("class", "tooltip")
-          .style("opacity", 0);
+        let tooltip = d3.select("body").select(".tooltip");
+        if (tooltip.empty()) {
+          tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+        }
 
         tooltip.transition().duration(200).style("opacity", 1);
         tooltip
@@ -562,7 +567,7 @@ const Visualizations = {
       })
       .on("mouseleave", function () {
         d3.select(this).attr("fill", "#f1c40f");
-        d3.selectAll(".tooltip").remove();
+        d3.select("body").select(".tooltip").transition().duration(200).style("opacity", 0);
       });
   },
 };
