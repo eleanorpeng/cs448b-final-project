@@ -321,6 +321,32 @@ h3,
   z-index: 1;
 }
 
+/* Text Sections */
+.text-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.text-content {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 0;
+  text-align: left;
+}
+
+.text-content h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.text-content p {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  line-height: 1.8;
+}
+
 /* Controls */
 .controls-container {
   background: var(--card-bg);
