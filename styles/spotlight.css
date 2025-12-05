@@ -16,6 +16,7 @@
   overflow: hidden;
   width: 100%;
   border-radius: 16px; /* Optional rounded corners for the view */
+  transition: height 0.3s ease-in-out; /* Smooth height transition */
 }
 
 .carousel-track {
@@ -32,7 +33,12 @@
 }
 
 .carousel-btn {
-  background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for visibility */
+  background: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Semi-transparent background for visibility */
   border: none;
   font-size: 2.5rem;
   color: var(--primary-dark);
@@ -51,25 +57,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-wrapper:hover .carousel-btn {
-    opacity: 1;
+  opacity: 1;
 }
 
 .carousel-btn:hover {
   background: white;
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .carousel-btn.prev-btn {
-    left: 20px;
+  left: 20px;
 }
 
 .carousel-btn.next-btn {
-    right: 20px;
+  right: 20px;
 }
 
 .carousel-dots {
@@ -130,11 +136,11 @@
 
 /* Wrapper for hidden content (Chart + Text) */
 .spotlight-reveal-wrapper {
-    display: block;
+  display: block;
 }
 
 .spotlight-reveal-wrapper.hidden-spotlight-content {
-    display: none;
+  display: none;
 }
 
 .spotlight-content {
@@ -166,7 +172,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -174,13 +180,13 @@
 
 .reveal-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   background-color: #ffd900; /* Slightly brighter/darker depending on theme */
 }
 
 .reveal-btn::after {
-    content: "👇";
-    font-size: 1.2em;
+  content: "👇";
+  font-size: 1.2em;
 }
 
 .placeholder-content {

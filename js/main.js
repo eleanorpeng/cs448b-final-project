@@ -24,6 +24,9 @@ const App = {
     graduation_cap: { title: "Graduation Cap" },
   },
 
+  // Spotlight State
+  currentSpotlightIndex: 0,
+
   /**
    * Initialize the application
    */
@@ -130,6 +133,9 @@ const App = {
 
     // Initialize Spotlight Interaction
     this.initSpotlightInteraction();
+
+    // Window resize handler for carousel height
+    $(window).on("resize", () => this.updateSpotlightHeight());
   },
 
   /**
@@ -159,7 +165,13 @@ const App = {
           if (container && container.innerHTML.trim() === "") {
             this.renderSpotlightChart(id, containerId);
           }
+
+          // Update height immediately after content becomes visible
+          this.updateSpotlightHeight();
         });
+
+      // Also update height periodically during fade or immediately to catch start
+      setTimeout(() => this.updateSpotlightHeight(), 50);
     });
   },
 
@@ -171,6 +183,7 @@ const App = {
     if (!container) return;
 
     container.innerHTML = '<div class="loading-spinner">Loading chart...</div>';
+    this.updateSpotlightHeight(); // Update for spinner
 
     const config = this.spotlightConfig[id];
     if (!config) return;
@@ -179,6 +192,7 @@ const App = {
     if (!rawData || rawData.length === 0) {
       container.innerHTML =
         '<p style="text-align:center; padding: 20px;">Data not available</p>';
+      this.updateSpotlightHeight();
       return;
     }
 
@@ -203,6 +217,9 @@ const App = {
       context: { year: "all" },
       colors: ["#ff6b6b"], // Use primary color
     });
+
+    // Final height update after chart render
+    this.updateSpotlightHeight();
   },
 
   /**
@@ -215,29 +232,37 @@ const App = {
 
     if (!track || !prevBtn || !nextBtn) return;
 
-    let currentIndex = 0;
     const slides = track.children;
     const totalSlides = slides.length;
     const dots = document.querySelectorAll("#spotlight-dots .dot");
 
+    // Initial height set
+    // Use setTimeout to ensure layout is stable
+    setTimeout(() => this.updateSpotlightHeight(), 100);
+
     const updateCarousel = () => {
-      const translateX = -(currentIndex * 100);
+      const translateX = -(this.currentSpotlightIndex * 100);
       track.style.transform = `translateX(${translateX}%)`;
 
       // Update dots
       dots.forEach((dot, index) => {
-        if (index === currentIndex) dot.classList.add("active");
+        if (index === this.currentSpotlightIndex) dot.classList.add("active");
         else dot.classList.remove("active");
       });
+
+      // Update container height for current slide
+      this.updateSpotlightHeight();
     };
 
     nextBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % totalSlides;
+      this.currentSpotlightIndex =
+        (this.currentSpotlightIndex + 1) % totalSlides;
       updateCarousel();
     });
 
     prevBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      this.currentSpotlightIndex =
+        (this.currentSpotlightIndex - 1 + totalSlides) % totalSlides;
       updateCarousel();
     });
 
@@ -246,11 +271,30 @@ const App = {
       dot.addEventListener("click", (e) => {
         const index = parseInt(e.target.dataset.index);
         if (!isNaN(index)) {
-          currentIndex = index;
+          this.currentSpotlightIndex = index;
           updateCarousel();
         }
       });
     });
+  },
+
+  /**
+   * Dynamically update the carousel container height to match active slide
+   */
+  updateSpotlightHeight() {
+    const track = document.getElementById("spotlight-track");
+    if (!track) return;
+
+    const container = track.parentElement; // .carousel-container
+    const slides = track.children;
+    const activeSlide = slides[this.currentSpotlightIndex];
+
+    if (activeSlide && container) {
+      const height = activeSlide.offsetHeight;
+      if (height > 0) {
+        container.style.height = `${height}px`;
+      }
+    }
   },
 
   /**
