@@ -102,6 +102,57 @@
           need to understand their emotional DNA. What feelings does each emoji
           tend to convey, and how strongly?
         </p>
+        <p>
+          This chart maps the emotional polarity of emojis, from negative,
+          neutral, to positive, against how frequently they appeared in 70,000
+          tweets. Use the sentiment filter to explore positive, negative, or
+          neutral emojis. Check the box to hide rare emojis and focus on the
+          most commonly used ones. Hover over any emoji to see its exact
+          sentiment breakdown.
+        </p>
+        <p
+          style="
+            font-weight: 600;
+            margin-top: 1.5rem;
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+          "
+        >
+          👉 <strong>Explore the data:</strong><br />
+          <span style="font-weight: 400; display: block; margin-top: 0.5rem">
+            Selecting "Positive Only" in the sentiment filter, allows you to
+            notice how 😂 towers above all others with 14,622 occurrences,
+            <strong
+              >making it the undisputed universal language of digital joy and
+              humor.</strong
+            >
+            Switching to "Negative Only," you can see how 😩 dominates at 1,808
+            uses, which is
+            <strong
+              >8x less than 😂, revealing that we express happiness far more
+              frequently than frustration online.</strong
+            >
+            Hover over it to reveal that 59% of its usage is negative, yet it's
+            still wildly popular,
+            <strong
+              >demonstrating that we've turned negative emotions into comedic
+              performance— expressing stress ironically has become its own form
+              of digital bonding.</strong
+            ><br /><br />
+            Finally, return to "All Emojis" and check the "Hide rare emojis"
+            box. Notice the cluster of ambiguous emojis like 😭 and 😱 in the
+            middle—these carry mixed sentiment scores despite high usage.
+            <strong
+              >This reveals the emotional complexity of modern emoji use: a
+              single emoji can mean "I'm devastated" or "I'm dying laughing"
+              depending on context, making them flexible tools for irony,
+              exaggeration, and nuanced expression that text alone cannot
+              capture.</strong
+            >
+          </span>
+        </p>
       </div>
 
       <div class="controls-container">
@@ -115,32 +166,18 @@
           </select>
         </div>
 
-        <div class="control-group">
-          <label for="sentiment-min-occurrences">
-            Min Occurrences:
-            <span
-              id="sentiment-occurrence-value"
-              style="font-weight: bold; color: var(--primary-dark)"
-              >0</span
-            >
+        <div class="control-group" style="margin-left: 10px">
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              cursor: pointer;
+            "
+          >
+            <input type="checkbox" id="sentiment-filter-rare" />
+            <span>Hide rare emojis (&lt;30 uses)</span>
           </label>
-          <input
-            type="range"
-            id="sentiment-min-occurrences"
-            min="0"
-            max="5000"
-            step="100"
-            value="0"
-            style="width: 200px; cursor: pointer"
-          />
-        </div>
-
-        <div class="control-group">
-          <label for="sentiment-sort-by">Size By:</label>
-          <select id="sentiment-sort-by" class="custom-select">
-            <option value="occurrences">Occurrences</option>
-            <option value="sentiment">Sentiment Score</option>
-          </select>
         </div>
       </div>
 
@@ -168,17 +205,35 @@
       </div>
 
       <div class="text-content">
+        <p>Here are some takeaways:</p>
+        <h3>Digital communication skews overwhelmingly positive</h3>
         <p>
-          This chart maps the emotional polarity of emojis, from negative,
-          neutral, to positive, against how frequently they appeared in 70,000
-          tweets. Usage is dominated by universally positive emojis such as 😂,
-          ❤️, 😍, reinforcing that online communication tends to skew toward
-          positive or humorous expressions. However, a cluster of high-frequency
-          but negative emojis like 😩, 😒 reveals the growing normalization of
-          sadness or irony in online culture. An emerging group of emojis
-          includes the presence of ambiguous emojis (😭, 😳, 😱), suggesting how
-          many symbols now carry layered or context-dependent meaning. This
-          reflects how users repurpose emojis for irony, empathy, or in-jokes.
+          The dominance of 😂, ❤️, and 😍 isn't accidental—positive emojis are
+          used 8-10x more frequently than negative ones. This reveals a
+          fundamental truth about online expression: we use emojis primarily to
+          amplify joy, affection, and humor. The digital world we create leans
+          optimistic, even when reality doesn't.
+        </p>
+
+        <h3>Negative emotions are performative</h3>
+        <p>
+          High-frequency negative emojis like 😩 and 😭 occupy a strange middle
+          ground— they express genuine frustration <em>and</em> ironic
+          exaggeration simultaneously. This performative negativity shows how
+          internet culture has turned venting into a form of relatable humor,
+          where complaining is as much about bonding as it is about expressing
+          real distress.
+        </p>
+
+        <h3>Context has replaced inherent meaning</h3>
+        <p>
+          The presence of emotionally ambiguous emojis—symbols that can mean
+          opposite things depending on who uses them and why—reveals that emojis
+          no longer have fixed meanings. Instead, they've become flexible tools
+          for irony, empathy, and in-jokes. A 😭 can mean "I'm devastated" or
+          "I'm dying laughing," and we intuitively understand which one based on
+          invisible social cues. This fluidity makes emojis uniquely powerful
+          for capturing the complexity of modern digital expression.
         </p>
       </div>
     </section>
@@ -324,31 +379,27 @@
 
       <div class="controls-container">
         <div class="control-group">
-          <label for="emoji-selector">Choose your emojis to compare:</label>
-          <select id="emoji-selector" multiple="multiple" style="width: 100%">
-            <!-- Options populated by JS -->
+          <label for="sentiment-filter">Sentiment Filter:</label>
+          <select id="sentiment-filter" class="custom-select">
+            <option value="all">All Emojis</option>
+            <option value="positive">Positive Only</option>
+            <option value="neutral">Neutral Only</option>
+            <option value="negative">Negative Only</option>
           </select>
         </div>
-        <div class="control-group" style="flex: 0 0 auto">
-          <label>Time Granularity:</label>
-          <div class="granularity-controls">
-            <button class="btn-pill active" data-granularity="month">
-              Monthly
-            </button>
-            <button class="btn-pill" data-granularity="year">Yearly</button>
-          </div>
-          <div
-            id="time-filters"
-            class="time-filters"
-            style="margin-top: 1rem; display: flex; gap: 10px"
+
+        <div class="control-group" style="margin-left: 10px">
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              cursor: pointer;
+            "
           >
-            <select id="year-filter" class="custom-select">
-              <option value="all">All Years</option>
-            </select>
-          </div>
-        </div>
-        <div class="button-group">
-          <button id="clear-btn" class="btn btn-secondary">Clear</button>
+            <input type="checkbox" id="sentiment-filter-rare" />
+            <span>Hide rare emojis (&lt;30 uses)</span>
+          </label>
         </div>
       </div>
 
