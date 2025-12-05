@@ -22,6 +22,7 @@
     />
     <link rel="stylesheet" href="styles/main.css" />
     <link rel="stylesheet" href="styles/spotlight.css" />
+    <link rel="stylesheet" href="styles/timeline.css" />
   </head>
   <body>
     <header class="header">
@@ -71,21 +72,104 @@
       </div>
     </section>
 
-    <!-- Intro Text Section -->
-    <section class="section text-section">
-      <div class="text-content">
-        <h2>Introduction</h2>
-        <p>
-          Since the invention of emojis in the 1990s, they have become the
-          universal language of the internet, a form of emotion that transcends
-          text, culture, and sometimes even meaning. From 😂 to 🥺 to 💀, these
-          symbols carry complex signals about how we feel, what we value, and
-          how our shared digital culture evolves. This project explores how
-          emojis express emotion across three dimensions: time, sentiment, and
-          geography. Using open-source emoji datasets, we visualize how emotion
-          manifests globally and how our collective “emoji language” shifts over
-          time with cultural context and world events.
-        </p>
+    <!-- Intro Text Section (Replaced by Timeline) -->
+    <!-- <section class="section text-section"> ... </section> -->
+
+    <!-- Interactive Timeline Section -->
+    <section id="timeline-section" class="timeline-section">
+      <div class="timeline-sticky-container">
+        <!-- Left: Graphic -->
+        <div class="timeline-graphic">
+          <div class="timeline-line"></div>
+          <div class="timeline-progress" id="timeline-progress-bar"></div>
+
+          <div class="timeline-node" data-era="1980">
+            <span class="timeline-year">1980s</span>
+          </div>
+          <div class="timeline-node" data-era="1990">
+            <span class="timeline-year">1990s</span>
+          </div>
+          <div class="timeline-node" data-era="2010">
+            <span class="timeline-year">2010s</span>
+          </div>
+          <div class="timeline-node" data-era="2015">
+            <span class="timeline-year">2015+</span>
+          </div>
+        </div>
+
+        <!-- Right: Content Cards -->
+        <div class="timeline-content-area">
+          <!-- Card 1980s -->
+          <div class="timeline-card" id="card-1980">
+            <span class="era-badge">Precursor of Emoji</span>
+            <h2 class="era-title">ASCII Art & Emoticons :-)</h2>
+            <p class="era-description">
+              Before emojis were born, people already started using text as
+              means to express emotion. In 1982, computer scienstist Scott
+              Fahlman proposed using <code>:-)</code> and <code>:-(</code> to
+              distinguish jokes from serious posts on Carnegie Mellon's BBS. In
+              Japan, Kaomoji (^.^) were used to express emotion, which are read
+              upright instead of sideways like Western emoticons. In early
+              1980s, Microsoft's Wingdings allowed users to send simple
+              pictograms.
+            </p>
+            <div class="era-visual">:-) :-O <3</div>
+          </div>
+
+          <!-- Card 1990s -->
+          <div class="timeline-card" id="card-1990">
+            <span class="era-badge">The Birth of Emoji</span>
+            <h2 class="era-title">176 Pixels that Changed the World</h2>
+            <p class="era-description">
+              In 1999, Shigetaka Kurita created the first set of 176 emojis for
+              NTT DoCoMo in Japan. They were created to help him convey emotions
+              through the limited number of characters in text messagess. The
+              word "emoji" is actually Japanese: e (絵, 'picture') + moji (文字,
+              'character'). The resemblance to the English words were purely
+              coincidental.
+            </p>
+            <div class="era-visual">
+              <img src="images/cat.png" alt="cat emoji" />
+              <img src="images/eye.png" alt="eye emoji" />
+              <img src="images/sun.png" alt="sun emoji" />
+            </div>
+          </div>
+
+          <!-- Card 2010s -->
+          <div class="timeline-card" id="card-2010">
+            <span class="era-badge">Global Expansion and Standardization</span>
+            <h2 class="era-title">The Rise of Emoji</h2>
+            <p class="era-description">
+              Apple included an emoji keyboard in the first iPhone for the
+              Japanese market, which was quickly discovered by the users
+              worldwide. In 2010, Unicode standardized emojis, allowing them to
+              work across different devices. When Apple added the emoji keyboard
+              to iOS in 2011, usage exploded globally, revealing a massive
+              global demand.
+            </p>
+          </div>
+
+          <!-- Card 2015+ -->
+          <div class="timeline-card" id="card-2015">
+            <span class="era-badge">Modern Era</span>
+            <h2 class="era-title">Diversity & Inclusivity</h2>
+            <p class="era-description">
+              Today, emojis reflect our diverse world. Skin tone modifiers were
+              added in 2015, followed by gender-neutral options and culturally
+              specific symbols. Emojis now evolve alongside society, capturing
+              new norms and movements.
+            </p>
+            <div class="era-visual">🧔🏾‍♀️ 🏳️‍🌈 🧘🏻</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Triggers -->
+      <div class="timeline-triggers">
+        <div class="scroll-trigger" data-trigger="1980"></div>
+        <div class="scroll-trigger" data-trigger="1990"></div>
+        <div class="scroll-trigger" data-trigger="2010"></div>
+        <div class="scroll-trigger" data-trigger="2015"></div>
       </div>
     </section>
 
@@ -683,6 +767,7 @@
     <script src="js/data-loader.js"></script>
     <script src="js/visualizations.js"></script>
     <script src="js/sentiment.js"></script>
+    <script src="js/timeline.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

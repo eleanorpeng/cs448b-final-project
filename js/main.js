@@ -134,6 +134,11 @@ const App = {
     // Initialize Spotlight Interaction
     this.initSpotlightInteraction();
 
+    // Initialize Timeline
+    if (typeof Timeline !== 'undefined') {
+      Timeline.init();
+    }
+
     // Window resize handler for carousel height
     $(window).on("resize", () => this.updateSpotlightHeight());
   },
