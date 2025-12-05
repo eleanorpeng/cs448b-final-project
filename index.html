@@ -22,14 +22,15 @@
     />
     <link rel="stylesheet" href="styles/main.css" />
     <link rel="stylesheet" href="styles/spotlight.css" />
+    <link rel="stylesheet" href="styles/timeline.css" />
   </head>
   <body>
     <header class="header">
       <div class="header-content">
         <h1 class="title">Emoji <span class="bounce">😃</span> Explorer</h1>
         <p class="subtitle">
-          Explore how emojis express emotion across sentiment, geography, and
-          time
+          Explore how emojis express emotion across time, sentiment, and
+          geography
         </p>
       </div>
     </header>
@@ -71,21 +72,393 @@
       </div>
     </section>
 
-    <!-- Intro Text Section -->
-    <section class="section text-section">
+    <!-- Intro Text Section (Replaced by Timeline) -->
+    <!-- <section class="section text-section"> ... </section> -->
+
+    <!-- Interactive Timeline Section -->
+    <section id="timeline-section" class="timeline-section">
+      <div class="timeline-sticky-container">
+        <!-- Left: Graphic -->
+        <div class="timeline-graphic">
+          <div class="timeline-line"></div>
+          <div class="timeline-progress" id="timeline-progress-bar"></div>
+
+          <div class="timeline-node" data-era="1980">
+            <span class="timeline-year">1980s</span>
+          </div>
+          <div class="timeline-node" data-era="1990">
+            <span class="timeline-year">1990s</span>
+          </div>
+          <div class="timeline-node" data-era="2010">
+            <span class="timeline-year">2010s</span>
+          </div>
+          <div class="timeline-node" data-era="2015">
+            <span class="timeline-year">2015+</span>
+          </div>
+        </div>
+
+        <!-- Right: Content Cards -->
+        <div class="timeline-content-area">
+          <!-- Card 1980s -->
+          <div class="timeline-card" id="card-1980">
+            <span class="era-badge">Precursor of Emoji</span>
+            <h2 class="era-title">ASCII Art & Emoticons :-)</h2>
+            <p class="era-description">
+              Before emojis were born, people already started using text as
+              means to express emotion. In 1982, computer scienstist Scott
+              Fahlman proposed using <code>:-)</code> and <code>:-(</code> to
+              distinguish jokes from serious posts on Carnegie Mellon's BBS. In
+              Japan, Kaomoji (^.^) were used to express emotion, which are read
+              upright instead of sideways like Western emoticons. In early
+              1980s, Microsoft's Wingdings allowed users to send simple
+              pictograms.
+            </p>
+            <div class="era-visual">:-) :-O <3</div>
+          </div>
+
+          <!-- Card 1990s -->
+          <div class="timeline-card" id="card-1990">
+            <span class="era-badge">The Birth of Emoji</span>
+            <h2 class="era-title">176 Pixels that Changed the World</h2>
+            <p class="era-description">
+              In 1999, Shigetaka Kurita created the first set of 176 emojis for
+              NTT DoCoMo in Japan. They were created to help him convey emotions
+              through the limited number of characters in text messagess. The
+              word "emoji" is actually Japanese: e (絵, 'picture') + moji (文字,
+              'character'). The resemblance to the English words were purely
+              coincidental.
+            </p>
+            <div class="era-visual">
+              <img src="images/cat.png" alt="cat emoji" />
+              <img src="images/eye.png" alt="eye emoji" />
+              <img src="images/sun.png" alt="sun emoji" />
+            </div>
+          </div>
+
+          <!-- Card 2010s -->
+          <div class="timeline-card" id="card-2010">
+            <span class="era-badge">Global Expansion and Standardization</span>
+            <h2 class="era-title">The Rise of Emoji</h2>
+            <p class="era-description">
+              Apple included an emoji keyboard in the first iPhone for the
+              Japanese market, which was quickly discovered by the users
+              worldwide. In 2010, Unicode standardized emojis, allowing them to
+              work across different devices. When Apple added the emoji keyboard
+              to iOS in 2011, usage exploded globally, revealing a massive
+              global demand.
+            </p>
+          </div>
+
+          <!-- Card 2015+ -->
+          <div class="timeline-card" id="card-2015">
+            <span class="era-badge">Modern Era</span>
+            <h2 class="era-title">Diversity & Inclusivity</h2>
+            <p class="era-description">
+              Today, emojis reflect our diverse world. Skin tone modifiers were
+              added in 2015, followed by gender-neutral options and culturally
+              specific symbols. Emojis now evolve alongside society, capturing
+              new norms and movements.
+            </p>
+            <div class="era-visual">🧔🏾‍♀️ 🏳️‍🌈 🧘🏻</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Triggers -->
+      <div class="timeline-triggers">
+        <div class="scroll-trigger" data-trigger="1980"></div>
+        <div class="scroll-trigger" data-trigger="1990"></div>
+        <div class="scroll-trigger" data-trigger="2010"></div>
+        <div class="scroll-trigger" data-trigger="2015"></div>
+      </div>
+    </section>
+
+    <!-- Trends View -->
+    <section id="view-trends" class="section">
+      <div class="ranking-header">
+        <h2>Emoji Trends on Twitter Over Time</h2>
+        <p>Trace how individual emojis rise, peak, and fade over the years.</p>
+      </div>
+
       <div class="text-content">
-        <h2>Introduction</h2>
         <p>
-          Since the invention of emojis in the 1990s, they have become the
-          universal language of the internet, a form of emotion that transcends
-          text, culture, and sometimes even meaning. From 😂 to 🥺 to 💀, these
-          symbols carry complex signals about how we feel, what we value, and
-          how our shared digital culture evolves. This project explores how
-          emojis express emotion across three dimensions: sentiment, geography,
-          and time. Using open-source emoji datasets, we visualize how emotion
-          manifests globally and how our collective “emoji language” shifts over
-          time with cultural context and world events.
+          As emojis and social media became more popular, we were curious to see
+          how the usage of emojis changed over time. We decided to look at the
+          usage of emojis on Twitter, which is one of the most popular social
+          media platforms. Unfortunately, due to Twitter’s current restriction,
+          we were only able to find old data from
+          <a href="https://github.com/enric1994/emoji_trends" target="_blank"
+            >this dataset</a
+          >
+          for 50 emojis. <br /><br />
+
+          Feel free to explore some trends along with our analysis in the
+          Spotlight Analysis section or explore on your own! Select the emojis
+          and choose the time granularity to see the trends. Adjust the year
+          filter to see the trends for a specific year.
         </p>
+      </div>
+
+      <div class="controls-container">
+        <div class="control-group">
+          <label for="emoji-selector">Choose your emojis to compare:</label>
+          <select id="emoji-selector" multiple="multiple" style="width: 100%">
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+        <div class="control-group" style="flex: 0 0 auto">
+          <label>Time Granularity:</label>
+          <div class="granularity-controls">
+            <button class="btn-pill active" data-granularity="month">
+              Monthly
+            </button>
+            <button class="btn-pill" data-granularity="year">Yearly</button>
+          </div>
+          <div
+            id="time-filters"
+            class="time-filters"
+            style="margin-top: 1rem; display: flex; gap: 10px"
+          >
+            <select id="year-filter" class="custom-select">
+              <option value="all">All Years</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-group">
+          <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        </div>
+      </div>
+
+      <div id="chart-container" class="chart-container">
+        <div class="chart-header">
+          <h2 id="chart-title">Select emojis to start! ✨</h2>
+          <div id="selected-emojis-display" class="selected-emojis"></div>
+        </div>
+        <div id="visualization"></div>
+        <div id="placeholder" class="placeholder-text">
+          <span class="placeholder-emoji">👆</span>
+          <p>
+            Pick some emojis from the menu above<br />to see their popularity
+            over time!
+          </p>
+        </div>
+      </div>
+
+      <!-- Spotlight Analysis Section -->
+      <div id="spotlight-analysis" class="spotlight-section">
+        <div class="ranking-header">
+          <h2>Spotlight Analysis</h2>
+          <p>Deep dive into specific emoji trends</p>
+        </div>
+
+        <div class="carousel-wrapper">
+          <button class="carousel-btn prev-btn" id="spotlight-prev">‹</button>
+
+          <div class="carousel-container">
+            <div class="carousel-track" id="spotlight-track">
+              <!-- Santa -->
+              <div class="carousel-slide">
+                <div class="spotlight-block">
+                  <h3>Santa 🎅</h3>
+
+                  <div class="spotlight-interaction">
+                    <p class="spotlight-prompt">
+                      Can you find the trend for <strong>Santa</strong> emoji?
+                      <br /><small
+                        >Hint: Select the Santa emoji 🎅 from above and observe
+                        the peaks!</small
+                      >
+                    </p>
+                    <button
+                      class="reveal-btn"
+                      data-id="santa"
+                      data-container="spotlight-chart-santa"
+                    >
+                      Reveal Answer
+                    </button>
+                  </div>
+
+                  <div
+                    class="spotlight-reveal-wrapper hidden-spotlight-content"
+                  >
+                    <div
+                      id="spotlight-chart-santa"
+                      class="spotlight-chart"
+                    ></div>
+                    <div class="spotlight-content placeholder-content">
+                      <p>
+                        For the santa emoji, we see that there’s a peak every
+                        year in December, while the usage remains low during the
+                        rest of the year. This trend reflects the time period of
+                        the holiday accurately, as Christmas occurs on December
+                        25th, which is the month when the usage peaks.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rainbow -->
+              <div class="carousel-slide">
+                <div class="spotlight-block">
+                  <h3>Rainbow 🌈</h3>
+
+                  <div class="spotlight-interaction">
+                    <p class="spotlight-prompt">
+                      Why were there two peaks for
+                      <strong>Rainbow</strong> usage? <br /><small
+                        >Hint: Select the rainbow emoji 🌈 from above and check
+                        out the two peaks.</small
+                      >
+                    </p>
+                    <button
+                      class="reveal-btn"
+                      data-id="rainbow"
+                      data-container="spotlight-chart-rainbow"
+                    >
+                      Reveal Answer
+                    </button>
+                  </div>
+
+                  <div
+                    class="spotlight-reveal-wrapper hidden-spotlight-content"
+                  >
+                    <div
+                      id="spotlight-chart-rainbow"
+                      class="spotlight-chart"
+                    ></div>
+                    <div class="spotlight-content placeholder-content">
+                      <p>
+                        We see that there are several peaks of rainbow usage
+                        across the years, with the highest peaks in June 2015
+                        and 2019. It’s interesting to note that there are
+                        several lower peaks in June every year due to pride
+                        month. However, the usage peaks in June 2015 due to the
+                        legalization of same-sex marriage nationwide in the
+                        United States by the U.S. Supreme Court. This indicates
+                        that people might be tweeting to celebrate using the
+                        rainbow emoji. The other peak in June 2019 might be due
+                        the 50th anniversary of the Stonewall Uprising, a
+                        historical event that sparked the modern LGBTQ+ rights
+                        movement.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Snake -->
+              <div class="carousel-slide">
+                <div class="spotlight-block">
+                  <h3>Snake 🐍</h3>
+
+                  <div class="spotlight-interaction">
+                    <p class="spotlight-prompt">
+                      Find the <strong>Snake</strong> emoji trend. <br /><small
+                        >Hint: Look for a massive spike in 2016. To dive
+                        further, use the time granularity button to see which
+                        month it occurred. Try overlapping it with the
+                        basketball emoji 🏀.</small
+                      >
+                    </p>
+                    <button
+                      class="reveal-btn"
+                      data-id="snake"
+                      data-container="spotlight-chart-snake"
+                    >
+                      Reveal Answer
+                    </button>
+                  </div>
+
+                  <div
+                    class="spotlight-reveal-wrapper hidden-spotlight-content"
+                  >
+                    <div
+                      id="spotlight-chart-snake"
+                      class="spotlight-chart"
+                    ></div>
+                    <div class="spotlight-content placeholder-content">
+                      <p>
+                        Looking at the usage of snake emoji, we see that there’s
+                        a peak in 2016. To investigate further, we narrowed down
+                        the timeline to the months in 2016, observing another
+                        peak on April 14, 2016 where the snake emoji was used
+                        59862 times on Twitter. It was because Kobe Bryant’s
+                        last game was on April 13, 2016, where he scored 60
+                        points in the Lakers against the Utah Jazz. In response
+                        to such incredible performance in his final game, the
+                        fans posted 🐍 #MambaDay on Twitter to commemorate this
+                        game and Kobe Bryant (whose nickname is Black Mamba).
+                        Interestingly, if we include basketball emoji in this
+                        visualization, we see that the peak of the basketball
+                        and snake emoji almost aligned.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Graduation Cap -->
+              <div class="carousel-slide">
+                <div class="spotlight-block">
+                  <h3>Graduation Cap 🎓</h3>
+
+                  <div class="spotlight-interaction">
+                    <p class="spotlight-prompt">
+                      Does <strong>Graduation Cap</strong> usage stay consistent
+                      every year? <br /><small
+                        >Hint: Select the graduation cap emoji 🎓 from above and
+                        observe the trends over years.</small
+                      >
+                    </p>
+                    <button
+                      class="reveal-btn"
+                      data-id="graduation_cap"
+                      data-container="spotlight-chart-graduation-cap"
+                    >
+                      Reveal Answer
+                    </button>
+                  </div>
+
+                  <div
+                    class="spotlight-reveal-wrapper hidden-spotlight-content"
+                  >
+                    <div
+                      id="spotlight-chart-graduation-cap"
+                      class="spotlight-chart"
+                    ></div>
+                    <div class="spotlight-content placeholder-content">
+                      <p>
+                        There are several peaks across the years for the usage
+                        of graduation cap emoji, where the peak always occurs
+                        around June during graduation season. However, we
+                        noticed that the usage became lower starting 2017. While
+                        we can’t say for certain, there are several hypotheses
+                        of the cause. First, due to the rise of other social
+                        media platforms, students might be posting more on other
+                        social media such as Instagram instead of Twitter.
+                        Second, the man and woman student emoji (👨🏻‍🎓 and 👩🏻‍🎓) were
+                        introduced in November 2016 as part of Emoji 4.0. While
+                        we don’t have data for these usage, we hypothesized that
+                        students might be using these emojis in conjunction with
+                        the graduation cap emoji.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-btn next-btn" id="spotlight-next">›</button>
+        </div>
+
+        <div class="carousel-dots" id="spotlight-dots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+          <span class="dot" data-index="3"></span>
+        </div>
       </div>
     </section>
 
@@ -98,7 +471,7 @@
 
       <div class="text-content">
         <p>
-          To understand how emojis behave across cultures and years, we first
+          To understand how emojis behave across cultures and years, we also
           need to understand their emotional DNA. What feelings does each emoji
           tend to convey, and how strongly?
         </p>
@@ -256,203 +629,50 @@
             <div id="country-chart-b" class="country-chart"></div>
           </div>
         </div>
-
-        <div class="text-content">
-          <p>Here are a few broad themes that consistently emerge:</p>
-
-          <h3>Some emojis are globally dominant, but not equally</h3>
-          <p>
-            The 😂 appears in almost every country’s top-20 list, but its
-            magnitude varies. In the U.S., 😂 and ❤️ tower above other emojis,
-            reflecting humor/affection-driven emoji culture. Meanwhile, in
-            Japan, while 😂 is still present in the top 20, it is far less
-            dominant. There is more of an emphasis on softer, cute emojis like
-            🥰 🥺 ✨.
-          </p>
-
-          <h3>Some countries show unusually high emotional expressiveness</h3>
-          <p>
-            The Philippines stands out with high usage of 😭 ❤️ 🥰 🥺, speaking
-            to a very warm, affectionate, and emotionally intense digital
-            communication – aligning with the high-engagement and vibrant
-            Filipino social media culture. This draws a comparison to the U.S.,
-            where high usage of 😂 😭 💀 leans more towards sarcasm and irony.
-          </p>
-
-          <h3>Cultural signatures in emoji expression</h3>
-          <ul>
-            <li>
-              East Asian countries use more “cute” or stylized emotional symbols
-            </li>
-            <li>
-              South Asian and Latin American regions lean toward warmth and
-              sincerity
-            </li>
-            <li>
-              Western countries emphasize humor, irony, and sometimes
-              exaggeration.
-            </li>
-          </ul>
-          <p>
-            Geographic differences reveal how cultures express emotion
-            differently, but geography alone can’t capture how these expressions
-            change. Emojis evolve quickly, shaped by shifting norms, memes, and
-            global events. To understand this evolution, we turn to time and
-            trace how individual emojis rise, peak, and fade.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Trends View -->
-    <section id="view-trends" class="section">
-      <div class="ranking-header">
-        <h2>Emoji Trends on Twitter Over Time</h2>
-        <p>Trace how individual emojis rise, peak, and fade over the years.</p>
       </div>
 
       <div class="text-content">
+        <p>Here are a few broad themes that consistently emerge:</p>
+
+        <h3>Some emojis are globally dominant, but not equally</h3>
         <p>
-          We were curious about the usage of emoji on Twitter, specifically how
-          time influences people’s usage of certain emotions. Due to Twitter’s
-          current restriction, we were only able to find old data from this
-          dataset for 50 emojis. However, we do see interesting trends for
-          different emojis based on various events. <br /><br />Before diving
-          into the analysis, feel free to explore some trends on your own!
+          The 😂 appears in almost every country’s top-20 list, but its
+          magnitude varies. In the U.S., 😂 and ❤️ tower above other emojis,
+          reflecting humor/affection-driven emoji culture. Meanwhile, in Japan,
+          while 😂 is still present in the top 20, it is far less dominant.
+          There is more of an emphasis on softer, cute emojis like 🥰 🥺 ✨.
         </p>
-      </div>
 
-      <div class="controls-container">
-        <div class="control-group">
-          <label for="emoji-selector">Choose your emojis to compare:</label>
-          <select id="emoji-selector" multiple="multiple" style="width: 100%">
-            <!-- Options populated by JS -->
-          </select>
-        </div>
-        <div class="control-group" style="flex: 0 0 auto">
-          <label>Time Granularity:</label>
-          <div class="granularity-controls">
-            <button class="btn-pill active" data-granularity="month">
-              Monthly
-            </button>
-            <button class="btn-pill" data-granularity="year">Yearly</button>
-          </div>
-          <div
-            id="time-filters"
-            class="time-filters"
-            style="margin-top: 1rem; display: flex; gap: 10px"
-          >
-            <select id="year-filter" class="custom-select">
-              <option value="all">All Years</option>
-            </select>
-          </div>
-        </div>
-        <div class="button-group">
-          <button id="clear-btn" class="btn btn-secondary">Clear</button>
-        </div>
-      </div>
+        <h3>Some countries show unusually high emotional expressiveness</h3>
+        <p>
+          The Philippines stands out with high usage of 😭 ❤️ 🥰 🥺, speaking to
+          a very warm, affectionate, and emotionally intense digital
+          communication – aligning with the high-engagement and vibrant Filipino
+          social media culture. This draws a comparison to the U.S., where high
+          usage of 😂 😭 💀 leans more towards sarcasm and irony.
+        </p>
 
-      <div id="chart-container" class="chart-container">
-        <div class="chart-header">
-          <h2 id="chart-title">Select emojis to start! ✨</h2>
-          <div id="selected-emojis-display" class="selected-emojis"></div>
-        </div>
-        <div id="visualization"></div>
-        <div id="placeholder" class="placeholder-text">
-          <span class="placeholder-emoji">👆</span>
-          <p>
-            Pick some emojis from the menu above<br />to see their popularity
-            over time!
-          </p>
-        </div>
-      </div>
-
-      <!-- Spotlight Analysis Section -->
-      <div id="spotlight-analysis" class="spotlight-section">
-        <div class="ranking-header">
-          <h2>Spotlight Analysis</h2>
-          <p>Deep dive into specific emoji trends</p>
-        </div>
-
-        <!-- Santa -->
-        <div class="spotlight-block">
-          <h3>Santa 🎅</h3>
-          <div id="spotlight-chart-santa" class="spotlight-chart"></div>
-          <div class="spotlight-content placeholder-content">
-            <p>
-              For the santa emoji, we see that there’s a peak every year in
-              December, while the usage remains low during the rest of the year.
-              This trend reflects the time period of the holiday accurately, as
-              Christmas occurs on December 25th, which is the month when the
-              usage peaks.
-            </p>
-          </div>
-        </div>
-
-        <!-- Rainbow -->
-        <div class="spotlight-block">
-          <h3>Rainbow 🌈</h3>
-          <div id="spotlight-chart-rainbow" class="spotlight-chart"></div>
-          <div class="spotlight-content placeholder-content">
-            <p>
-              We see that there are several peaks of rainbow usage across the
-              years, with the highest peaks in June 2015 and 2019. It’s
-              interesting to note that there are several lower peaks in June
-              every year due to pride month. However, the usage peaks in June
-              2015 due to the legalization of same-sex marriage nationwide in
-              the United States by the U.S. Supreme Court. This indicates that
-              people might be tweeting to celebrate using the rainbow emoji. The
-              other peak in June 2019 might be due the 50th anniversary of the
-              Stonewall Uprising, a historical vent that sparked the modern
-              LGBTQ+ rights movement.
-            </p>
-          </div>
-        </div>
-
-        <!-- Snake -->
-        <div class="spotlight-block">
-          <h3>Snake 🐍</h3>
-          <div id="spotlight-chart-snake" class="spotlight-chart"></div>
-          <div class="spotlight-content placeholder-content">
-            <p>
-              Looking at the usage of snake emoji, we see that there’s a peak in
-              2016. To investigate further, we narrowed down the timeline to the
-              months in 2016, observing another peak on April 14, 2016 where the
-              snake emoji was used 59862 times on Twitter. It was because Kobe
-              Bryant’s last game was on April 13, 2016, where he scored 60
-              points in the Lakers against the Utah Jazz. In response to such
-              incredible performance in his final game, the fans posted
-              🐍 #MambaDay on Twitter to commemorate this game and Kobe Bryant
-              (whose nickname is Black Mamba). Interestingly, if we include
-              basketball emoji in this visualization, we see that the peak of
-              the basketball and snake emoji almost aligned.
-            </p>
-          </div>
-        </div>
-
-        <!-- Graduation Cap -->
-        <div class="spotlight-block">
-          <h3>Graduation Cap 🎓</h3>
-          <div
-            id="spotlight-chart-graduation-cap"
-            class="spotlight-chart"
-          ></div>
-          <div class="spotlight-content placeholder-content">
-            <p>
-              There are several peaks across the years for the usage of
-              graduation cap emoji, where the peak always occurs around June
-              during graduation season. However, we noticed that the usage
-              became lower starting 2017. While we can’t say for certain, there
-              are several hypotheses of the cause. First, due to the rise of
-              other social media platforms, students might be posting more on
-              other social media such as Instagram instead of Twitter. Second,
-              the man and woman student emoji (👨🏻‍🎓 and 👩🏻‍🎓) were introduced in
-              November 2016 as part of Emoji 4.0. While we don’t have data for
-              these usage, we hypothesized that students might be using these
-              emojis in conjunction with the graduation cap emoji.
-            </p>
-          </div>
-        </div>
+        <h3>Cultural signatures in emoji expression</h3>
+        <ul>
+          <li>
+            East Asian countries use more “cute” or stylized emotional symbols
+          </li>
+          <li>
+            South Asian and Latin American regions lean toward warmth and
+            sincerity
+          </li>
+          <li>
+            Western countries emphasize humor, irony, and sometimes
+            exaggeration.
+          </li>
+        </ul>
+        <p>
+          Geographic differences reveal how cultures express emotion
+          differently, but geography alone can’t capture how these expressions
+          change. Emojis evolve quickly, shaped by shifting norms, memes, and
+          global events. To understand this evolution, we turn to time and trace
+          how individual emojis rise, peak, and fade.
+        </p>
       </div>
     </section>
 
@@ -555,6 +775,7 @@
     <script src="js/data-loader.js"></script>
     <script src="js/visualizations.js"></script>
     <script src="js/sentiment.js"></script>
+    <script src="js/timeline.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

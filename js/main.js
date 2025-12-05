@@ -16,6 +16,17 @@ const App = {
   currentCategoryFilter: "all",
   itemsToShow: 300, // Pagination state
 
+  // Spotlight Configuration
+  spotlightConfig: {
+    santa: { title: "Santa" },
+    rainbow: { title: "Rainbow" },
+    snake: { title: "Snake" },
+    graduation_cap: { title: "Graduation Cap" },
+  },
+
+  // Spotlight State
+  currentSpotlightIndex: 0,
+
   /**
    * Initialize the application
    */
@@ -114,59 +125,189 @@ const App = {
     // Initialize Country View
     this.initCountryView();
 
-    // Initialize Spotlight Charts
+    // Initialize Spotlight Charts (Now empty/lazy)
     this.initSpotlightCharts();
+
+    // Initialize Spotlight Carousel
+    this.initSpotlightCarousel();
+
+    // Initialize Spotlight Interaction
+    this.initSpotlightInteraction();
+
+    // Initialize Timeline
+    if (typeof Timeline !== 'undefined') {
+      Timeline.init();
+    }
+
+    // Window resize handler for carousel height
+    $(window).on("resize", () => this.updateSpotlightHeight());
   },
 
   /**
-   * Initialize Spotlight Charts
+   * Initialize Spotlight Interaction (Reveal Analysis)
    */
-  async initSpotlightCharts() {
-    const spotlights = [
-      { id: "santa", container: "#spotlight-chart-santa", title: "Santa" },
+  initSpotlightInteraction() {
+    $(document).on("click", ".reveal-btn", (e) => {
+      const btn = $(e.currentTarget);
+      const interactionDiv = btn.closest(".spotlight-interaction");
+      const block = btn.closest(".spotlight-block");
+      const wrapper = block.find(".spotlight-reveal-wrapper");
+
+      // Hide interaction prompt
+      interactionDiv.fadeOut();
+
+      // Show wrapper with animation, then render chart
+      wrapper
+        .hide()
+        .removeClass("hidden-spotlight-content")
+        .fadeIn(400, () => {
+          // Render chart after element is visible and has dimensions
+          const id = btn.data("id");
+          const containerId = btn.data("container");
+          const container = document.getElementById(containerId);
+
+          // Only render if empty to avoid duplicates
+          if (container && container.innerHTML.trim() === "") {
+            this.renderSpotlightChart(id, containerId);
+          }
+
+          // Update height immediately after content becomes visible
+          this.updateSpotlightHeight();
+        });
+
+      // Also update height periodically during fade or immediately to catch start
+      setTimeout(() => this.updateSpotlightHeight(), 50);
+    });
+  },
+
+  /**
+   * Render a specific spotlight chart
+   */
+  async renderSpotlightChart(id, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '<div class="loading-spinner">Loading chart...</div>';
+    this.updateSpotlightHeight(); // Update for spinner
+
+    const config = this.spotlightConfig[id];
+    if (!config) return;
+
+    const rawData = await DataLoader.loadEmojiTimeSeries(id);
+    if (!rawData || rawData.length === 0) {
+      container.innerHTML =
+        '<p style="text-align:center; padding: 20px;">Data not available</p>';
+      this.updateSpotlightHeight();
+      return;
+    }
+
+    // Aggregate by month for better trend visibility in spotlight
+    const aggregatedData = DataLoader.aggregateData(rawData, "month");
+
+    const chartData = [
       {
-        id: "rainbow",
-        container: "#spotlight-chart-rainbow",
-        title: "Rainbow",
-      },
-      { id: "snake", container: "#spotlight-chart-snake", title: "Snake" },
-      {
-        id: "graduation_cap",
-        container: "#spotlight-chart-graduation-cap",
-        title: "Graduation Cap",
+        name: config.title,
+        emojiChar: DataLoader.getEmojiChar(id),
+        values: aggregatedData,
       },
     ];
 
-    for (const item of spotlights) {
-      const container = document.querySelector(item.container);
-      if (!container) continue;
+    // Clear spinner
+    container.innerHTML = "";
 
-      const rawData = await DataLoader.loadEmojiTimeSeries(item.id);
-      if (!rawData || rawData.length === 0) {
-        container.innerHTML =
-          '<p style="text-align:center; padding: 20px;">Data not available</p>';
-        continue;
-      }
+    Visualizations.createTimeSeriesChart("#" + containerId, chartData, {
+      width: container.clientWidth,
+      height: 400,
+      granularity: "month",
+      context: { year: "all" },
+      colors: ["#ff6b6b"], // Use primary color
+    });
 
-      // Aggregate by month for better trend visibility in spotlight
-      const aggregatedData = DataLoader.aggregateData(rawData, "month");
+    // Final height update after chart render
+    this.updateSpotlightHeight();
+  },
 
-      const chartData = [
-        {
-          name: item.title,
-          emojiChar: DataLoader.getEmojiChar(item.id),
-          values: aggregatedData,
-        },
-      ];
+  /**
+   * Initialize Spotlight Carousel
+   */
+  initSpotlightCarousel() {
+    const track = document.getElementById("spotlight-track");
+    const prevBtn = document.getElementById("spotlight-prev");
+    const nextBtn = document.getElementById("spotlight-next");
 
-      Visualizations.createTimeSeriesChart(item.container, chartData, {
-        width: container.clientWidth,
-        height: 400,
-        granularity: "month",
-        context: { year: "all" },
-        colors: ["#ff6b6b"], // Use primary color
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const slides = track.children;
+    const totalSlides = slides.length;
+    const dots = document.querySelectorAll("#spotlight-dots .dot");
+
+    // Initial height set
+    // Use setTimeout to ensure layout is stable
+    setTimeout(() => this.updateSpotlightHeight(), 100);
+
+    const updateCarousel = () => {
+      const translateX = -(this.currentSpotlightIndex * 100);
+      track.style.transform = `translateX(${translateX}%)`;
+
+      // Update dots
+      dots.forEach((dot, index) => {
+        if (index === this.currentSpotlightIndex) dot.classList.add("active");
+        else dot.classList.remove("active");
       });
+
+      // Update container height for current slide
+      this.updateSpotlightHeight();
+    };
+
+    nextBtn.addEventListener("click", () => {
+      this.currentSpotlightIndex =
+        (this.currentSpotlightIndex + 1) % totalSlides;
+      updateCarousel();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      this.currentSpotlightIndex =
+        (this.currentSpotlightIndex - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    });
+
+    // Dot navigation
+    dots.forEach((dot) => {
+      dot.addEventListener("click", (e) => {
+        const index = parseInt(e.target.dataset.index);
+        if (!isNaN(index)) {
+          this.currentSpotlightIndex = index;
+          updateCarousel();
+        }
+      });
+    });
+  },
+
+  /**
+   * Dynamically update the carousel container height to match active slide
+   */
+  updateSpotlightHeight() {
+    const track = document.getElementById("spotlight-track");
+    if (!track) return;
+
+    const container = track.parentElement; // .carousel-container
+    const slides = track.children;
+    const activeSlide = slides[this.currentSpotlightIndex];
+
+    if (activeSlide && container) {
+      const height = activeSlide.offsetHeight;
+      if (height > 0) {
+        container.style.height = `${height}px`;
+      }
     }
+  },
+
+  /**
+   * Initialize Spotlight Charts - Deprecated/Lazy
+   * Now handled by renderSpotlightChart on demand
+   */
+  async initSpotlightCharts() {
+    // No-op: Charts are rendered when user clicks "Reveal"
   },
 
   /**
@@ -178,17 +319,33 @@ const App = {
 
     // Initial Load
     await Promise.all([
-      this.loadAndRenderCountry(selectorA.val(), "country-chart-a", "title-country-a"),
-      this.loadAndRenderCountry(selectorB.val(), "country-chart-b", "title-country-b"),
+      this.loadAndRenderCountry(
+        selectorA.val(),
+        "country-chart-a",
+        "title-country-a"
+      ),
+      this.loadAndRenderCountry(
+        selectorB.val(),
+        "country-chart-b",
+        "title-country-b"
+      ),
     ]);
 
     // Listeners
     selectorA.on("change", async (e) => {
-      await this.loadAndRenderCountry(e.target.value, "country-chart-a", "title-country-a");
+      await this.loadAndRenderCountry(
+        e.target.value,
+        "country-chart-a",
+        "title-country-a"
+      );
     });
 
     selectorB.on("change", async (e) => {
-      await this.loadAndRenderCountry(e.target.value, "country-chart-b", "title-country-b");
+      await this.loadAndRenderCountry(
+        e.target.value,
+        "country-chart-b",
+        "title-country-b"
+      );
     });
   },
 
@@ -198,20 +355,34 @@ const App = {
     if (!container) return;
 
     container.innerHTML = '<div class="loading-spinner">Loading...</div>';
-    
+
     // Flag mapping
     const flags = {
-      US: "🇺🇸", AU: "🇦🇺", BR: "🇧🇷", DE: "🇩🇪", FR: "🇫🇷", 
-      GB: "🇬🇧", IN: "🇮🇳", JP: "🇯🇵", PH: "🇵🇭"
-    };
-    
-    // Full name mapping
-    const names = {
-      US: "United States", AU: "Australia", BR: "Brazil", DE: "Germany", FR: "France",
-      GB: "Great Britain", IN: "India", JP: "Japan", PH: "Philippines"
+      US: "🇺🇸",
+      AU: "🇦🇺",
+      BR: "🇧🇷",
+      DE: "🇩🇪",
+      FR: "🇫🇷",
+      GB: "🇬🇧",
+      IN: "🇮🇳",
+      JP: "🇯🇵",
+      PH: "🇵🇭",
     };
 
-    if(title) {
+    // Full name mapping
+    const names = {
+      US: "United States",
+      AU: "Australia",
+      BR: "Brazil",
+      DE: "Germany",
+      FR: "France",
+      GB: "Great Britain",
+      IN: "India",
+      JP: "Japan",
+      PH: "Philippines",
+    };
+
+    if (title) {
       title.innerHTML = `Top 20 emojis in ${names[countryCode]} ${flags[countryCode]} (${countryCode})`;
     }
 
@@ -347,7 +518,6 @@ const App = {
 
     const grid = document.getElementById(this.gridContainer);
     grid.innerHTML = ""; // Clear
-
     let filtered = this.rankingsData;
 
     // Apply Category Filter
