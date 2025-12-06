@@ -5,121 +5,121 @@
 
 const DataLoader = {
   // URL for the rich emoji metadata
-  EMOJI_METADATA_URL: "https://unpkg.com/emoji-datasource@15.0.0/emoji.json",
+  EMOJI_METADATA_URL: 'https://unpkg.com/emoji-datasource@15.0.0/emoji.json',
 
   emojiMap: {
-    airplane: "✈️",
-    alien_monster: "👾",
-    american_football: "🏈",
-    angry: "😠",
-    apple: "🍎",
-    baby: "👶",
-    balloon: "🎈",
-    ballot_box_with_ballot: "🗳️",
-    banana: "🍌",
-    baseball: "⚾",
-    basketball: "🏀",
-    bear: "🐻",
-    bee: "🐝",
-    beer: "🍺",
-    bicycle: "🚲",
-    bikini: "👙",
-    bird: "🐦",
-    bomb: "💣",
-    books: "📚",
-    brazil: "🇧🇷",
-    broken: "💔",
-    cactus: "🌵",
-    calendar: "📅",
-    candy: "🍬",
-    cat: "🐱",
-    chart_decr: "📉",
-    chart_incr: "📈",
-    chequered_flag: "🏁",
-    chicken: "🐔",
-    china: "🇨🇳",
-    church: "⛪",
-    cigarette: "🚬",
-    clapper_board: "🎬",
-    cookie: "🍪",
-    cow: "🐮",
-    crocodile: "🐊",
-    dog: "🐶",
-    dragon: "🐉",
-    elephant: "🐘",
-    envelope: "✉️",
-    eritrea: "🇪🇷",
-    factory: "🏭",
-    fallen_leaf: "🍂",
-    fish: "🐟",
-    football: "⚽",
-    four_leaf_clover: "🍀",
-    france: "🇫🇷",
-    fuel: "⛽",
-    game: "🎮",
-    germany: "🇩🇪",
-    ghost: "👻",
-    graduation_cap: "🎓",
-    guitar: "🎸",
-    hong_kong: "🇭🇰",
-    horse: "🐴",
-    hourglass_done: "⌛",
-    india: "🇮🇳",
-    ireland: "🇮🇪",
-    itlay: "🇮🇹",
-    japan: "🇯🇵",
-    kitchen_knife: "🔪",
-    koala: "🐨",
-    korea: "🇰🇷",
-    lemon: "🍋",
-    light_bulb: "💡",
-    lion: "🦁",
-    mens_room: "🚹",
-    money: "💰",
-    mouse: "🐭",
-    movie_camera: "🎥",
-    musical_note: "🎵",
-    palestinian_territories: "🇵🇸",
-    panda: "🐼",
-    pear: "🍐",
-    penguin: "🐧",
-    pig: "🐷",
-    pile_of_poo: "💩",
-    pistol: "🔫",
-    pizza: "🍕",
-    rabbit: "🐰",
-    rainbow: "🌈",
-    recycle: "♻️",
-    reminder_ribbon: "🎗️",
-    ring: "💍",
-    rocket: "🚀",
-    rose: "🌹",
-    santa: "🎅",
-    scissors: "✂️",
-    shooting_star: "🌠",
-    skis: "🎿",
-    snail: "🐌",
-    snake: "🐍",
-    snowboarder: "🏂",
-    snowflake: "❄️",
-    soft_ice_cream: "🍦",
-    spain: "🇪🇸",
-    syria: "🇸🇾",
-    syringe: "💉",
-    toilet: "🚽",
-    tomato: "🍅",
-    top_hat: "🎩",
-    tree: "🌳",
-    trophy: "🏆",
-    turtle: "🐢",
-    uk: "🇬🇧",
-    unicorn: "🦄",
-    us: "🇺🇸",
-    violin: "🎻",
-    watermelon: "🍉",
-    wheelchair_symbol: "♿",
-    womens_room: "🚺",
-    wrapped_gift: "🎁",
+    airplane: '✈️',
+    alien_monster: '👾',
+    american_football: '🏈',
+    angry: '😠',
+    apple: '🍎',
+    baby: '👶',
+    balloon: '🎈',
+    ballot_box_with_ballot: '🗳️',
+    banana: '🍌',
+    baseball: '⚾',
+    basketball: '🏀',
+    bear: '🐻',
+    bee: '🐝',
+    beer: '🍺',
+    bicycle: '🚲',
+    bikini: '👙',
+    bird: '🐦',
+    bomb: '💣',
+    books: '📚',
+    brazil: '🇧🇷',
+    broken: '💔',
+    cactus: '🌵',
+    calendar: '📅',
+    candy: '🍬',
+    cat: '🐱',
+    chart_decr: '📉',
+    chart_incr: '📈',
+    chequered_flag: '🏁',
+    chicken: '🐔',
+    china: '🇨🇳',
+    church: '⛪',
+    cigarette: '🚬',
+    clapper_board: '🎬',
+    cookie: '🍪',
+    cow: '🐮',
+    crocodile: '🐊',
+    dog: '🐶',
+    dragon: '🐉',
+    elephant: '🐘',
+    envelope: '✉️',
+    eritrea: '🇪🇷',
+    factory: '🏭',
+    fallen_leaf: '🍂',
+    fish: '🐟',
+    football: '⚽',
+    four_leaf_clover: '🍀',
+    france: '🇫🇷',
+    fuel: '⛽',
+    game: '🎮',
+    germany: '🇩🇪',
+    ghost: '👻',
+    graduation_cap: '🎓',
+    guitar: '🎸',
+    hong_kong: '🇭🇰',
+    horse: '🐴',
+    hourglass_done: '⌛',
+    india: '🇮🇳',
+    ireland: '🇮🇪',
+    itlay: '🇮🇹',
+    japan: '🇯🇵',
+    kitchen_knife: '🔪',
+    koala: '🐨',
+    korea: '🇰🇷',
+    lemon: '🍋',
+    light_bulb: '💡',
+    lion: '🦁',
+    mens_room: '🚹',
+    money: '💰',
+    mouse: '🐭',
+    movie_camera: '🎥',
+    musical_note: '🎵',
+    palestinian_territories: '🇵🇸',
+    panda: '🐼',
+    pear: '🍐',
+    penguin: '🐧',
+    pig: '🐷',
+    pile_of_poo: '💩',
+    pistol: '🔫',
+    pizza: '🍕',
+    rabbit: '🐰',
+    rainbow: '🌈',
+    recycle: '♻️',
+    reminder_ribbon: '🎗️',
+    ring: '💍',
+    rocket: '🚀',
+    rose: '🌹',
+    santa: '🎅',
+    scissors: '✂️',
+    shooting_star: '🌠',
+    skis: '🎿',
+    snail: '🐌',
+    snake: '🐍',
+    snowboarder: '🏂',
+    snowflake: '❄️',
+    soft_ice_cream: '🍦',
+    spain: '🇪🇸',
+    syria: '🇸🇾',
+    syringe: '💉',
+    toilet: '🚽',
+    tomato: '🍅',
+    top_hat: '🎩',
+    tree: '🌳',
+    trophy: '🏆',
+    turtle: '🐢',
+    uk: '🇬🇧',
+    unicorn: '🦄',
+    us: '🇺🇸',
+    violin: '🎻',
+    watermelon: '🍉',
+    wheelchair_symbol: '♿',
+    womens_room: '🚺',
+    wrapped_gift: '🎁',
   },
 
   // Cache for the fetched metadata
@@ -135,7 +135,7 @@ const DataLoader = {
    * Get the unicode character for an emoji slug
    */
   getEmojiChar(slug) {
-    return this.emojiMap[slug] || "❓";
+    return this.emojiMap[slug] || '❓';
   },
 
   /**
@@ -146,35 +146,38 @@ const DataLoader = {
       // Path to the CSV files
       // Ensure the directory structure matches exactly: data/Emoji by country csvs/
       const path = `data/Emoji by country csvs/emojitracker_${countryCode}.csv`;
-      
+
       // d3.csv handles spaces in paths, but explicit encoding is safer if issues arise.
       // However, d3 v7 usually works fine with simple paths.
       // Let's try fetching raw text first if d3.csv fails, or just stick to d3.csv and catch error.
-      
+
       const data = await d3.csv(path);
-      
+
       // Parse "value" column which contains commas: "5,411,438"
       return data
         .map((d) => ({
           emoji: d.code, // The CSV has "code" header for emoji char
-          occurrences: +d.value.replace(/,/g, ""), // Remove commas and convert to number
+          occurrences: +d.value.replace(/,/g, ''), // Remove commas and convert to number
         }))
         .sort((a, b) => b.occurrences - a.occurrences);
     } catch (error) {
-      console.error(`Error loading data for ${countryCode} from path: data/Emoji by country csvs/emojitracker_${countryCode}.csv`, error);
+      console.error(
+        `Error loading data for ${countryCode} from path: data/Emoji by country csvs/emojitracker_${countryCode}.csv`,
+        error
+      );
       // Fallback: try to fetch with encoded path just in case
       try {
-         const encodedPath = `data/Emoji%20by%20country%20csvs/emojitracker_${countryCode}.csv`;
-         const data = await d3.csv(encodedPath);
-         return data
+        const encodedPath = `data/Emoji%20by%20country%20csvs/emojitracker_${countryCode}.csv`;
+        const data = await d3.csv(encodedPath);
+        return data
           .map((d) => ({
             emoji: d.code,
-            occurrences: +d.value.replace(/,/g, ""),
+            occurrences: +d.value.replace(/,/g, ''),
           }))
           .sort((a, b) => b.occurrences - a.occurrences);
       } catch (fallbackError) {
-         console.error("Fallback loading also failed:", fallbackError);
-         return [];
+        console.error('Fallback loading also failed:', fallbackError);
+        return [];
       }
     }
   },
@@ -184,7 +187,7 @@ const DataLoader = {
    */
   unifiedToChar(unified) {
     return String.fromCodePoint(
-      ...unified.split("-").map((u) => parseInt(u, 16))
+      ...unified.split('-').map((u) => parseInt(u, 16))
     );
   },
 
@@ -227,9 +230,9 @@ const DataLoader = {
 
       // 1. Fetch Metadata if not cached
       if (!this.metadataCache) {
-        console.log("Fetching external emoji metadata...");
+        console.log('Fetching external emoji metadata...');
         const response = await fetch(this.EMOJI_METADATA_URL);
-        if (!response.ok) throw new Error("Failed to load emoji metadata");
+        if (!response.ok) throw new Error('Failed to load emoji metadata');
         this.metadataCache = await response.json();
       }
 
@@ -265,13 +268,13 @@ const DataLoader = {
           id: meta.short_name, // Use short_name as ID
           localId: localSlug, // Keep track if it maps to our local CSVs
           name: (() => {
-            const raw = meta.name || meta.short_name.replace(/_/g, " ");
+            const raw = meta.name || meta.short_name.replace(/_/g, ' ');
             return raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
           })(),
           char: char,
           unified: meta.unified,
           score: score,
-          category: meta.category || "Unknown",
+          category: meta.category || 'Unknown',
           subcategory: meta.subcategory || null,
           sort_order: meta.sort_order || 99999,
           variations:
@@ -290,7 +293,7 @@ const DataLoader = {
 
       return this.fullEmojiListCache;
     } catch (error) {
-      console.error("Error fetching full emoji list:", error);
+      console.error('Error fetching full emoji list:', error);
       return [];
     }
   },
@@ -310,7 +313,7 @@ const DataLoader = {
     // Format variations into readable chars
     const variations = emoji.variations.map((v) => ({
       char: this.unifiedToChar(v.unified),
-      name: "Skin Tone", // Simplified
+      name: 'Skin Tone', // Simplified
       unified: v.unified, // Needed for images
     }));
 
@@ -318,24 +321,24 @@ const DataLoader = {
     const platforms = [];
     if (emoji.has_img_apple)
       platforms.push({
-        name: "Apple",
-        url: this.getPlatformImageUrl(emoji.unified, "apple"),
+        name: 'Apple',
+        url: this.getPlatformImageUrl(emoji.unified, 'apple'),
       });
     if (emoji.has_img_google)
       platforms.push({
-        name: "Google",
-        url: this.getPlatformImageUrl(emoji.unified, "google"),
+        name: 'Google',
+        url: this.getPlatformImageUrl(emoji.unified, 'google'),
       });
     if (emoji.has_img_twitter)
       platforms.push({
-        name: "Twitter",
-        url: this.getPlatformImageUrl(emoji.unified, "twitter"),
+        name: 'Twitter',
+        url: this.getPlatformImageUrl(emoji.unified, 'twitter'),
       });
     // Facebook often has issues or missing images in some CDN versions, but we add it if marked available
     if (emoji.has_img_facebook)
       platforms.push({
-        name: "Facebook",
-        url: this.getPlatformImageUrl(emoji.unified, "facebook"),
+        name: 'Facebook',
+        url: this.getPlatformImageUrl(emoji.unified, 'facebook'),
       });
 
     // Mock tweets/stats
@@ -343,7 +346,7 @@ const DataLoader = {
     if (emoji.score > 0) {
       recentTweets = [
         {
-          screen_name: "Dataset Stats",
+          screen_name: 'Dataset Stats',
           text: `Total Usage: ${emoji.score.toLocaleString()}`,
         },
       ];
@@ -354,15 +357,15 @@ const DataLoader = {
       char: emoji.char,
       name: emoji.name,
       score: emoji.score,
-      popularity_rank: emoji.score > 0 ? "Top 50" : "General Library",
+      popularity_rank: emoji.score > 0 ? 'Top 50' : 'General Library',
       category: emoji.category,
       description: emoji.name,
       variations: variations,
       platforms: platforms, // New field for platform images
       recent_tweets: recentTweets,
       // Add technical details
-      unicode: "U+" + emoji.unified,
-      short_name: ":" + emoji.id + ":",
+      unicode: 'U+' + emoji.unified,
+      short_name: ':' + emoji.id + ':',
     };
   },
 
@@ -370,7 +373,7 @@ const DataLoader = {
    * Process time series data
    */
   processTimeSeriesData(data, emojiName) {
-    const parseDate = d3.timeParse("%Y-%m-%d");
+    const parseDate = d3.timeParse('%Y-%m-%d');
     const emojiChar = this.getEmojiChar(emojiName);
 
     return data
@@ -387,16 +390,16 @@ const DataLoader = {
    * Aggregate data by time granularity
    */
   aggregateData(data, granularity) {
-    if (granularity === "day") return data;
+    if (granularity === 'day') return data;
 
     const grouped = d3.group(data, (d) => {
       const date = new Date(d.date);
       switch (granularity) {
-        case "month":
+        case 'month':
           return new Date(date.getFullYear(), date.getMonth(), 1);
-        case "year":
+        case 'year':
           return new Date(date.getFullYear(), 0, 1);
-        case "week":
+        case 'week':
           const day = date.getDay();
           const diff = date.getDate() - day;
           return new Date(date.setDate(diff));
