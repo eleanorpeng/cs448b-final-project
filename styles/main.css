@@ -96,11 +96,12 @@ h3,
   position: relative;
   z-index: 5;
   margin-bottom: 4rem;
+  padding-top: 100px;
 }
 
 .phone-sticky-container {
   position: sticky;
-  top: 40px;
+  top: 100px;
   height: 80vh;
   display: flex;
   justify-content: center;
