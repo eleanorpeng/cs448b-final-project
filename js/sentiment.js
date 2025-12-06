@@ -10,13 +10,8 @@ const SentimentApp = {
   init() {
     console.log("Initializing Sentiment Visualization...");
 
-    // Initialize Select2 for sentiment controls
+    // Initialize Select2 for sentiment filter only
     $("#sentiment-filter").select2({
-      minimumResultsForSearch: Infinity,
-      width: "200px",
-    });
-
-    $("#sentiment-sort-by").select2({
       minimumResultsForSearch: Infinity,
       width: "200px",
     });
@@ -44,7 +39,8 @@ const SentimentApp = {
             sentimentScore:
               (+d.Positive - +d.Negative) /
               (+d.Positive + +d.Neutral + +d.Negative),
-          }));
+          }))
+          .filter((d) => d.occurrences > 0); // Filter out zero occurrences
 
         console.log(
           "Sentiment CSV loaded successfully!",
@@ -139,10 +135,11 @@ const SentimentApp = {
       this.vizElements;
 
     const sentimentFilter = document.getElementById("sentiment-filter").value;
-    const minOccurrences = +document.getElementById("sentiment-min-occurrences")
-      .value;
-    const sizeBy = document.getElementById("sentiment-sort-by").value;
+    const filterRare =
+      document.getElementById("sentiment-filter-rare")?.checked || false;
 
+    // Apply minimum occurrences filter based on checkbox
+    const minOccurrences = filterRare ? 30 : 1;
     let filteredData = this.data.filter((d) => d.occurrences >= minOccurrences);
 
     if (sentimentFilter === "positive") {
@@ -184,10 +181,8 @@ const SentimentApp = {
 
     yAxisGroup.transition().duration(800).call(d3.axisLeft(yScale).ticks(8));
 
-    const sizeValue =
-      sizeBy === "occurrences"
-        ? (d) => sizeScale(d.occurrences)
-        : (d) => 15 + Math.abs(d.sentimentScore) * 25;
+    // Size based on occurrences only (removed "Size By" option)
+    const sizeValue = (d) => sizeScale(d.occurrences);
 
     // Bind data
     const circles = svg
@@ -322,15 +317,14 @@ const SentimentApp = {
   attachEventListeners() {
     // Use jQuery events to support Select2
     $("#sentiment-filter").on("change", () => this.updateVisualization());
-    $("#sentiment-sort-by").on("change", () => this.updateVisualization());
 
-    document
-      .getElementById("sentiment-min-occurrences")
-      .addEventListener("input", (e) => {
-        document.getElementById("sentiment-occurrence-value").textContent =
-          e.target.value;
-        this.updateVisualization();
-      });
+    // Checkbox event listener
+    const filterRareCheckbox = document.getElementById("sentiment-filter-rare");
+    if (filterRareCheckbox) {
+      filterRareCheckbox.addEventListener("change", () =>
+        this.updateVisualization()
+      );
+    }
   },
 };
 
