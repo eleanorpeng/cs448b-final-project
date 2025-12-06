@@ -119,6 +119,9 @@ const App = {
     // Initialize Intro Animation
     this.initIntroAnimation();
 
+    // Initialize Intro Text Animation
+    this.initIntroTextAnimation();
+
     // Load rankings immediately since it's now visible
     this.loadRankings();
 
@@ -464,6 +467,35 @@ const App = {
     window.addEventListener('scroll', handleScroll);
     // Initial call
     handleScroll();
+  },
+
+  /**
+   * Handle Intro Text Section Fade-in Animation
+   */
+  initIntroTextAnimation() {
+    const paragraphs = document.querySelectorAll('.intro-paragraph');
+
+    if (paragraphs.length === 0) return;
+
+    const observerOptions = {
+      threshold: 0.3, // Trigger when 30% of the paragraph is visible
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-text');
+          // Unobserve after animation is triggered
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe each paragraph individually for better scroll-based animation
+    paragraphs.forEach((paragraph) => {
+      observer.observe(paragraph);
+    });
   },
 
   /**
