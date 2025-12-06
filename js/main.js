@@ -7,21 +7,21 @@ const App = {
   selectedEmojis: new Set(),
   loadedData: new Map(), // Cache loaded data: emojiName -> data array
   rankingsData: null, // Cache for ALL emojis
-  chartContainer: "#visualization",
-  gridContainer: "emoji-grid",
-  currentGranularity: "month", // Default to month
+  chartContainer: '#visualization',
+  gridContainer: 'emoji-grid',
+  currentGranularity: 'month', // Default to month
   filters: {
-    year: "all",
+    year: 'all',
   },
-  currentCategoryFilter: "all",
+  currentCategoryFilter: 'all',
   itemsToShow: 300, // Pagination state
 
   // Spotlight Configuration
   spotlightConfig: {
-    santa: { title: "Santa" },
-    rainbow: { title: "Rainbow" },
-    snake: { title: "Snake" },
-    graduation_cap: { title: "Graduation Cap" },
+    santa: { title: 'Santa' },
+    rainbow: { title: 'Rainbow' },
+    snake: { title: 'Snake' },
+    graduation_cap: { title: 'Graduation Cap' },
   },
 
   // Spotlight State
@@ -31,60 +31,60 @@ const App = {
    * Initialize the application
    */
   async init() {
-    console.log("Initializing Emoji Trends Explorer...");
+    console.log('Initializing Emoji Trends Explorer...');
 
     // Populate dropdown
     this.populateDropdown();
 
     // Initialize Select2 with custom templating
-    $("#emoji-selector").select2({
-      placeholder: "🔍 Search for emojis (e.g. airplane, joy)",
+    $('#emoji-selector').select2({
+      placeholder: '🔍 Search for emojis (e.g. airplane, joy)',
       allowClear: true,
-      width: "100%",
+      width: '100%',
       templateResult: this.formatEmojiOption,
       templateSelection: this.formatEmojiSelection,
     });
 
     // Initialize Year Filter Select2
-    $("#year-filter").select2({
+    $('#year-filter').select2({
       minimumResultsForSearch: Infinity, // Hide search box for years unless many
-      width: "150px", // Fixed width or 'style'
+      width: '150px', // Fixed width or 'style'
       dropdownAutoWidth: true,
     });
 
     // Initialize Category Filter Select2
-    $("#category-filter").select2({
-      placeholder: "Filter by Category",
-      width: "250px",
+    $('#category-filter').select2({
+      placeholder: 'Filter by Category',
+      width: '250px',
       minimumResultsForSearch: 5,
     });
 
     // Initialize Country Selectors
-    $("#country-selector-a").select2({
-      width: "200px",
+    $('#country-selector-a').select2({
+      width: '200px',
       minimumResultsForSearch: Infinity,
     });
-    $("#country-selector-b").select2({
-      width: "200px",
+    $('#country-selector-b').select2({
+      width: '200px',
       minimumResultsForSearch: Infinity,
     });
 
     // Event Listeners
-    $("#emoji-selector").on("change", (e) =>
+    $('#emoji-selector').on('change', (e) =>
       this.handleSelectionChange($(e.target).val())
     );
-    $("#clear-btn").on("click", () => {
-      $("#emoji-selector").val(null).trigger("change");
+    $('#clear-btn').on('click', () => {
+      $('#emoji-selector').val(null).trigger('change');
     });
 
     // Granularity buttons
-    $(".granularity-controls .btn-pill").on("click", (e) => {
+    $('.granularity-controls .btn-pill').on('click', (e) => {
       const btn = $(e.target);
-      const granularity = btn.data("granularity");
+      const granularity = btn.data('granularity');
 
       // Update UI
-      $(".granularity-controls .btn-pill").removeClass("active");
-      btn.addClass("active");
+      $('.granularity-controls .btn-pill').removeClass('active');
+      btn.addClass('active');
 
       // Update state
       this.currentGranularity = granularity;
@@ -93,26 +93,26 @@ const App = {
     });
 
     // Filter Listeners (Select2 uses change event)
-    $("#year-filter").on("change", (e) => {
+    $('#year-filter').on('change', (e) => {
       this.filters.year = e.target.value;
       this.updateVisualizationContext();
     });
 
     // Category Filter Listener
-    $("#category-filter").on("change", (e) => {
+    $('#category-filter').on('change', (e) => {
       this.currentCategoryFilter = e.target.value;
       this.itemsToShow = 300; // Reset pagination on filter change
       this.renderFilteredGrid();
     });
 
     // Modal Close
-    $(".close-modal").on("click", () => {
-      $("#emoji-modal").fadeOut();
+    $('.close-modal').on('click', () => {
+      $('#emoji-modal').fadeOut();
     });
 
-    $(window).on("click", (e) => {
-      if ($(e.target).is("#emoji-modal")) {
-        $("#emoji-modal").fadeOut();
+    $(window).on('click', (e) => {
+      if ($(e.target).is('#emoji-modal')) {
+        $('#emoji-modal').fadeOut();
       }
     });
 
@@ -140,18 +140,18 @@ const App = {
     }
 
     // Window resize handler for carousel height
-    $(window).on("resize", () => this.updateSpotlightHeight());
+    $(window).on('resize', () => this.updateSpotlightHeight());
   },
 
   /**
    * Initialize Spotlight Interaction (Reveal Analysis)
    */
   initSpotlightInteraction() {
-    $(document).on("click", ".reveal-btn", (e) => {
+    $(document).on('click', '.reveal-btn', (e) => {
       const btn = $(e.currentTarget);
-      const interactionDiv = btn.closest(".spotlight-interaction");
-      const block = btn.closest(".spotlight-block");
-      const wrapper = block.find(".spotlight-reveal-wrapper");
+      const interactionDiv = btn.closest('.spotlight-interaction');
+      const block = btn.closest('.spotlight-block');
+      const wrapper = block.find('.spotlight-reveal-wrapper');
 
       // Hide interaction prompt
       interactionDiv.fadeOut();
@@ -159,15 +159,15 @@ const App = {
       // Show wrapper with animation, then render chart
       wrapper
         .hide()
-        .removeClass("hidden-spotlight-content")
+        .removeClass('hidden-spotlight-content')
         .fadeIn(400, () => {
           // Render chart after element is visible and has dimensions
-          const id = btn.data("id");
-          const containerId = btn.data("container");
+          const id = btn.data('id');
+          const containerId = btn.data('container');
           const container = document.getElementById(containerId);
 
           // Only render if empty to avoid duplicates
-          if (container && container.innerHTML.trim() === "") {
+          if (container && container.innerHTML.trim() === '') {
             this.renderSpotlightChart(id, containerId);
           }
 
@@ -202,7 +202,7 @@ const App = {
     }
 
     // Aggregate by month for better trend visibility in spotlight
-    const aggregatedData = DataLoader.aggregateData(rawData, "month");
+    const aggregatedData = DataLoader.aggregateData(rawData, 'month');
 
     const chartData = [
       {
@@ -213,14 +213,14 @@ const App = {
     ];
 
     // Clear spinner
-    container.innerHTML = "";
+    container.innerHTML = '';
 
-    Visualizations.createTimeSeriesChart("#" + containerId, chartData, {
+    Visualizations.createTimeSeriesChart('#' + containerId, chartData, {
       width: container.clientWidth,
       height: 400,
-      granularity: "month",
-      context: { year: "all" },
-      colors: ["#ff6b6b"], // Use primary color
+      granularity: 'month',
+      context: { year: 'all' },
+      colors: ['#ff6b6b'], // Use primary color
     });
 
     // Final height update after chart render
@@ -231,15 +231,15 @@ const App = {
    * Initialize Spotlight Carousel
    */
   initSpotlightCarousel() {
-    const track = document.getElementById("spotlight-track");
-    const prevBtn = document.getElementById("spotlight-prev");
-    const nextBtn = document.getElementById("spotlight-next");
+    const track = document.getElementById('spotlight-track');
+    const prevBtn = document.getElementById('spotlight-prev');
+    const nextBtn = document.getElementById('spotlight-next');
 
     if (!track || !prevBtn || !nextBtn) return;
 
     const slides = track.children;
     const totalSlides = slides.length;
-    const dots = document.querySelectorAll("#spotlight-dots .dot");
+    const dots = document.querySelectorAll('#spotlight-dots .dot');
 
     // Initial height set
     // Use setTimeout to ensure layout is stable
@@ -251,21 +251,21 @@ const App = {
 
       // Update dots
       dots.forEach((dot, index) => {
-        if (index === this.currentSpotlightIndex) dot.classList.add("active");
-        else dot.classList.remove("active");
+        if (index === this.currentSpotlightIndex) dot.classList.add('active');
+        else dot.classList.remove('active');
       });
 
       // Update container height for current slide
       this.updateSpotlightHeight();
     };
 
-    nextBtn.addEventListener("click", () => {
+    nextBtn.addEventListener('click', () => {
       this.currentSpotlightIndex =
         (this.currentSpotlightIndex + 1) % totalSlides;
       updateCarousel();
     });
 
-    prevBtn.addEventListener("click", () => {
+    prevBtn.addEventListener('click', () => {
       this.currentSpotlightIndex =
         (this.currentSpotlightIndex - 1 + totalSlides) % totalSlides;
       updateCarousel();
@@ -273,7 +273,7 @@ const App = {
 
     // Dot navigation
     dots.forEach((dot) => {
-      dot.addEventListener("click", (e) => {
+      dot.addEventListener('click', (e) => {
         const index = parseInt(e.target.dataset.index);
         if (!isNaN(index)) {
           this.currentSpotlightIndex = index;
@@ -287,7 +287,7 @@ const App = {
    * Dynamically update the carousel container height to match active slide
    */
   updateSpotlightHeight() {
-    const track = document.getElementById("spotlight-track");
+    const track = document.getElementById('spotlight-track');
     if (!track) return;
 
     const container = track.parentElement; // .carousel-container
@@ -314,37 +314,37 @@ const App = {
    * Initialize Country View
    */
   async initCountryView() {
-    const selectorA = $("#country-selector-a");
-    const selectorB = $("#country-selector-b");
+    const selectorA = $('#country-selector-a');
+    const selectorB = $('#country-selector-b');
 
     // Initial Load
     await Promise.all([
       this.loadAndRenderCountry(
         selectorA.val(),
-        "country-chart-a",
-        "title-country-a"
+        'country-chart-a',
+        'title-country-a'
       ),
       this.loadAndRenderCountry(
         selectorB.val(),
-        "country-chart-b",
-        "title-country-b"
+        'country-chart-b',
+        'title-country-b'
       ),
     ]);
 
     // Listeners
-    selectorA.on("change", async (e) => {
+    selectorA.on('change', async (e) => {
       await this.loadAndRenderCountry(
         e.target.value,
-        "country-chart-a",
-        "title-country-a"
+        'country-chart-a',
+        'title-country-a'
       );
     });
 
-    selectorB.on("change", async (e) => {
+    selectorB.on('change', async (e) => {
       await this.loadAndRenderCountry(
         e.target.value,
-        "country-chart-b",
-        "title-country-b"
+        'country-chart-b',
+        'title-country-b'
       );
     });
   },
@@ -358,28 +358,28 @@ const App = {
 
     // Flag mapping
     const flags = {
-      US: "🇺🇸",
-      AU: "🇦🇺",
-      BR: "🇧🇷",
-      DE: "🇩🇪",
-      FR: "🇫🇷",
-      GB: "🇬🇧",
-      IN: "🇮🇳",
-      JP: "🇯🇵",
-      PH: "🇵🇭",
+      US: '🇺🇸',
+      AU: '🇦🇺',
+      BR: '🇧🇷',
+      DE: '🇩🇪',
+      FR: '🇫🇷',
+      GB: '🇬🇧',
+      IN: '🇮🇳',
+      JP: '🇯🇵',
+      PH: '🇵🇭',
     };
 
     // Full name mapping
     const names = {
-      US: "United States",
-      AU: "Australia",
-      BR: "Brazil",
-      DE: "Germany",
-      FR: "France",
-      GB: "Great Britain",
-      IN: "India",
-      JP: "Japan",
-      PH: "Philippines",
+      US: 'United States',
+      AU: 'Australia',
+      BR: 'Brazil',
+      DE: 'Germany',
+      FR: 'France',
+      GB: 'Great Britain',
+      IN: 'India',
+      JP: 'Japan',
+      PH: 'Philippines',
     };
 
     if (title) {
@@ -400,11 +400,11 @@ const App = {
    * Handle Intro Animation (iMessage Scroll)
    */
   initIntroAnimation() {
-    const section = document.querySelector(".intro-section");
-    const typingInput = document.getElementById("typing-input");
-    const sendBtn = document.getElementById("send-btn");
-    const sentMessage = document.getElementById("sent-message");
-    const textToType = "omg 👀🤩";
+    const section = document.querySelector('.intro-section');
+    const typingInput = document.getElementById('typing-input');
+    const sendBtn = document.getElementById('send-btn');
+    const sentMessage = document.getElementById('sent-message');
+    const textToType = 'omg 👀🤩';
 
     if (!section || !typingInput || !sendBtn || !sentMessage) return;
 
@@ -441,27 +441,27 @@ const App = {
         // Use Array.from to correctly handle emoji characters (surrogate pairs)
         const chars = Array.from(textToType);
         const charCount = Math.floor(typeProgress * chars.length);
-        typingInput.textContent = chars.slice(0, charCount).join("");
+        typingInput.textContent = chars.slice(0, charCount).join('');
 
-        sendBtn.classList.remove("active");
-        sentMessage.style.opacity = "0";
-        sentMessage.style.transform = "translateY(20px)";
+        sendBtn.classList.remove('active');
+        sentMessage.style.opacity = '0';
+        sentMessage.style.transform = 'translateY(20px)';
       } else if (progress < 0.75) {
         // Text fully typed, button active
         typingInput.textContent = textToType;
-        sendBtn.classList.add("active");
-        sentMessage.style.opacity = "0";
-        sentMessage.style.transform = "translateY(20px)";
+        sendBtn.classList.add('active');
+        sentMessage.style.opacity = '0';
+        sentMessage.style.transform = 'translateY(20px)';
       } else {
         // Sent
-        typingInput.textContent = "";
-        sendBtn.classList.remove("active"); // Button goes back to inactive state or disappears
-        sentMessage.style.opacity = "1";
-        sentMessage.style.transform = "translateY(0)";
+        typingInput.textContent = '';
+        sendBtn.classList.remove('active'); // Button goes back to inactive state or disappears
+        sentMessage.style.opacity = '1';
+        sentMessage.style.transform = 'translateY(0)';
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     // Initial call
     handleScroll();
   },
@@ -496,14 +496,14 @@ const App = {
     const categories = new Set(data.map((e) => e.category).filter(Boolean));
     const sortedCategories = Array.from(categories).sort();
 
-    const select = document.getElementById("category-filter");
+    const select = document.getElementById('category-filter');
     // Keep "All Categories"
     while (select.options.length > 1) {
       select.remove(1);
     }
 
     sortedCategories.forEach((cat) => {
-      const option = document.createElement("option");
+      const option = document.createElement('option');
       option.value = cat;
       option.text = cat;
       select.appendChild(option);
@@ -517,11 +517,11 @@ const App = {
     if (!this.rankingsData) return;
 
     const grid = document.getElementById(this.gridContainer);
-    grid.innerHTML = ""; // Clear
+    grid.innerHTML = ''; // Clear
     let filtered = this.rankingsData;
 
     // Apply Category Filter
-    if (this.currentCategoryFilter !== "all") {
+    if (this.currentCategoryFilter !== 'all') {
       filtered = filtered.filter(
         (e) => e.category === this.currentCategoryFilter
       );
@@ -542,15 +542,15 @@ const App = {
 
     // Add "Load More" button if truncated
     if (filtered.length > this.itemsToShow) {
-      const buttonContainer = document.createElement("div");
-      buttonContainer.style.gridColumn = "1 / -1";
-      buttonContainer.style.textAlign = "center";
-      buttonContainer.style.padding = "20px";
+      const buttonContainer = document.createElement('div');
+      buttonContainer.style.gridColumn = '1 / -1';
+      buttonContainer.style.textAlign = 'center';
+      buttonContainer.style.padding = '20px';
 
-      const loadMoreBtn = document.createElement("button");
-      loadMoreBtn.textContent = "Load More Emojis";
-      loadMoreBtn.className = "btn btn-secondary"; // Reusing existing button style
-      loadMoreBtn.style.minWidth = "200px";
+      const loadMoreBtn = document.createElement('button');
+      loadMoreBtn.textContent = 'Load More Emojis';
+      loadMoreBtn.className = 'btn btn-secondary'; // Reusing existing button style
+      loadMoreBtn.style.minWidth = '200px';
 
       loadMoreBtn.onclick = () => {
         this.itemsToShow += 300;
@@ -564,9 +564,9 @@ const App = {
 
       buttonContainer.appendChild(loadMoreBtn);
 
-      const countInfo = document.createElement("div");
-      countInfo.style.marginTop = "10px";
-      countInfo.style.color = "#999";
+      const countInfo = document.createElement('div');
+      countInfo.style.marginTop = '10px';
+      countInfo.style.color = '#999';
       countInfo.textContent = `Showing ${displayData.length} of ${filtered.length}`;
       buttonContainer.appendChild(countInfo);
 
@@ -578,8 +578,8 @@ const App = {
    * Open Emoji Details Modal
    */
   async openEmojiDetails(emoji) {
-    const modal = $("#emoji-modal");
-    const modalBody = "modal-body";
+    const modal = $('#emoji-modal');
+    const modalBody = 'modal-body';
 
     // Show modal immediately (content will update)
     modal.fadeIn();
@@ -595,14 +595,14 @@ const App = {
    * Update visibility of filter dropdowns based on granularity
    */
   updateFilterVisibility() {
-    const yearFilter = $("#year-filter");
-    const yearFilterContainer = yearFilter.next(".select2-container"); // Select2 container
+    const yearFilter = $('#year-filter');
+    const yearFilterContainer = yearFilter.next('.select2-container'); // Select2 container
 
     // Reset filters on granularity change for smoother UX
-    this.filters.year = "all";
-    yearFilter.val("all").trigger("change.select2");
+    this.filters.year = 'all';
+    yearFilter.val('all').trigger('change.select2');
 
-    if (this.currentGranularity === "year") {
+    if (this.currentGranularity === 'year') {
       // Hide Year filter in Yearly view
       yearFilterContainer.hide();
     } else {
@@ -637,7 +637,7 @@ const App = {
     });
 
     const sortedYears = Array.from(years).sort((a, b) => b - a); // Descending
-    const select = document.getElementById("year-filter");
+    const select = document.getElementById('year-filter');
 
     if (!select) return;
 
@@ -650,19 +650,19 @@ const App = {
     }
 
     sortedYears.forEach((year) => {
-      const option = document.createElement("option");
+      const option = document.createElement('option');
       option.value = year;
       option.text = year;
       select.appendChild(option);
     });
 
     // Restore value if valid, else default to 'all'
-    if (currentVal !== "all" && sortedYears.includes(Number(currentVal))) {
-      $(select).val(currentVal).trigger("change.select2"); // Update Select2
+    if (currentVal !== 'all' && sortedYears.includes(Number(currentVal))) {
+      $(select).val(currentVal).trigger('change.select2'); // Update Select2
       this.filters.year = currentVal;
     } else {
-      $(select).val("all").trigger("change.select2"); // Update Select2
-      this.filters.year = "all";
+      $(select).val('all').trigger('change.select2'); // Update Select2
+      this.filters.year = 'all';
     }
   },
 
@@ -690,15 +690,15 @@ const App = {
    * Populate the emoji selector dropdown
    */
   populateDropdown() {
-    const selector = document.getElementById("emoji-selector");
+    const selector = document.getElementById('emoji-selector');
     DataLoader.emojiList.forEach((emoji) => {
-      const option = document.createElement("option");
+      const option = document.createElement('option');
       option.value = emoji;
       // Format name: "pile_of_poo" -> "Pile Of Poo"
       const name = emoji
-        .split("_")
+        .split('_')
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+        .join(' ');
       option.text = name;
       selector.appendChild(option);
     });
@@ -708,7 +708,7 @@ const App = {
    * Handle changes in emoji selection
    */
   async handleSelectionChange(selectedValues) {
-    console.log("handleSelectionChange triggered with:", selectedValues);
+    console.log('handleSelectionChange triggered with:', selectedValues);
     const currentSelection = selectedValues || [];
     this.selectedEmojis = new Set(currentSelection);
 
@@ -732,7 +732,7 @@ const App = {
     try {
       this.populateYearFilter();
     } catch (err) {
-      console.error("Error populating year filter:", err);
+      console.error('Error populating year filter:', err);
     }
 
     this.updateVisualizationContext();
@@ -750,7 +750,7 @@ const App = {
 
       // 1. Filter raw data
       let filteredData = rawData;
-      if (this.filters.year !== "all") {
+      if (this.filters.year !== 'all') {
         filteredData = filteredData.filter(
           (d) => d.date.getFullYear() === parseInt(this.filters.year)
         );
@@ -767,8 +767,8 @@ const App = {
 
       let effectiveGranularity = this.currentGranularity;
 
-      if (this.currentGranularity === "month" && this.filters.year !== "all") {
-        effectiveGranularity = "day";
+      if (this.currentGranularity === 'month' && this.filters.year !== 'all') {
+        effectiveGranularity = 'day';
       }
 
       const aggregatedData = DataLoader.aggregateData(
@@ -778,9 +778,9 @@ const App = {
 
       return {
         name: emoji
-          .split("_")
+          .split('_')
           .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-          .join(" "),
+          .join(' '),
         emojiChar: DataLoader.getEmojiChar(emoji),
         values: aggregatedData,
         // Pass the actual granularity used for this dataset
@@ -792,8 +792,8 @@ const App = {
     // but it might vary per dataset if we did it per-emoji (we don't).
     // So let's determine global effective granularity.
     let globalEffectiveGranularity = this.currentGranularity;
-    if (this.currentGranularity === "month" && this.filters.year !== "all") {
-      globalEffectiveGranularity = "day";
+    if (this.currentGranularity === 'month' && this.filters.year !== 'all') {
+      globalEffectiveGranularity = 'day';
     }
 
     this.updateVisualization(displayData, globalEffectiveGranularity);
@@ -803,22 +803,22 @@ const App = {
    * Update the fun header with selected emojis
    */
   updateHeaderDisplay(selectedEmojis) {
-    const container = document.getElementById("selected-emojis-display");
-    const title = document.getElementById("chart-title");
+    const container = document.getElementById('selected-emojis-display');
+    const title = document.getElementById('chart-title');
 
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     if (!selectedEmojis || selectedEmojis.length === 0) {
-      title.textContent = "Select emojis to start! ✨";
+      title.textContent = 'Select emojis to start! ✨';
       return;
     }
 
-    title.textContent = "Usage Trends Over Time";
+    title.textContent = 'Usage Trends Over Time';
 
     selectedEmojis.forEach((emoji) => {
       const char = DataLoader.getEmojiChar(emoji);
-      const span = document.createElement("span");
-      span.className = "header-emoji-item";
+      const span = document.createElement('span');
+      span.className = 'header-emoji-item';
       span.textContent = char;
       span.title = emoji;
       container.appendChild(span);
@@ -829,15 +829,15 @@ const App = {
    * Update the chart with current data
    */
   updateVisualization(data, effectiveGranularity) {
-    const placeholder = document.getElementById("placeholder");
+    const placeholder = document.getElementById('placeholder');
     const chartDiv = document.querySelector(this.chartContainer);
 
     // Use effective granularity if provided, else default to current
     const granularity = effectiveGranularity || this.currentGranularity;
 
     if (data.length === 0) {
-      placeholder.style.display = "block";
-      chartDiv.innerHTML = ""; // Clear chart
+      placeholder.style.display = 'block';
+      chartDiv.innerHTML = ''; // Clear chart
       return;
     }
 
@@ -845,11 +845,11 @@ const App = {
       // If filters result in no data
       chartDiv.innerHTML =
         "<div style='text-align:center; padding-top: 100px; color: #666;'>No data available for this time range</div>";
-      placeholder.style.display = "none";
+      placeholder.style.display = 'none';
       return;
     }
 
-    placeholder.style.display = "none";
+    placeholder.style.display = 'none';
 
     // Prepare context object for axis labels
     const context = {

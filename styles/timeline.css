@@ -79,7 +79,7 @@
 .timeline-year {
   position: absolute;
   right: 35px; /* Left of the dot */
-  font-family: "Fredoka", sans-serif;
+  font-family: 'Fredoka', sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: #bbb;
@@ -107,16 +107,16 @@
   background: white;
   padding: 2rem;
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
   /* Initial State (Hidden) */
   opacity: 0;
   visibility: hidden;
   transform: translateY(-30%) scale(0.95); /* Start slightly lower and smaller */
   filter: blur(10px);
-  
+
   /* Transition */
-  transition: 
+  transition:
     opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
     transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
     filter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -185,7 +185,7 @@
     flex-direction: column;
     padding-top: 20px;
   }
-  
+
   .timeline-graphic {
     width: 90%;
     height: 60px; /* Horizontal now? Or keep vertical but small? Let's keep vertical but compacted */
@@ -193,7 +193,7 @@
     margin-right: 0;
     margin-bottom: 20px;
   }
-  
+
   .timeline-line {
     width: 100%;
     height: 4px;
@@ -201,7 +201,7 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  
+
   .timeline-progress {
     height: 4px;
     width: 0%;
@@ -209,14 +209,14 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  
+
   .timeline-year {
     top: -30px;
     right: auto;
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   .timeline-content-area {
     width: 90%;
     height: auto;

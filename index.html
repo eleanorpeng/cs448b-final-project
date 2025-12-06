@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -476,136 +476,144 @@
           tend to convey, and how strongly?
         </p>
         <p>
-    This chart maps the emotional polarity of emojis, from negative,
-    neutral, to positive, against how frequently they appeared in 70,000
-    tweets. Use the sentiment filter to explore positive, negative, or
-    neutral emojis. Check the box to hide rare emojis and focus on the
-    most commonly used ones. Hover over any emoji to see its exact
-    sentiment breakdown.
-  </p>
+          This chart maps the emotional polarity of emojis, from negative,
+          neutral, to positive, against how frequently they appeared in 70,000
+          tweets. Use the sentiment filter to explore positive, negative, or
+          neutral emojis. Check the box to hide rare emojis and focus on the
+          most commonly used ones. Hover over any emoji to see its exact
+          sentiment breakdown.
+        </p>
       </div>
 
-<div class="text-content">
-  <p
-    style="
-      font-weight: 600;
-      margin-top: 0rem;
-      background: #fff3cd;
-      padding: 1rem;
-      border-radius: 8px;
-      border-left: 4px solid #ffc107;
-    "
-  >
-    👉 <strong>Explore the data:</strong><br />
-    <span style="font-weight: 400; display: block; margin-top: 0.5rem">
-      Selecting "Positive Only" in the sentiment filter, allows you to
-      notice how 😂 towers above all others with 14,622 occurrences,
-      <strong
-        >making it the undisputed universal language of digital joy and
-        humor.</strong
-      >
-      Switching to "Negative Only," you can see how 😩 dominates at 1,808
-      uses, which is
-      <strong
-        >8x less than 😂, revealing that we express happiness far more
-        frequently than frustration online.</strong
-      >
-      Hover over it to reveal that 59% of its usage is negative,
-      <strong
-        >demonstrating that we've turned negative emotions into comedic
-        performance, expressing stress ironically has become its own form
-        of digital bonding.</strong
-      ><br /><br />
-      Finally, return to "All Emojis" and check the "Hide rare emojis"
-      box. Notice the cluster of ambiguous emojis like 😭 and 😱 in the
-      middle. These emojis carry mixed sentiment scores despite high
-      usage.
-      <strong
-        >This reveals the emotional complexity of modern emoji use: a
-        single emoji can mean "I'm devastated" or "I'm dying laughing"
-        depending on context, making them flexible tools for irony,
-        exaggeration, and nuanced expression that text alone cannot
-        capture.</strong
-      >
-    </span>
-  </p>
-</div>
+      <div class="text-content">
+        <p
+          style="
+            font-weight: 600;
+            margin-top: 0rem;
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+          "
+        >
+          👉 <strong>Explore the data:</strong><br />
+          <span style="font-weight: 400; display: block; margin-top: 0.5rem">
+            Selecting "Positive Only" in the sentiment filter, allows you to
+            notice how 😂 towers above all others with 14,622 occurrences,
+            <strong
+              >making it the undisputed universal language of digital joy and
+              humor.</strong
+            >
+            Switching to "Negative Only," you can see how 😩 dominates at 1,808
+            uses, which is
+            <strong
+              >8x less than 😂, revealing that we express happiness far more
+              frequently than frustration online.</strong
+            >
+            Hover over it to reveal that 59% of its usage is negative,
+            <strong
+              >demonstrating that we've turned negative emotions into comedic
+              performance, expressing stress ironically has become its own form
+              of digital bonding.</strong
+            ><br /><br />
+            Finally, return to "All Emojis" and check the "Hide rare emojis"
+            box. Notice the cluster of ambiguous emojis like 😭 and 😱 in the
+            middle. These emojis carry mixed sentiment scores despite high
+            usage.
+            <strong
+              >This reveals the emotional complexity of modern emoji use: a
+              single emoji can mean "I'm devastated" or "I'm dying laughing"
+              depending on context, making them flexible tools for irony,
+              exaggeration, and nuanced expression that text alone cannot
+              capture.</strong
+            >
+          </span>
+        </p>
+      </div>
 
-<div class="controls-container">
-  <div class="control-group">
-    <label for="sentiment-filter">Sentiment Filter:</label>
-    <select id="sentiment-filter" class="custom-select">
-      <option value="all">All Emojis</option>
-      <option value="positive">Positive Only</option>
-      <option value="neutral">Neutral Only</option>
-      <option value="negative">Negative Only</option>
-    </select>
-  </div>
+      <div class="controls-container">
+        <div class="control-group">
+          <label for="sentiment-filter">Sentiment Filter:</label>
+          <select id="sentiment-filter" class="custom-select">
+            <option value="all">All Emojis</option>
+            <option value="positive">Positive Only</option>
+            <option value="neutral">Neutral Only</option>
+            <option value="negative">Negative Only</option>
+          </select>
+        </div>
 
-  <div class="control-group" style="margin-left: 10px;">
-    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-      <input type="checkbox" id="sentiment-filter-rare">
-      <span>Hide rare emojis (&lt;30 uses)</span>
-    </label>
-  </div>
-</div>
+        <div class="control-group" style="margin-left: 10px">
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              cursor: pointer;
+            "
+          >
+            <input type="checkbox" id="sentiment-filter-rare" />
+            <span>Hide rare emojis (&lt;30 uses)</span>
+          </label>
+        </div>
+      </div>
 
-<div class="chart-container">
-  <div id="sentiment-visualization"></div>
-</div>
+      <div class="chart-container">
+        <div id="sentiment-visualization"></div>
+      </div>
 
-<div class="sentiment-stats">
-  <div class="stat-card">
-    <div class="stat-value" id="sentiment-total-emojis">0</div>
-    <div class="stat-label">Total Emojis Shown</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" id="sentiment-avg-score">0</div>
-    <div class="stat-label">Avg Sentiment Score</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" id="sentiment-most-used">-</div>
-    <div class="stat-label">Most Used Emoji</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" id="sentiment-most-positive">-</div>
-    <div class="stat-label">Most Positive</div>
-  </div>
-</div>
+      <div class="sentiment-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-total-emojis">0</div>
+          <div class="stat-label">Total Emojis Shown</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-avg-score">0</div>
+          <div class="stat-label">Avg Sentiment Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-most-used">-</div>
+          <div class="stat-label">Most Used Emoji</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="sentiment-most-positive">-</div>
+          <div class="stat-label">Most Positive</div>
+        </div>
+      </div>
 
-<div class="text-content" style="margin-top: 1rem; padding-top: 1rem;">
-  <p>Here are some takeaways:</p>
+      <div class="text-content" style="margin-top: 1rem; padding-top: 1rem">
+        <p>Here are some takeaways:</p>
 
-  <h3>Digital communication skews overwhelmingly positive</h3>
-  <p>
-    The dominance of 😂, ❤️, and 😍 isn't accidental, as positive emojis
-    are used 8-10x more frequently than negative ones. This reveals a
-    fundamental truth about online expression: we use emojis primarily to
-    amplify joy, affection, and humor. The digital world we create leans
-    optimistic, even when reality doesn't.
-  </p>
+        <h3>Digital communication skews overwhelmingly positive</h3>
+        <p>
+          The dominance of 😂, ❤️, and 😍 isn't accidental, as positive emojis
+          are used 8-10x more frequently than negative ones. This reveals a
+          fundamental truth about online expression: we use emojis primarily to
+          amplify joy, affection, and humor. The digital world we create leans
+          optimistic, even when reality doesn't.
+        </p>
 
-  <h3>Negative emotions are performative</h3>
-  <p>
-    High-frequency negative emojis like 😩 and 😭 occupy a strange middle
-    ground. They express genuine frustration <em>and</em> ironic
-    exaggeration simultaneously. This performative negativity shows how
-    internet culture has turned venting into a form of relatable humor,
-    where complaining is as much about bonding as it is about expressing
-    real distress.
-  </p>
+        <h3>Negative emotions are performative</h3>
+        <p>
+          High-frequency negative emojis like 😩 and 😭 occupy a strange middle
+          ground. They express genuine frustration <em>and</em> ironic
+          exaggeration simultaneously. This performative negativity shows how
+          internet culture has turned venting into a form of relatable humor,
+          where complaining is as much about bonding as it is about expressing
+          real distress.
+        </p>
 
-  <h3>Context has replaced inherent meaning</h3>
-  <p>
-    The presence of emotionally ambiguous emojis, symbols that can mean
-    opposite things depending on who uses them and why, reveals that
-    emojis no longer have fixed meanings. Instead, they've become flexible
-    tools for irony, empathy, and in-jokes. A 😭 can mean "I'm devastated"
-    or "I'm dying laughing," and we intuitively understand which one based
-    on invisible social cues. This fluidity makes emojis uniquely powerful
-    for capturing the complexity of modern digital expression.
-  </p>
-</div>
+        <h3>Context has replaced inherent meaning</h3>
+        <p>
+          The presence of emotionally ambiguous emojis, symbols that can mean
+          opposite things depending on who uses them and why, reveals that
+          emojis no longer have fixed meanings. Instead, they've become flexible
+          tools for irony, empathy, and in-jokes. A 😭 can mean "I'm devastated"
+          or "I'm dying laughing," and we intuitively understand which one based
+          on invisible social cues. This fluidity makes emojis uniquely powerful
+          for capturing the complexity of modern digital expression.
+        </p>
+      </div>
+    </section>
 
     <!-- Country Usage View -->
     <section id="view-country" class="section">
@@ -616,15 +624,15 @@
 
       <div class="text-content">
         <p>
-          The sentiment analysis highlights the emotional polarity of emojis,
-          but it leaves an important question unanswered: are these patterns
-          universal? To explore this, we compare emoji usage across nine
-          countries to uncover distinct digital usage across the globe.
-          <br />This interactive comparison bar chart how the “same” digital
-          language looks very different across the world. To interact with these
-          visualizations, users can select 2 of 9 countries for a side-by-side
-          comparison of top 20 emojis, revealing distinct cultural fingerprints
-          in emoji expression.
+          Emojis are supposed to be a universal language, but are they really?
+          The same emoji carries wildly different weights across the globe. The
+          laughing emoji dominates conversations in the US, but doesn’t even
+          make it into the top 20 for Brazil. Meanwhile, the Philippines uses
+          hearts and affectionate expressions at rates that would seem
+          over-the-top in more reserved cultures. This interactive comparison
+          reveals something deeper than emoji preferences—it exposes cultural
+          fingerprints in how different societies choose to express themselves
+          digitally. Let’s explore!
         </p>
       </div>
 
@@ -683,48 +691,66 @@
       </div>
 
       <div class="text-content">
-        <p>Here are a few broad themes that consistently emerge:</p>
-
-        <h3>Some emojis are globally dominant, but not equally</h3>
+        <h3>Guided Exploration</h3>
+        <p><strong>👉 Start Here: US vs Japan</strong></p>
         <p>
-          The 😂 appears in almost every country’s top-20 list, but its
-          magnitude varies. In the U.S., 😂 and ❤️ tower above other emojis,
-          reflecting humor/affection-driven emoji culture. Meanwhile, in Japan,
-          while 😂 is still present in the top 20, it is far less dominant.
-          There is more of an emphasis on softer, cute emojis like 🥰 🥺 ✨.
+          Use the dropdowns above to compare the top 20 emojis in the United
+          States and Japan side by side. Look at what dominates each side:
+        </p>
+        <p>
+          United States: The U.S. chart is led by ❤️, which stands well above the rest. Rather than humor dominating, the data shows:
+          <ul>
+            <li>Affection and positivity are most common — ❤️, ✨, 😊</li>
+            <li>Clear, emphatic reactions appear frequently — 🔥, ✅</li>
+            <li>Humor and emotional exaggeration are still important, but slightly more secondary — 😂😭👀💀</li>
+          </ul>
+          <br />
+          <p>Overall, American emoji culture mixes big feelings (❤️), hype (🔥), and playful drama (😭/💀) with a noticeable emphasis on warmth and affirmation.</p>
+        </p>
+        <p>
+          Japan: Japan’s list looks more balanced, with no single emoji towering above the rest. Some of the highest-ranked include 🩷, 🩵, 😊, ✨, ❤️, and 🥹, revealing:
+          <ul>
+            <li>A softer emotional palette — lots of tender, gentle emojis</li>
+            <li>Sincere emotional tone — 🥹 🙏 😭</li>
+          </ul>
+          <p>Japan’s emoji culture favors subtle warmth, sincerity, and aesthetic expression rather than dramatic highs.</p>
+        </p>
+        <p>
+          <strong>What does this tell us?</strong> 
+          <p>Both cultures value warmth, but they express it differently. The US amplifies (big ❤️, then 🔥 and 😭 for emphasis). Japan refines (choosing between 🩷 vs 🩵, finding the exact shade of feeling). American emoji say "I feel BIG things." Japanese emoji says "I feel this specific delicate thing."</p>
         </p>
 
-        <h3>Some countries show unusually high emotional expressiveness</h3>
+        <p><strong>👉 Next, Try This Comparison: Philippines vs US</strong></p>
         <p>
-          The Philippines stands out with high usage of 😭 ❤️ 🥰 🥺, speaking to
-          a very warm, affectionate, and emotionally intense digital
-          communication – aligning with the high-engagement and vibrant Filipino
-          social media culture. This draws a comparison to the U.S., where high
-          usage of 😂 😭 💀 leans more towards sarcasm and irony.
+          Switch the right-hand chart to Philippines. Keep the US on the left.
+        </p>
+        <p>
+          Philippines: The Philippines, by contrast, leads with 🫶 (heart hands) — an emoji that expresses affection, gratitude, and relational warmth rather than the more general ❤️. Other top emojis include:
+          <ul>
+            <li>Deep emotional expression — 😭 🥺</li>
+            <li>Warm friendliness — 😊 🥰</li>
+            <li>Playful interpersonal call-outs — 👈</li>
+          </ul>
+          <br />
+          <p>That last one — 👈 (pointing finger) — is especially notable. It rarely appears in other countries' top rankings, and its presence here reflects how Filipino digital culture is highly social and conversational. It's often used in teasing, shoutouts, and direct engagement — a way of saying "you!" in a friendly, communal way.</p>
+        </p>
+        <p>
+          Overall, Filipino emoji culture is highly relational, affectionate, and emotionally expressive, blending sincerity (😭 🥺) with warmth (😊 🫶 🥰). The emotional palette is wide, but almost always heart-forward, not humor-forward.
+        </p>
+        <p>
+          <strong>What does this tell us?</strong> 
+          <p>While the U.S. tends to use emojis to express big feelings and amplify reactions, the Philippines uses emojis to express big warmth and strengthen social bonds — often making the interaction feel personal, not just expressive.</p>
         </p>
 
-        <h3>Cultural signatures in emoji expression</h3>
+        <h3>Regional Pattern Snapshot</h3>
         <ul>
-          <li>
-            East Asian countries use more “cute” or stylized emotional symbols
-          </li>
-          <li>
-            South Asian and Latin American regions lean toward warmth and
-            sincerity
-          </li>
-          <li>
-            Western countries emphasize humor, irony, and sometimes
-            exaggeration.
-          </li>
+          <li>👉 Western: Big reactions, humor, hype, dramatic expression.</li>
+          <li>👉 East Asian: Soft, balanced, subtle, aesthetically warm.</li>
+          <li>👉 South Asian + Latin American: Emotionally open, relational, expressive, and often spiritually or socially oriented.</li>
         </ul>
         <p>
-          Geographic differences reveal how cultures express emotion
-          differently, but geography alone can’t capture how these expressions
-          change. Emojis evolve quickly, shaped by shifting norms, memes, and
-          global events. To understand this evolution, we turn to time and trace
-          how individual emojis rise, peak, and fade.
+          <strong>Want to validate these patterns yourself?</strong> Try switching between different country pairs above and watch how the top emojis shift across regions.
         </p>
-      </div>
     </section>
 
     <!-- Conclusion / More Info Section -->

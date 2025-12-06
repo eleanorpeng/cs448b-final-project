@@ -13,24 +13,24 @@ const Visualizations = {
       height = 500,
       margin = { top: 20, right: 150, bottom: 50, left: 80 },
       colors = d3.schemeCategory10,
-      granularity = "day",
-      context = { year: "all", month: "all" },
+      granularity = 'day',
+      context = { year: 'all', month: 'all' },
     } = config;
 
     // Clear existing content
-    d3.select(container).selectAll("*").remove();
+    d3.select(container).selectAll('*').remove();
 
     const svg = d3
       .select(container)
-      .append("svg")
-      .attr("width", "100%")
-      .attr("height", height)
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet");
+      .append('svg')
+      .attr('width', '100%')
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet');
 
     const g = svg
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
@@ -57,43 +57,43 @@ const Visualizations = {
       .domain(allData.map((d) => d.name));
 
     // --- Axis Formatting Logic ---
-    let xFormat = "%Y";
-    let xLabel = "Date";
+    let xFormat = '%Y';
+    let xLabel = 'Date';
 
-    if (granularity === "day") {
+    if (granularity === 'day') {
       // Default fallback
-      xFormat = "%b %d";
+      xFormat = '%b %d';
 
-      if (context.year !== "all") {
+      if (context.year !== 'all') {
         // Check if specific month is selected (currently disabled in UI, but logic kept for robustness)
-        const hasMonthFilter = context.month && context.month !== "all";
+        const hasMonthFilter = context.month && context.month !== 'all';
 
         if (hasMonthFilter) {
           // Specific Month View: Show days (01, 02, ...)
-          xFormat = "%d";
-          const monthName = d3.timeFormat("%B")(
+          xFormat = '%d';
+          const monthName = d3.timeFormat('%B')(
             new Date(2000, context.month, 1)
           );
           xLabel = `Date (${monthName} ${context.year})`;
         } else {
           // Specific Year View: Show Months (January, February, ...)
-          xFormat = "%B";
+          xFormat = '%B';
           xLabel = `Date (${context.year})`;
         }
       }
-    } else if (granularity === "month") {
-      if (context.year !== "all") {
+    } else if (granularity === 'month') {
+      if (context.year !== 'all') {
         // Specific Year: Show Months
-        xFormat = "%b"; // Jan, Feb
+        xFormat = '%b'; // Jan, Feb
         xLabel = `Month (${context.year})`;
       } else {
-        xFormat = "%Y";
-        xLabel = "Date";
+        xFormat = '%Y';
+        xLabel = 'Date';
       }
     } else {
       // Yearly
-      xFormat = "%Y";
-      xLabel = "Year";
+      xFormat = '%Y';
+      xLabel = 'Year';
     }
     // -----------------------------
 
@@ -105,142 +105,142 @@ const Visualizations = {
 
     const yAxis = d3.axisLeft(y);
 
-    g.append("g")
-      .attr("class", "x-axis")
-      .attr("transform", `translate(0,${innerHeight})`)
+    g.append('g')
+      .attr('class', 'x-axis')
+      .attr('transform', `translate(0,${innerHeight})`)
       .call(xAxis);
 
-    g.append("g").attr("class", "y-axis").call(yAxis);
+    g.append('g').attr('class', 'y-axis').call(yAxis);
 
     // Add axis labels
-    g.append("text")
-      .attr("class", "axis-label")
-      .attr("x", innerWidth / 2)
-      .attr("y", innerHeight + 40)
-      .style("text-anchor", "middle")
+    g.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', innerHeight + 40)
+      .style('text-anchor', 'middle')
       .text(xLabel); // Use dynamic label
 
-    g.append("text")
-      .attr("class", "axis-label")
-      .attr("transform", "rotate(-90)")
-      .attr("x", -innerHeight / 2)
-      .attr("y", -60)
-      .style("text-anchor", "middle")
-      .text("Usage Count");
+    g.append('text')
+      .attr('class', 'axis-label')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .style('text-anchor', 'middle')
+      .text('Usage Count');
 
     // Line generator
     const line = d3
       .line()
       .x((d) => x(d.date))
       .y((d) => y(d.usage))
-      .curve(granularity === "year" ? d3.curveLinear : d3.curveMonotoneX);
+      .curve(granularity === 'year' ? d3.curveLinear : d3.curveMonotoneX);
 
     // Add lines
     const lines = g
-      .selectAll(".line-group")
+      .selectAll('.line-group')
       .data(allData)
       .enter()
-      .append("g")
-      .attr("class", "line-group");
+      .append('g')
+      .attr('class', 'line-group');
 
     lines
-      .append("path")
-      .attr("class", "line")
-      .attr("d", (d) => line(d.values))
-      .style("fill", "none")
-      .style("stroke", (d) => colorScale(d.name))
-      .style("stroke-width", 3)
-      .style("stroke-opacity", 0.8);
+      .append('path')
+      .attr('class', 'line')
+      .attr('d', (d) => line(d.values))
+      .style('fill', 'none')
+      .style('stroke', (d) => colorScale(d.name))
+      .style('stroke-width', 3)
+      .style('stroke-opacity', 0.8);
 
     // Add legend
     const legend = g
-      .selectAll(".legend")
+      .selectAll('.legend')
       .data(allData)
       .enter()
-      .append("g")
-      .attr("class", "legend")
-      .attr("transform", (d, i) => `translate(${innerWidth + 10},${i * 25})`);
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', (d, i) => `translate(${innerWidth + 10},${i * 25})`);
 
     legend
-      .append("rect")
-      .attr("width", 12)
-      .attr("height", 12)
-      .attr("rx", 2)
-      .style("fill", (d) => colorScale(d.name));
+      .append('rect')
+      .attr('width', 12)
+      .attr('height', 12)
+      .attr('rx', 2)
+      .style('fill', (d) => colorScale(d.name));
 
     legend
-      .append("text")
-      .attr("x", 20)
-      .attr("y", 10)
+      .append('text')
+      .attr('x', 20)
+      .attr('y', 10)
       .text((d) => d.name)
-      .style("font-size", "14px")
-      .style("font-family", "Nunito, sans-serif")
-      .attr("alignment-baseline", "middle");
+      .style('font-size', '14px')
+      .style('font-family', 'Nunito, sans-serif')
+      .attr('alignment-baseline', 'middle');
 
     // Tooltip interaction
     // Use a shared tooltip or create if missing
-    let tooltip = d3.select("body").select(".tooltip");
+    let tooltip = d3.select('body').select('.tooltip');
     if (tooltip.empty()) {
       tooltip = d3
-        .select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
+        .select('body')
+        .append('div')
+        .attr('class', 'tooltip')
+        .style('opacity', 0);
     }
 
     const overlay = g
-      .append("rect")
-      .attr("class", "overlay")
-      .attr("width", innerWidth)
-      .attr("height", innerHeight)
-      .style("fill", "none")
-      .style("pointer-events", "all");
+      .append('rect')
+      .attr('class', 'overlay')
+      .attr('width', innerWidth)
+      .attr('height', innerHeight)
+      .style('fill', 'none')
+      .style('pointer-events', 'all');
 
     const focusDots = g
-      .append("g")
-      .attr("class", "focus-dots")
-      .style("opacity", 0)
-      .style("pointer-events", "none");
+      .append('g')
+      .attr('class', 'focus-dots')
+      .style('opacity', 0)
+      .style('pointer-events', 'none');
 
     const dots = focusDots
-      .selectAll(".focus-dot")
+      .selectAll('.focus-dot')
       .data(allData)
       .enter()
-      .append("circle")
-      .attr("class", "focus-dot")
-      .attr("r", 6)
-      .style("fill", (d) => colorScale(d.name))
-      .style("stroke", "white")
-      .style("stroke-width", 2);
+      .append('circle')
+      .attr('class', 'focus-dot')
+      .attr('r', 6)
+      .style('fill', (d) => colorScale(d.name))
+      .style('stroke', 'white')
+      .style('stroke-width', 2);
 
     overlay
-      .on("mousemove", function (event) {
+      .on('mousemove', function (event) {
         const mouseX = d3.pointer(event)[0];
         const xDate = x.invert(mouseX);
 
-        focusDots.style("opacity", 1);
+        focusDots.style('opacity', 1);
 
         const bisectDate = d3.bisector((d) => d.date).left;
 
         // Dynamic tooltip date format
-        let tooltipDateFormat = "%b %d, %Y";
+        let tooltipDateFormat = '%b %d, %Y';
 
         // If effective granularity is day (even if 'Month' tab is active but filtered by year), show full date
-        if (granularity === "day") tooltipDateFormat = "%b %d, %Y";
+        if (granularity === 'day') tooltipDateFormat = '%b %d, %Y';
 
         // If strictly monthly aggregation
-        if (granularity === "month") tooltipDateFormat = "%B %Y";
+        if (granularity === 'month') tooltipDateFormat = '%B %Y';
 
-        if (granularity === "year") tooltipDateFormat = "%Y";
+        if (granularity === 'year') tooltipDateFormat = '%Y';
 
         // Refine tooltip format based on context if needed
-        if (context.year !== "all" && context.month !== "all")
-          tooltipDateFormat = "%A, %B %d"; // Show Day of week if zoomed in
+        if (context.year !== 'all' && context.month !== 'all')
+          tooltipDateFormat = '%A, %B %d'; // Show Day of week if zoomed in
 
-        let tooltipHtml = "";
+        let tooltipHtml = '';
         let foundDate = null;
 
-        dots.attr("transform", function (dataset) {
+        dots.attr('transform', function (dataset) {
           const idx = bisectDate(dataset.values, xDate, 1);
           const d0 = dataset.values[idx - 1];
           const d1 = dataset.values[idx];
@@ -273,19 +273,19 @@ const Visualizations = {
 
             return `translate(${x(d.date)},${y(d.usage)})`;
           } else {
-            return "translate(-100,-100)";
+            return 'translate(-100,-100)';
           }
         });
 
-        tooltip.transition().duration(50).style("opacity", 1);
+        tooltip.transition().duration(50).style('opacity', 1);
         tooltip
           .html(tooltipHtml)
-          .style("left", event.pageX + 20 + "px")
-          .style("top", event.pageY - 20 + "px");
+          .style('left', event.pageX + 20 + 'px')
+          .style('top', event.pageY - 20 + 'px');
       })
-      .on("mouseout", function () {
-        tooltip.transition().duration(200).style("opacity", 0);
-        focusDots.style("opacity", 0);
+      .on('mouseout', function () {
+        tooltip.transition().duration(200).style('opacity', 0);
+        focusDots.style('opacity', 0);
       });
 
     return svg;
@@ -296,7 +296,7 @@ const Visualizations = {
    */
   renderEmojiGrid(containerId, emojis, onCardClick) {
     const container = document.getElementById(containerId);
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     if (!emojis || emojis.length === 0) {
       container.innerHTML =
@@ -307,16 +307,16 @@ const Visualizations = {
     const fragment = document.createDocumentFragment();
 
     emojis.forEach((emoji) => {
-      const card = document.createElement("div");
-      card.className = "emoji-card";
+      const card = document.createElement('div');
+      card.className = 'emoji-card';
       card.onclick = () => onCardClick(emoji);
 
       // Prefetch images on hover for instant loading
       card.onmouseenter = () => {
         if (card.dataset.prefetched) return;
-        card.dataset.prefetched = "true";
+        card.dataset.prefetched = 'true';
 
-        const platforms = ["apple", "google", "twitter", "facebook"];
+        const platforms = ['apple', 'google', 'twitter', 'facebook'];
         platforms.forEach((p) => {
           if (emoji[`has_img_${p}`]) {
             // Only fetch if available
@@ -326,8 +326,8 @@ const Visualizations = {
         });
       };
 
-      const char = document.createElement("span");
-      char.className = "emoji-card-char";
+      const char = document.createElement('span');
+      char.className = 'emoji-card-char';
       char.textContent = emoji.char;
 
       // Score removed as per request
@@ -342,11 +342,11 @@ const Visualizations = {
           }
           */
 
-      const name = document.createElement("div");
-      name.style.fontSize = "0.8rem";
-      name.style.color = "#999";
-      name.style.marginTop = "5px";
-      name.textContent = emoji.name || "Unknown";
+      const name = document.createElement('div');
+      name.style.fontSize = '0.8rem';
+      name.style.color = '#999';
+      name.style.marginTop = '5px';
+      name.textContent = emoji.name || 'Unknown';
 
       card.appendChild(char);
       // card.appendChild(score); // Removed from DOM
@@ -363,12 +363,12 @@ const Visualizations = {
   renderModalContent(containerId, data) {
     const container = document.getElementById(containerId);
     if (!data) {
-      container.innerHTML = "<p>Error loading details.</p>";
+      container.innerHTML = '<p>Error loading details.</p>';
       return;
     }
 
     // 1. Platform Images (New)
-    let platformImagesHtml = "";
+    let platformImagesHtml = '';
     if (data.platforms && data.platforms.length > 0) {
       platformImagesHtml = `
             <div style="margin-top: 1.5rem; text-align: center;">
@@ -388,14 +388,14 @@ const Visualizations = {
                         </div>
                     `
                       )
-                      .join("")}
+                      .join('')}
                 </div>
             </div>
           `;
     }
 
     // 2. Skin Variations
-    let variationsHtml = "";
+    let variationsHtml = '';
     if (data.variations && data.variations.length > 0) {
       variationsHtml = `
             <div style="margin-top: 1.5rem; text-align: center;">
@@ -406,14 +406,14 @@ const Visualizations = {
                         (v) =>
                           `<span title="${v.name}" style="cursor: help;">${v.char}</span>`
                       )
-                      .join("")}
+                      .join('')}
                 </div>
             </div>
           `;
     }
 
     // Render Stats or Technical Info
-    let statsHtml = "";
+    let statsHtml = '';
     if (data.recent_tweets && data.recent_tweets.length > 0) {
       statsHtml =
         '<div style="margin-top: 1.5rem;">' +
@@ -426,8 +426,8 @@ const Visualizations = {
               </div>
           `
           )
-          .join("") +
-        "</div>";
+          .join('') +
+        '</div>';
     } else {
       // Fallback: Show Unicode and Short Name
       statsHtml = `
@@ -466,7 +466,7 @@ const Visualizations = {
     if (!container) return;
 
     // Clear previous
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     const topN = 20;
     const displayData = data.slice(0, topN);
@@ -478,12 +478,12 @@ const Visualizations = {
 
     const svg = d3
       .select(container)
-      .append("svg")
-      .attr("width", "100%")
-      .attr("height", 400)
-      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${400}`)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+      .append('svg')
+      .attr('width', '100%')
+      .attr('height', 400)
+      .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${400}`)
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Scales
     const x = d3
@@ -501,58 +501,58 @@ const Visualizations = {
     // Axes
     // X Axis (Emojis)
     svg
-      .append("g")
-      .attr("transform", `translate(0,${height})`)
+      .append('g')
+      .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x))
-      .selectAll("text")
-      .style("font-size", "20px")
-      .attr("dy", "0.8em");
+      .selectAll('text')
+      .style('font-size', '20px')
+      .attr('dy', '0.8em');
 
     // Y Axis
     svg
-      .append("g")
-      .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(".2s")))
-      .attr("class", "axis")
-      .selectAll("text")
-      .style("font-size", "12px");
+      .append('g')
+      .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('.2s')))
+      .attr('class', 'axis')
+      .selectAll('text')
+      .style('font-size', '12px');
 
     // Y Label
     svg
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", -45)
-      .attr("x", -height / 2)
-      .style("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("fill", "var(--text-light)")
-      .text("Total Uses");
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', -45)
+      .attr('x', -height / 2)
+      .style('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .style('fill', 'var(--text-light)')
+      .text('Total Uses');
 
     // Bars
     svg
-      .selectAll(".bar")
+      .selectAll('.bar')
       .data(displayData)
       .enter()
-      .append("rect")
-      .attr("class", "bar")
-      .attr("x", (d) => x(d.emoji))
-      .attr("y", (d) => y(d.occurrences))
-      .attr("width", x.bandwidth())
-      .attr("height", (d) => height - y(d.occurrences))
-      .attr("fill", "#f1c40f") // Primary Yellow
-      .on("mouseenter", function (event, d) {
-        d3.select(this).attr("fill", "#f39c12"); // Darker Orange on hover
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', (d) => x(d.emoji))
+      .attr('y', (d) => y(d.occurrences))
+      .attr('width', x.bandwidth())
+      .attr('height', (d) => height - y(d.occurrences))
+      .attr('fill', '#f1c40f') // Primary Yellow
+      .on('mouseenter', function (event, d) {
+        d3.select(this).attr('fill', '#f39c12'); // Darker Orange on hover
 
         // Tooltip
-        let tooltip = d3.select("body").select(".tooltip");
+        let tooltip = d3.select('body').select('.tooltip');
         if (tooltip.empty()) {
           tooltip = d3
-            .select("body")
-            .append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
+            .select('body')
+            .append('div')
+            .attr('class', 'tooltip')
+            .style('opacity', 0);
         }
 
-        tooltip.transition().duration(200).style("opacity", 1);
+        tooltip.transition().duration(200).style('opacity', 1);
         tooltip
           .html(
             `
@@ -562,12 +562,16 @@ const Visualizations = {
             </div>
         `
           )
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 28 + "px");
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY - 28 + 'px');
       })
-      .on("mouseleave", function () {
-        d3.select(this).attr("fill", "#f1c40f");
-        d3.select("body").select(".tooltip").transition().duration(200).style("opacity", 0);
+      .on('mouseleave', function () {
+        d3.select(this).attr('fill', '#f1c40f');
+        d3.select('body')
+          .select('.tooltip')
+          .transition()
+          .duration(200)
+          .style('opacity', 0);
       });
   },
 };

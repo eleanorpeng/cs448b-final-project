@@ -144,7 +144,7 @@
 }
 
 .spotlight-content {
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
   line-height: 1.6;
   color: #444;
   font-size: 1.1rem;
@@ -185,7 +185,7 @@
 }
 
 .reveal-btn::after {
-  content: "👇";
+  content: '👇';
   font-size: 1.2em;
 }
 
