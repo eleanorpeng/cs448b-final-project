@@ -72,8 +72,26 @@
       </div>
     </section>
 
-    <!-- Intro Text Section (Replaced by Timeline) -->
-    <!-- <section class="section text-section"> ... </section> -->
+    <!-- Introduction Section -->
+    <section id="intro-text-section" class="intro-text-section">
+      <div class="intro-text-content">
+        <p class="intro-paragraph">
+          Since the invention of emojis in the 1990s, they have become the
+          universal language of the internet, a form of emotion that transcends
+          text, culture, and sometimes even meaning. From 😂 to 🥺 to 💀, these
+          symbols carry complex signals about how we feel, what we value, and
+          how our shared digital culture evolves. To start, let's take a look at
+          the evolution of emoji.
+        </p>
+        <p class="intro-paragraph">
+          This project explores how emojis express emotion across three
+          dimensions: sentiment, geography, and time. Using open-source emoji
+          datasets, we visualize how emotion manifests globally and how our
+          collective "emoji language" shifts over time with cultural context and
+          world events.
+        </p>
+      </div>
+    </section>
 
     <!-- Interactive Timeline Section -->
     <section id="timeline-section" class="timeline-section">
@@ -192,16 +210,19 @@
           >
           for 50 emojis. <br /><br />
 
-          Feel free to explore some trends along with our analysis in the
-          Spotlight Analysis section or explore on your own! Select the emojis
-          and choose the time granularity to see the trends. Adjust the year
-          filter to see the trends for a specific year.
+          We found some interesting trends in the data that demonstrates how
+          people use emojis to express their emotions and reactions to events
+          and trends in the world. Feel free to explore some trends along with
+          our analysis in the Spotlight Analysis section or explore on your own!
+          To explore, select one or more emojis and choose the time granularity
+          to see the trends. Adjust the year filter to see the trends for a
+          specific year.
         </p>
       </div>
 
       <div class="controls-container">
         <div class="control-group">
-          <label for="emoji-selector">Choose your emojis to compare:</label>
+          <label for="emoji-selector">Choose your emojis:</label>
           <select id="emoji-selector" multiple="multiple" style="width: 100%">
             <!-- Options populated by JS -->
           </select>
@@ -427,21 +448,86 @@
                       id="spotlight-chart-graduation-cap"
                       class="spotlight-chart"
                     ></div>
-                    <div class="spotlight-content placeholder-content">
+                    <div
+                      class="spotlight-content placeholder-content text-content"
+                    >
                       <p>
                         There are several peaks across the years for the usage
                         of graduation cap emoji, where the peak always occurs
                         around June during graduation season. However, we
                         noticed that the usage became lower starting 2017. While
-                        we can’t say for certain, there are several hypotheses
+                        we can't say for certain, there are several hypotheses
                         of the cause. First, due to the rise of other social
                         media platforms, students might be posting more on other
                         social media such as Instagram instead of Twitter.
-                        Second, the man and woman student emoji (👨🏻‍🎓 and 👩🏻‍🎓) were
-                        introduced in November 2016 as part of Emoji 4.0. While
-                        we don’t have data for these usage, we hypothesized that
-                        students might be using these emojis in conjunction with
-                        the graduation cap emoji.
+                        Second, the man and woman student emoji (👨🏻‍🎓 and 👩🏻‍🎓) were
+                        introduced in November 2016 as part of
+                        <a
+                          href="https://emojipedia.org/emoji-4.0"
+                          target="_blank"
+                          >Emoji 4.0</a
+                        >. While we don't have data for these usage, we
+                        hypothesized that students might be using these emojis
+                        in conjunction with the graduation cap emoji.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ballot Box With Ballot -->
+              <div class="carousel-slide">
+                <div class="spotlight-block">
+                  <h3>Ballot Box With Ballot 🗳️</h3>
+
+                  <div class="spotlight-interaction">
+                    <p class="spotlight-prompt">
+                      When does the
+                      <strong>Ballot Box With Ballot</strong> emoji see the most
+                      usage and why? <br /><small
+                        >Hint: Select the ballot box emoji 🗳️ from above and
+                        look for the spikes in usage. <br />Adjust the time
+                        granularity control and check which year and month they
+                        occur.</small
+                      >
+                    </p>
+                    <button
+                      class="reveal-btn"
+                      data-id="ballot_box_with_ballot"
+                      data-container="spotlight-chart-ballot-box"
+                    >
+                      Reveal Answer
+                    </button>
+                  </div>
+
+                  <div
+                    class="spotlight-reveal-wrapper hidden-spotlight-content"
+                  >
+                    <div
+                      id="spotlight-chart-ballot-box"
+                      class="spotlight-chart"
+                    ></div>
+                    <div class="spotlight-content placeholder-content">
+                      <p>
+                        There are two main peaks for the usage of the ballot box
+                        with ballot emoji in November 2018 and May 2019.
+                        Adjusting the year filter to 2018, we found out that the
+                        usage peaked on November 6, 2018, when the 2018 United
+                        States Midterm Elections were held. These elections were
+                        highly consequential and generated immense public
+                        interests along with the “Get Out The Vote” activity on
+                        social media. People potentially used the emoji to
+                        encourage voting, share that they’ve voted, or to
+                        discuss the results of the election.
+                        <br />
+                        To understand the second peak, adjust the year filter to
+                        2019. Here, we see that the peak occurred on May 26,
+                        2019, when the 2019 European Parliament Elections were
+                        held. It was significant due to the scale of the voting
+                        and Brexit event, adding on the social media attention
+                        and increasing usage of this emoji. From these trends,
+                        we see that people use emojis to reflect their attention
+                        on major global events.
                       </p>
                     </div>
                   </div>
@@ -458,6 +544,7 @@
           <span class="dot" data-index="1"></span>
           <span class="dot" data-index="2"></span>
           <span class="dot" data-index="3"></span>
+          <span class="dot" data-index="4"></span>
         </div>
       </div>
     </section>
@@ -698,26 +785,42 @@
           States and Japan side by side. Look at what dominates each side:
         </p>
         <p>
-          United States: The U.S. chart is led by ❤️, which stands well above the rest. Rather than humor dominating, the data shows:
-          <ul>
-            <li>Affection and positivity are most common — ❤️, ✨, 😊</li>
-            <li>Clear, emphatic reactions appear frequently — 🔥, ✅</li>
-            <li>Humor and emotional exaggeration are still important, but slightly more secondary — 😂😭👀💀</li>
-          </ul>
-          <br />
-          <p>Overall, American emoji culture mixes big feelings (❤️), hype (🔥), and playful drama (😭/💀) with a noticeable emphasis on warmth and affirmation.</p>
+          <strong>United States:</strong> The U.S. chart is led by ❤️, which
+          stands well above the rest. Rather than humor dominating, the data
+          shows:
+        </p>
+        <ul>
+          <li>Affection and positivity are most common — ❤️, ✨, 😊</li>
+          <li>Clear, emphatic reactions appear frequently — 🔥, ✅</li>
+          <li>
+            Humor and emotional exaggeration are still important, but slightly
+            more secondary — 😂😭👀💀
+          </li>
+        </ul>
+        <p>
+          Overall, American emoji culture mixes big feelings (❤️), hype (🔥),
+          and playful drama (😭/💀) with a noticeable emphasis on warmth and
+          affirmation.
         </p>
         <p>
-          Japan: Japan’s list looks more balanced, with no single emoji towering above the rest. Some of the highest-ranked include 🩷, 🩵, 😊, ✨, ❤️, and 🥹, revealing:
-          <ul>
-            <li>A softer emotional palette — lots of tender, gentle emojis</li>
-            <li>Sincere emotional tone — 🥹 🙏 😭</li>
-          </ul>
-          <p>Japan’s emoji culture favors subtle warmth, sincerity, and aesthetic expression rather than dramatic highs.</p>
+          <strong>Japan:</strong> Japan's list looks more balanced, with no
+          single emoji towering above the rest. Some of the highest-ranked
+          include 🩷, 🩵, 😊, ✨, ❤️, and 🥹, revealing:
+        </p>
+        <ul>
+          <li>A softer emotional palette — lots of tender, gentle emojis</li>
+          <li>Sincere emotional tone — 🥹 🙏 😭</li>
+        </ul>
+        <p>
+          Japan's emoji culture favors subtle warmth, sincerity, and aesthetic
+          expression rather than dramatic highs.
         </p>
         <p>
-          <strong>What does this tell us?</strong> 
-          <p>Both cultures value warmth, but they express it differently. The US amplifies (big ❤️, then 🔥 and 😭 for emphasis). Japan refines (choosing between 🩷 vs 🩵, finding the exact shade of feeling). American emoji say "I feel BIG things." Japanese emoji says "I feel this specific delicate thing."</p>
+          <strong>What does this tell us?</strong> Both cultures value warmth,
+          but they express it differently. The US amplifies (big ❤️, then 🔥 and
+          😭 for emphasis). Japan refines (choosing between 🩷 vs 🩵, finding
+          the exact shade of feeling). American emoji say "I feel BIG things."
+          Japanese emoji says "I feel this specific delicate thing."
         </p>
 
         <p><strong>👉 Next, Try This Comparison: Philippines vs US</strong></p>
@@ -725,32 +828,51 @@
           Switch the right-hand chart to Philippines. Keep the US on the left.
         </p>
         <p>
-          Philippines: The Philippines, by contrast, leads with 🫶 (heart hands) — an emoji that expresses affection, gratitude, and relational warmth rather than the more general ❤️. Other top emojis include:
-          <ul>
-            <li>Deep emotional expression — 😭 🥺</li>
-            <li>Warm friendliness — 😊 🥰</li>
-            <li>Playful interpersonal call-outs — 👈</li>
-          </ul>
-          <br />
-          <p>That last one — 👈 (pointing finger) — is especially notable. It rarely appears in other countries' top rankings, and its presence here reflects how Filipino digital culture is highly social and conversational. It's often used in teasing, shoutouts, and direct engagement — a way of saying "you!" in a friendly, communal way.</p>
+          <strong>Philippines:</strong> The Philippines, by contrast, leads with
+          🫶 (heart hands) — an emoji that expresses affection, gratitude, and
+          relational warmth rather than the more general ❤️. Other top emojis
+          include:
+        </p>
+        <ul>
+          <li>Deep emotional expression — 😭 🥺</li>
+          <li>Warm friendliness — 😊 🥰</li>
+          <li>Playful interpersonal call-outs — 👈</li>
+        </ul>
+        <p>
+          That last one — 👈 (pointing finger) — is especially notable. It
+          rarely appears in other countries' top rankings, and its presence here
+          reflects how Filipino digital culture is highly social and
+          conversational. It's often used in teasing, shoutouts, and direct
+          engagement — a way of saying "you!" in a friendly, communal way.
         </p>
         <p>
-          Overall, Filipino emoji culture is highly relational, affectionate, and emotionally expressive, blending sincerity (😭 🥺) with warmth (😊 🫶 🥰). The emotional palette is wide, but almost always heart-forward, not humor-forward.
+          Overall, Filipino emoji culture is highly relational, affectionate,
+          and emotionally expressive, blending sincerity (😭 🥺) with warmth (😊
+          🫶 🥰). The emotional palette is wide, but almost always
+          heart-forward, not humor-forward.
         </p>
         <p>
-          <strong>What does this tell us?</strong> 
-          <p>While the U.S. tends to use emojis to express big feelings and amplify reactions, the Philippines uses emojis to express big warmth and strengthen social bonds — often making the interaction feel personal, not just expressive.</p>
+          <strong>What does this tell us?</strong> While the U.S. tends to use
+          emojis to express big feelings and amplify reactions, the Philippines
+          uses emojis to express big warmth and strengthen social bonds — often
+          making the interaction feel personal, not just expressive.
         </p>
 
         <h3>Regional Pattern Snapshot</h3>
         <ul>
           <li>👉 Western: Big reactions, humor, hype, dramatic expression.</li>
           <li>👉 East Asian: Soft, balanced, subtle, aesthetically warm.</li>
-          <li>👉 South Asian + Latin American: Emotionally open, relational, expressive, and often spiritually or socially oriented.</li>
+          <li>
+            👉 South Asian + Latin American: Emotionally open, relational,
+            expressive, and often spiritually or socially oriented.
+          </li>
         </ul>
         <p>
-          <strong>Want to validate these patterns yourself?</strong> Try switching between different country pairs above and watch how the top emojis shift across regions.
+          <strong>Want to validate these patterns yourself?</strong> Try
+          switching between different country pairs above and watch how the top
+          emojis shift across regions.
         </p>
+      </div>
     </section>
 
     <!-- Conclusion / More Info Section -->
@@ -762,7 +884,12 @@
           global expression through symbols like 😂 and ❤️ but also highlight
           cultural uniqueness in usage and interpretation. Over time, their
           meanings shift as world events, internet culture, and generational
-          reinvention reshape how these symbols are understood.
+          reinvention reshape how these symbols are understood. As AI tools like
+          Apple's Genmoji enable users to personalize their emojis, we
+          anticipate emojis to become even more expressive. However, that also
+          raises a question: will customization strengthen our shared visual
+          language or shatter the shared understanding that we've built over the
+          years?
         </p>
       </div>
     </section>
@@ -771,9 +898,7 @@
     <section id="view-ranking" class="section">
       <div class="ranking-header">
         <h2>Emoji Library & Rankings</h2>
-        <p>
-          Explore the full emoji dataset. Data sourced from iamcal/emoji-data.
-        </p>
+        <p>Explore the full emoji dataset.</p>
 
         <!-- Category Filter -->
         <div
@@ -791,6 +916,19 @@
           </select>
         </div>
       </div>
+
+      <div class="text-content">
+        <p>
+          New emojis are added every year–feel free to explore all the emojis in
+          this section sourced from
+          <a href="https://github.com/iamcal/emoji-data" target="_blank"
+            >iamcal/emoji-data</a
+          >. Major companies hire their own designers to create emojis that
+          align with their brands. Click on each emoji to see more detail about
+          their unicode and platform variations.
+        </p>
+      </div>
+
       <div id="emoji-grid" class="emoji-grid">
         <!-- Populated by JS -->
         <div class="loading-spinner">Loading rankings...</div>

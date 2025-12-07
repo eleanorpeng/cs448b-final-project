@@ -96,11 +96,73 @@ h3,
   position: relative;
   z-index: 5;
   margin-bottom: 4rem;
+  padding-top: 100px;
+}
+
+/* Introduction Text Section */
+.intro-text-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 4;
+  padding: 8rem 2rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(253, 250, 245, 0) 0%,
+    var(--bg-color) 15%,
+    var(--bg-color) 85%,
+    rgba(253, 250, 245, 0) 100%
+  );
+  margin-bottom: 2rem;
+}
+
+.intro-text-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.intro-paragraph {
+  font-size: 1.4rem;
+  line-height: 1.9;
+  color: var(--text-color);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
+}
+
+.intro-paragraph.fade-in-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-paragraph:first-child {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 3rem;
+  line-height: 2;
+}
+
+.intro-paragraph:last-child {
+  font-size: 1.3rem;
+  color: var(--text-light);
+  margin-bottom: 0;
+  line-height: 1.8;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
 }
 
 .phone-sticky-container {
   position: sticky;
-  top: 40px;
+  top: 100px;
   height: 80vh;
   display: flex;
   justify-content: center;
