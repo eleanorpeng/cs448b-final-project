@@ -22,6 +22,7 @@ const App = {
     rainbow: { title: 'Rainbow' },
     snake: { title: 'Snake' },
     graduation_cap: { title: 'Graduation Cap' },
+    ballot_box_with_ballot: { title: 'Ballot Box With Ballot' },
   },
 
   // Spotlight State

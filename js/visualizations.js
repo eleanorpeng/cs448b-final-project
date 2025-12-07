@@ -11,7 +11,7 @@ const Visualizations = {
     const {
       width = 800,
       height = 500,
-      margin = { top: 20, right: 150, bottom: 50, left: 80 },
+      margin = { top: 20, right: 250, bottom: 50, left: 80 },
       colors = d3.schemeCategory10,
       granularity = 'day',
       context = { year: 'all', month: 'all' },
@@ -20,18 +20,54 @@ const Visualizations = {
     // Clear existing content
     d3.select(container).selectAll('*').remove();
 
+    // Create a temporary SVG to measure text width for legend
+    const tempSvg = d3
+      .select('body')
+      .append('svg')
+      .style('position', 'absolute')
+      .style('visibility', 'hidden');
+    
+    const tempText = tempSvg
+      .append('text')
+      .style('font-size', '14px')
+      .style('font-family', 'Nunito, sans-serif');
+    
+    // Calculate maximum text width needed for legend
+    const maxTextWidth = allData.length > 0 
+      ? Math.max(
+          ...allData.map((d) => {
+            tempText.text(d.name);
+            return tempText.node().getComputedTextLength();
+          }),
+          200 // minimum width
+        )
+      : 200;
+    
+    tempSvg.remove();
+
+    // Calculate required space for legend (text + spacing)
+    const requiredLegendWidth = maxTextWidth + 40; // 40px for spacing between chart and legend
+    const actualRightMargin = Math.max(margin.right, requiredLegendWidth);
+    
+    // Calculate the extra width needed beyond the original width
+    const extraWidth = Math.max(0, actualRightMargin - margin.right);
+    
+    // Expand viewBox width to accommodate the legend
+    const adjustedWidth = width + extraWidth;
+
     const svg = d3
       .select(container)
       .append('svg')
       .attr('width', '100%')
       .attr('height', height)
-      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('viewBox', `0 0 ${adjustedWidth} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
     const g = svg
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
+    // Keep original innerWidth - chart area stays the same size
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
